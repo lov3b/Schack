@@ -17,21 +17,26 @@ public class Board extends JPanel {
 
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
+        drawSquares(g2);
 
+    }
+
+    private void drawSquares(Graphics2D g2) {
         g2.scale(100, 100);
         g2.setBackground(Color.WHITE);
         g2.setColor(Color.BLACK);
 
         for (int i = 0; i < 8; i += 2) {
             for (int j = 0; j < 8; j += 2) {
-                g.fillRect(i, j, 1, 1);
+                g2.fillRect(i, j, 1, 1);
             }
         }
 
         for (int i = 1; i < 8; i += 2) {
             for (int j = 1; j < 8; j += 2) {
-                g.fillRect(i, j, 1, 1);
+                g2.fillRect(i, j, 1, 1);
             }
         }
+
     }
 }
