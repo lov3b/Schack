@@ -1,6 +1,8 @@
 package schack;
 
-public final class King extends Piece{
+public final class King extends Piece {
 
-    public boolean isSeen(){return true;}
+    public boolean isSeen() {
+        return true;
+    }
 }

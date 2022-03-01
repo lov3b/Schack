@@ -1,35 +1,28 @@
 package schack;
 
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import javax.swing.JFrame;
 
 /**
  *
  * @author Love Billenius & Simon Hansson
  */
-public class Schack extends JFrame
-{
+public class Schack extends JFrame {
 
     public Dimension size = new Dimension(800, 800);
 
-    public Schack()
-    {
-        setSize(size);
+    public Schack() {
+        setTitle("Schack");
         setAlwaysOnTop(true);
-        setBackground(Color.black);
-
+        setResizable(false);
+        setContentPane(new Board());
+        pack();
         setVisible(true);
-    }
-    
-    private void drawSquares(Graphics g){
-        
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
     }
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         new Schack();
 
     }

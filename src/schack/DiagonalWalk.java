@@ -9,8 +9,8 @@ package schack;
  *
  * @author lovbil251
  */
-public interface DiagonalWalk
-{
+public interface DiagonalWalk {
+
     public void walDiagonal();
-    
+
 }
