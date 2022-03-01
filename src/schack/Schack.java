@@ -2,17 +2,14 @@ package schack;
 
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import javax.swing.JPopupMenu;
 
 /**
  *
@@ -22,7 +19,7 @@ public class Schack extends JFrame {
 
     public Dimension size = new Dimension(800, 800);
 
-    public Schack() {
+    public Schack() throws IOException {
         setTitle("Schack");
         setAlwaysOnTop(true);
         setResizable(false);
@@ -70,7 +67,7 @@ public class Schack extends JFrame {
 
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         new Schack();
 
     }
