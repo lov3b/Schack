@@ -15,7 +15,7 @@ import javax.swing.JPanel;
 public class Board extends JPanel {
 
     public static final int SIZE_OF_TILE = 100;
-    ArrayList<Piece> pieces = new ArrayList<>();
+    private ArrayList<Piece> pieces = new ArrayList<>();
 
     public Board() throws IOException {
 
@@ -49,12 +49,14 @@ public class Board extends JPanel {
 
         pieces.forEach(p -> p.draw(g2));
 
-        Piece p = pieces.get(1);
-        LinkedHashSet<Point> legal = p.validMoves(pieces);
-        g2.setColor(Color.yellow);
-        legal.forEach(point -> g2.fillOval(point.x * SIZE_OF_TILE, point.y * SIZE_OF_TILE, SIZE_OF_TILE, SIZE_OF_TILE));
-
-        System.out.println(legal.size());
+        // Check valid moves method
+        pieces.forEach(p -> {
+            LinkedHashSet<Point> validMoves = p.validMoves(pieces);
+            Color c = new Color((int) (255 * Math.random()), (int) (255 * Math.random()), (int) (255 * Math.random()));
+            g2.setColor(c);
+            validMoves.forEach(point -> g2.fillOval(point.x * SIZE_OF_TILE, point.y * SIZE_OF_TILE, SIZE_OF_TILE, SIZE_OF_TILE));
+            System.out.println("x:" + p.position.x + ", y:" + p.position.y + ": " + validMoves.size());
+        });
     }
 
     private void drawSquares(Graphics2D g2) {

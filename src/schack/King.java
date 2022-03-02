@@ -21,10 +21,7 @@ public final class King extends Piece {
     }
 
     public King(boolean white) throws IOException {
-//        Point p = new Point();
-//        p.x = 5;
-//        p.y = white ? 0 : 7;
-        super(white, white ? new Point(5, 0) : new Point(5, 7));
+        super(white, white ? new Point(4, 0) : new Point(4, 7));
     }
 
     @Override
@@ -57,10 +54,10 @@ public final class King extends Piece {
                 if (y == 1 && x == 1) {
                     continue;
                 } // Ifall det är utanför planen, skippa tror inte det funkar
-                else if (x + this.position.x > 8
-                        || x + this.position.x < 0
-                        || y + this.position.y > 8
-                        || y + this.position.y < 0) {
+                else if (x + this.position.x >= 8+1
+                        || x + this.position.x <= 0
+                        || y + this.position.y >= 8+1
+                        || y + this.position.y <= 0) {
                     continue;
                 }
                 perhapsMovable.add(
