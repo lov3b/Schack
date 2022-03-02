@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
-import java.util.LinkedList;
 import javax.imageio.ImageIO;
 
 public final class King extends Piece {
@@ -31,7 +30,7 @@ public final class King extends Piece {
     }
 
     @Override
-    public LinkedHashSet<Point> legalMoves(ArrayList<Piece> pieces) {
+    public LinkedHashSet<Point> validMoves(ArrayList<Piece> pieces) {
         LinkedHashSet<Point> unmovable = new LinkedHashSet<>();
         LinkedHashSet<Point> perhapsMovable = new LinkedHashSet<>();
         for (Piece piece : pieces) {

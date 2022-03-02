@@ -14,7 +14,7 @@ import javax.swing.JPanel;
 
 public class Board extends JPanel {
 
-    public static final int SCALE = 100;
+    public static final int SIZE_OF_TILE = 100;
     ArrayList<Piece> pieces = new ArrayList<>();
 
     public Board() throws IOException {
@@ -50,9 +50,9 @@ public class Board extends JPanel {
         pieces.forEach(p -> p.draw(g2));
 
         Piece p = pieces.get(1);
-        LinkedHashSet<Point> legal = p.legalMoves(pieces);
+        LinkedHashSet<Point> legal = p.validMoves(pieces);
         g2.setColor(Color.yellow);
-        legal.forEach(point -> g2.fillOval(point.x * SCALE, point.y * SCALE, SCALE, SCALE));
+        legal.forEach(point -> g2.fillOval(point.x * SIZE_OF_TILE, point.y * SIZE_OF_TILE, SIZE_OF_TILE, SIZE_OF_TILE));
 
         System.out.println(legal.size());
     }
@@ -64,13 +64,13 @@ public class Board extends JPanel {
 
         for (int i = 0; i < 8; i += 2) {
             for (int j = 0; j < 8; j += 2) {
-                g2.fillRect(i * SCALE, j * SCALE, 1 * SCALE, 1 * SCALE);
+                g2.fillRect(i * SIZE_OF_TILE, j * SIZE_OF_TILE, 1 * SIZE_OF_TILE, 1 * SIZE_OF_TILE);
             }
         }
 
         for (int i = 1; i < 8; i += 2) {
             for (int j = 1; j < 8; j += 2) {
-                g2.fillRect(i * SCALE, j * SCALE, 1 * SCALE, 1 * SCALE);
+                g2.fillRect(i * SIZE_OF_TILE, j * SIZE_OF_TILE, 1 * SIZE_OF_TILE, 1 * SIZE_OF_TILE);
             }
         }
 

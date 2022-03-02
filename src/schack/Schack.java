@@ -17,8 +17,6 @@ import javax.swing.JOptionPane;
  */
 public class Schack extends JFrame {
 
-    public Dimension size = new Dimension(800, 800);
-
     public Schack() throws IOException {
         setTitle("Schack");
         setAlwaysOnTop(true);
