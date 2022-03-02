@@ -24,8 +24,12 @@ public abstract class Piece extends Component {
 
     public void draw(Graphics2D g2) {
 
-        g2.drawImage(icon, position.x * Board.SIZE_OF_TILE, position.y * Board.SIZE_OF_TILE, (ImageObserver) this);
-//        g2.drawImage(icon, 4 * Board.SCALE, 6* Board.SCALE, (ImageObserver) this);
+        g2.drawImage(
+                icon, 
+                position.x * Board.SIZE_OF_TILE, 
+                position.y * Board.SIZE_OF_TILE, 
+                (ImageObserver) this
+        );
     }
 
 }

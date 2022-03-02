@@ -20,6 +20,13 @@ public final class King extends Piece {
         icon = ImageIO.read(new File(fileName));
     }
 
+    public King(boolean white) throws IOException {
+//        Point p = new Point();
+//        p.x = 5;
+//        p.y = white ? 0 : 7;
+        super(white, white ? new Point(5, 0) : new Point(5, 7));
+    }
+
     @Override
     public void draw(Graphics2D g2) {
         super.draw(g2);
