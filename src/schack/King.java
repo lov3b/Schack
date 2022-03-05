@@ -1,32 +1,27 @@
 package schack;
 
-import java.awt.Graphics2D;
 import java.awt.Point;
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Paths;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import javax.imageio.ImageIO;
 
 public final class King extends Piece {
 
-    public King(boolean white, Point startingPosition) throws IOException {
-        super(white, startingPosition);
-        String colorName = white ? "White" : "Black";
-        String fileName = "resized" + colorName + "King.png";
-        String path = Paths.get("icons", fileName).toString();
-        System.out.println(path);
-        icon = ImageIO.read(new File(fileName));
+    boolean eglibleForCastling = true;
+
+    public King(boolean isWhite, Point startingPosition) throws IOException {
+        super(isWhite, startingPosition);
+        String colorName = isWhite ? "White" : "Black";
+        String fileName = colorName + "King.png";
+        InputStream is = King.class.getResourceAsStream("../img/" + fileName);
+        icon = ImageIO.read(is);
     }
 
-    public King(boolean white) throws IOException {
-        super(white, white ? new Point(4, 0) : new Point(4, 7));
-    }
-
-    @Override
-    public void draw(Graphics2D g2) {
-        super.draw(g2);
+    public King(boolean isWhite) throws IOException {
+        super(isWhite, isWhite ? new Point(4, 7) : new Point(4, 0));
+        setPieceIcon("King");
     }
 
     public boolean isSeen(ArrayList<Piece> pieces) {
@@ -34,39 +29,51 @@ public final class King extends Piece {
     }
 
     @Override
-    public LinkedHashSet<Point> validMoves(ArrayList<Piece> pieces) {
-        LinkedHashSet<Point> unmovable = new LinkedHashSet<>();
-        LinkedHashSet<Point> perhapsMovable = new LinkedHashSet<>();
-        for (Piece piece : pieces) {
-            Point p = piece.position;
+    public LinkedHashSet<Point> validMoves(Piece[][] pieces) {
+        LinkedHashSet<Point> movable = new LinkedHashSet<>();
 
-            // Ifall en pjäs står runt omkring kungen går det inte att flytta dit
-            if (Math.abs(p.x - this.position.x) == 1
-                    && Math.abs(p.y - this.position.y) == 1) {
-                unmovable.add(p);
-            }
-
-        }
-
-        // Lägg till tiles kring kungen
-        for (int x = 0; x < 3; x++) {
-            for (int y = 0; y < 3; y++) {
-                if (y == 1 && x == 1) {
-                    continue;
-                } // Ifall det är utanför planen, skippa tror inte det funkar
-                else if (x + this.position.x >= 8+1
-                        || x + this.position.x <= 0
-                        || y + this.position.y >= 8+1
-                        || y + this.position.y <= 0) {
+        for (int loopX = -1; loopX < 2; loopX++) {
+            for (int loopY = -1; loopY < 2; loopY++) {
+                if (loopY == 0 && loopX == 0) {
                     continue;
                 }
-                perhapsMovable.add(
-                        new Point(this.position.x - 1 + x, this.position.y - 1 + y)
-                );
-            }
-        }
+                Point pos = new Point(this.position.x + loopX, this.position.y + loopY);
 
-        perhapsMovable.removeAll(unmovable);
-        return perhapsMovable;
+                // Instead of checking index and null, try-catch
+                try {
+                    Piece p = pieces[pos.x][pos.y];
+                    System.out.println(p);
+                    // If this piece is the same team as ours, skip
+                    if (p.isWhite == this.isWhite) {
+                        System.out.println("equals");
+                        continue;
+                    }
+                    movable.add(pos);
+
+                } catch (NullPointerException npe) {
+                    // This is an empty spot
+                    System.out.println("null: " + pos);
+                    movable.add(pos);
+                } catch (Exception e) {
+                    // This means that the player is at the edge
+                }
+            }
+
+        }
+        System.out.println("Len of movable: " + movable.size());
+        return movable;
+
     }
+
+    @Override
+    public void move(Piece[][] pieces) {
+        eglibleForCastling = false;
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+     @Override
+    public String toString() {
+        return "Piece{" + "eglibleForCastling=" + eglibleForCastling + "position=" + position + ", isWhite=" + isWhite + '}';
+    }
+
 }

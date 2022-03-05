@@ -11,6 +11,8 @@ package schack;
  */
 public interface DiagonalWalk {
 
-    public void walDiagonal();
+    default void walDiagonal(Piece[][] pieces){
+        
+    };
 
 }
