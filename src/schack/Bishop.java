@@ -17,38 +17,23 @@ public class Bishop extends Piece {
         LinkedHashSet<Point> unmovable = new LinkedHashSet<>();
         LinkedHashSet<Point> perhapsMovable = new LinkedHashSet<>();
 
-        try {
-            Piece[][] p = new Piece[][]{
-                {new King(false)},
-                {},
-                {},
-                {},
-                {},
-                {},
-                {},
-                {new King(true),null }
-            };
-        } catch (IOException ex) {
-            Logger.getLogger(Bishop.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        // Ner höger
-        for (int x = 0, y = 0; x < 8 && x > -8; x++, y++) {
-            System.out.println("x: " + x + ", y: " + y);
-        }
-        // Upp höger
-        for (int x = 0, y = 0; x < 8 && x > -8; x++, y--) {
-            System.out.println("x: " + x + ", y: " + y);
-        }
-        // Ner vänster
-        for (int x = 0, y = 0; x < 8 && x > -8; x--, y--) {
-            System.out.println("x: " + x + ", y: " + y);
-        }
-        // Upp vänster
-        for (int x = 0, y = 0; x < 8 && x > -8; x--, y++) {
-            System.out.println("x: " + x + ", y: " + y);
-        }
-        return null;
+//        // Ner höger
+//        for (int x = 0, y = 0; x < 8 && x > -8; x++, y++) {
+//            System.out.println("x: " + x + ", y: " + y);
+//        }
+//        // Upp höger
+//        for (int x = 0, y = 0; x < 8 && x > -8; x++, y--) {
+//            System.out.println("x: " + x + ", y: " + y);
+//        }
+//        // Ner vänster
+//        for (int x = 0, y = 0; x < 8 && x > -8; x--, y--) {
+//            System.out.println("x: " + x + ", y: " + y);
+//        }
+//        // Upp vänster
+//        for (int x = 0, y = 0; x < 8 && x > -8; x--, y++) {
+//            System.out.println("x: " + x + ", y: " + y);
+//        }
+        return new LinkedHashSet<>();
     }
 
     public static void main(String[] args) {

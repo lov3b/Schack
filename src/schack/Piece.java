@@ -21,9 +21,17 @@ public abstract class Piece extends Component {
         this.position = startingPosition;
     }
 
+    public Piece(boolean isWhite) {
+        this.isWhite = isWhite;
+    }
+
+    public void setPosition(Point p) {
+        this.position = p;
+    }
+
     protected void setPieceIcon(String className) throws IOException {
         String colorName = isWhite ? "White" : "Black";
-        String fileName = colorName + className+".png";
+        String fileName = colorName + className + ".png";
         InputStream is = getClass().getResourceAsStream("../img/" + fileName);
         icon = ImageIO.read(is);
     }

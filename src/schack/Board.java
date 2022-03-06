@@ -25,22 +25,46 @@ public class Board extends JPanel {
     private Piece[][] initPieces() throws IOException {
 
         Piece[][] piecesRet = {
-            {null, null, null, null, new King(false), null, null, null},
             {null, null, null, null, null, null, null, null},
             {null, null, null, null, null, null, null, null},
             {null, null, null, null, null, null, null, null},
             {null, null, null, null, null, null, null, null},
+            {new King(false), null, null, null, null, null, null, new King(true)},
             {null, null, null, null, null, null, null, null},
             {null, null, null, null, null, null, null, null},
-            {null, null, null, null, new King(true), null, null, null}
+            {null, null, null, null, null, null, null, null}
         };
 
-        // Pawns
-        for (int i = 0; i < piecesRet[1].length; i++) {
-            piecesRet[1][i] = new Pawn(false, new Point(i, 1));
-            piecesRet[6][i] = new Pawn(true, new Point(i, 6));
-        }
+        // Test 
+        piecesRet[2][2] = null;
+        piecesRet[2][3] = null;
 
+        // Sätt ut bönder
+        for (int i = 0; i < pieces.length; i++) {
+            piecesRet[i][1] = new Pawn(false, new Point(i, 1));
+            piecesRet[i][6] = new Pawn(true, new Point(i, 6));
+        }
+        
+        
+        
+
+//        // Sätt ut bönder no point
+//        for (int i = 0; i < pieces.length; i++) {
+//            piecesRet[i][1] = new Pawn(false);
+//            piecesRet[i][6] = new Pawn(true);
+//        }
+//        // Ställ in varje Point i varje pjäs
+//        for (int x = 0; x < piecesRet.length; x++) {
+//            for (int y = 0; y < piecesRet.length; y++) {
+//                try {
+//                    Point before = new Point(piecesRet[x][y].position);
+//                    piecesRet[x][y].position = new Point(x, y);
+//                    System.out.println("Efter "+piecesRet[x][y].position + " Innan " + before);
+//                } catch (NullPointerException e) {
+//                }
+//            }
+//        }
+        printPieces(piecesRet);
         return piecesRet;
     }
 
@@ -49,13 +73,6 @@ public class Board extends JPanel {
         Graphics2D g2 = (Graphics2D) g;
         drawSquares(g2);
 
-//        for (Piece[] pieceArr : pieces) {
-//            for (Piece p : pieceArr) {
-//                if (p != null) {
-//                    p.draw(g2);
-//                }
-//            }
-//        }
         // Draw piece
         Arrays.stream(pieces).forEach(pieceArr -> Arrays.stream(pieceArr).forEach(piece -> {
             if (piece != null) {
@@ -64,42 +81,40 @@ public class Board extends JPanel {
         }));
 
         // Check valid moves method
-        Arrays.stream(pieces).forEach(pieceArr -> Arrays.stream(pieceArr).forEach(piece -> {
-            if (piece != null) {
-                // Draw eglible moves
-                LinkedHashSet<Point> validMoves = piece.validMoves(pieces);
-                Color c = new Color((int) (230 * Math.random()), (int) (230 * Math.random()), (int) (230 * Math.random()));
-                g2.setColor(c);
-                validMoves.forEach(point -> g2.fillOval(point.x * SIZE_OF_TILE, point.y * SIZE_OF_TILE, SIZE_OF_TILE, SIZE_OF_TILE));
-                System.out.println("x:" + piece.position.x + ", y:" + piece.position.y + ": " + validMoves.size());
-            }
-        }));
-        printPieces();
-
-//        // Check valid moves method
-//        for (Piece[] piecesOne : pieces) {
-//            for (Piece p : piecesOne) {
-//                if (p == null) {
-//                    continue;
-//                }
-//                LinkedHashSet<Point> validMoves = p.validMoves(pieces);
-//                Color c = new Color((int) (255 * Math.random()), (int) (255 * Math.random()), (int) (255 * Math.random()));
+//        Arrays.stream(pieces).forEach(pieceArr -> Arrays.stream(pieceArr).forEach(piece -> {
+//            if (piece != null) {
+//                // Draw eglible moves
+//                LinkedHashSet<Point> validMoves = piece.validMoves(pieces);
+//                Color c = new Color((int) (230 * Math.random()), (int) (230 * Math.random()), (int) (230 * Math.random()));
 //                g2.setColor(c);
 //                validMoves.forEach(point -> g2.fillOval(point.x * SIZE_OF_TILE, point.y * SIZE_OF_TILE, SIZE_OF_TILE, SIZE_OF_TILE));
-//                System.out.println("x:" + p.position.x + ", y:" + p.position.y + ": " + validMoves.size());
+//                System.out.println("x:" + piece.position.x + ", y:" + piece.position.y + ": " + validMoves.size());
 //            }
-//        }
+//        }));
+        // Check valid moves method
+        for (int y = 0; y < pieces.length; y++) {
+            for (int x = 0; x < pieces.length; x++) {
+                Piece p = pieces[y][x];
+                if (p == null) {
+                    continue;
+                }
+
+                LinkedHashSet<Point> validMoves = p.validMoves(pieces);
+                Color c = new Color((int) (255 * Math.random()), (int) (255 * Math.random()), (int) (255 * Math.random()));
+                g2.setColor(c);
+                validMoves.forEach(point -> g2.fillOval(point.x * SIZE_OF_TILE, point.y * SIZE_OF_TILE, SIZE_OF_TILE, SIZE_OF_TILE));
+            }
+        }
     }
 
-    private void printPieces() {
+    private void printPieces(Piece[][] pieces) {
         System.out.println("");
-        for (int i = 0; i < pieces.length; i++) {
-            Piece[] pieceArr = pieces[i];
-            for (int j = 0; j < pieceArr.length; j++) {
-                if (j == 0) {
+        for (int loopX = 0; loopX < pieces.length; loopX++) {
+            for (int loopY = 0; loopY < pieces.length; loopY++) {
+                if (loopY == 0) {
                     System.out.print("|");
                 }
-                Piece piece = pieceArr[j];
+                Piece piece = pieces[loopY][loopX];
 
                 // Titta inte Nicklas. Det är bara debug, jag ska ta bort det sedan lovar :P
                 String type;
@@ -116,9 +131,7 @@ public class Board extends JPanel {
 
             }
             System.out.println("");
-
         }
-
     }
 
     private void drawSquares(Graphics2D g2) {

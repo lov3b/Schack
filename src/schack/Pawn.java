@@ -11,6 +11,10 @@ public class Pawn extends Piece {
         setPieceIcon("Pawn");
     }
 
+    Pawn(boolean isWhite) {
+        super(isWhite);
+    }
+
     @Override
     public LinkedHashSet<Point> validMoves(Piece[][] pieces) {
 

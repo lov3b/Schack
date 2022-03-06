@@ -19,7 +19,7 @@ public class Schack extends JFrame {
 
     public Schack() throws IOException {
         setTitle("Schack");
-        setAlwaysOnTop(true);
+        setAlwaysOnTop(false);
         setResizable(false);
         setContentPane(new Board());
 

@@ -45,14 +45,12 @@ public final class King extends Piece {
                     System.out.println(p);
                     // If this piece is the same team as ours, skip
                     if (p.isWhite == this.isWhite) {
-                        System.out.println("equals");
                         continue;
                     }
                     movable.add(pos);
 
                 } catch (NullPointerException npe) {
                     // This is an empty spot
-                    System.out.println("null: " + pos);
                     movable.add(pos);
                 } catch (Exception e) {
                     // This means that the player is at the edge
