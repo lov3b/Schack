@@ -25,10 +25,10 @@ public class Board extends JPanel {
     private Piece[][] initPieces() throws IOException {
 
         Piece[][] piecesRet = {
-            {null, null, null, null, null, null, null, null},
-            {null, null, null, null, null, null, null, null},
-            {null, null, null, null, null, null, null, null},
-            {null, null, null, null, null, null, null, null},
+            {new Rook(false, new Point(0, 0)), null, null, null, null, null, null, new Rook(true, new Point(0, 7))},
+            {new Horse(false, true, new Point(1, 0)), null, null, null, null, null, null, new Horse(true, true, new Point(1, 7))},
+            {new Bishop(false, new Point(2, 0)), null, null, null, null, null, null, new Bishop(true, new Point(2, 7))},
+            {new Queen(false, new Point(3, 0)), null, null, null, null, null, null, new Queen(true, new Point(3, 7))},
             {new King(false), null, null, null, null, null, null, new King(true)},
             {null, null, null, null, null, null, null, null},
             {null, null, null, null, null, null, null, null},
@@ -44,9 +44,6 @@ public class Board extends JPanel {
             piecesRet[i][1] = new Pawn(false, new Point(i, 1));
             piecesRet[i][6] = new Pawn(true, new Point(i, 6));
         }
-        
-        
-        
 
 //        // Sätt ut bönder no point
 //        for (int i = 0; i < pieces.length; i++) {

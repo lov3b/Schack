@@ -8,8 +8,9 @@ import java.util.logging.Logger;
 
 public class Bishop extends Piece {
 
-    public Bishop(boolean isWhite, Point startingPosition) {
+    public Bishop(boolean isWhite, Point startingPosition) throws IOException {
         super(isWhite, startingPosition);
+        setPieceIcon("Bishop");
     }
 
     @Override
@@ -59,7 +60,7 @@ public class Bishop extends Piece {
     public void move(Piece[][] pieces) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
+
     @Override
     public String toString() {
         return "Bishop{" + "position=" + position + ", isWhite=" + isWhite + '}';
