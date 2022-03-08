@@ -5,15 +5,20 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
 import javax.swing.JPanel;
 
-public class Board extends JPanel {
+public class Board extends JPanel implements MouseListener {
 
     public static final int SIZE_OF_TILE = 100;
     private Piece[][] pieces = new Piece[8][8];
+    private LinkedHashSet<Point> validMovesToDraw = new LinkedHashSet<>();
+    private Point selectedPiece = new Point();
+    private Color moveableColor = new Color(200, 200, 200);
 
     public Board() throws IOException {
 
@@ -30,7 +35,7 @@ public class Board extends JPanel {
             {new Bishop(false, new Point(2, 0)), null, null, null, null, null, null, new Bishop(true, new Point(2, 7))},
             {new Queen(false, new Point(3, 0)), null, null, null, null, null, null, new Queen(true, new Point(3, 7))},
             {new King(false), null, null, null, null, null, null, new King(true)},
-            {null, null, null, null, null, null, null, null},
+            {null, null, null, null, null, null, null, new King(false, new Point(5, 7))},
             {null, null, null, null, null, null, null, null},
             {null, null, null, null, null, null, null, null}
         };
@@ -70,41 +75,48 @@ public class Board extends JPanel {
         Graphics2D g2 = (Graphics2D) g;
         drawSquares(g2);
 
+        // måla alla ställen man kan gå¨till
+        validMovesToDraw.forEach(point -> {
+            if (point != null) {
+                g2.setColor(moveableColor);
+                g2.fillOval(point.x * SIZE_OF_TILE, point.y * SIZE_OF_TILE, SIZE_OF_TILE, SIZE_OF_TILE);
+            }
+        });
         // Draw piece
         Arrays.stream(pieces).forEach(pieceArr -> Arrays.stream(pieceArr).forEach(piece -> {
             if (piece != null) {
                 piece.draw(g2);
             }
         }));
-
         // Check valid moves method
-//        Arrays.stream(pieces).forEach(pieceArr -> Arrays.stream(pieceArr).forEach(piece -> {
-//            if (piece != null) {
-//                // Draw eglible moves
-//                LinkedHashSet<Point> validMoves = piece.validMoves(pieces);
-//                Color c = new Color((int) (230 * Math.random()), (int) (230 * Math.random()), (int) (230 * Math.random()));
+        //        Arrays.stream(pieces).forEach(pieceArr -> Arrays.stream(pieceArr).forEach(piece -> {
+        //            if (piece != null) {
+        //                // Draw eglible moves
+        //                LinkedHashSet<Point> validMoves = piece.validMoves(pieces);
+        //                Color c = new Color((int) (230 * Math.random()), (int) (230 * Math.random()), (int) (230 * Math.random()));
+        //                g2.setColor(c);
+        //                validMoves.forEach(point -> g2.fillOval(point.x * SIZE_OF_TILE, point.y * SIZE_OF_TILE, SIZE_OF_TILE, SIZE_OF_TILE));
+        //                System.out.println("x:" + piece.position.x + ", y:" + piece.position.y + ": " + validMoves.size());
+        //            }
+        //        }));
+
+        // draw valid moves
+//        for (int y = 0; y < pieces.length; y++) {
+//            for (int x = 0; x < pieces.length; x++) {
+//                Piece p = pieces[y][x];
+//                if (p == null) {
+//                    continue;
+//                }
+//
+//                LinkedHashSet<Point> validMoves = p.validMoves(pieces);
+//                Color c = new Color((int) (255 * Math.random()), (int) (255 * Math.random()), (int) (255 * Math.random()));
 //                g2.setColor(c);
 //                validMoves.forEach(point -> g2.fillOval(point.x * SIZE_OF_TILE, point.y * SIZE_OF_TILE, SIZE_OF_TILE, SIZE_OF_TILE));
-//                System.out.println("x:" + piece.position.x + ", y:" + piece.position.y + ": " + validMoves.size());
 //            }
-//        }));
-        // Check valid moves method
-        for (int y = 0; y < pieces.length; y++) {
-            for (int x = 0; x < pieces.length; x++) {
-                Piece p = pieces[y][x];
-                if (p == null) {
-                    continue;
-                }
-
-                LinkedHashSet<Point> validMoves = p.validMoves(pieces);
-                Color c = new Color((int) (255 * Math.random()), (int) (255 * Math.random()), (int) (255 * Math.random()));
-                g2.setColor(c);
-                validMoves.forEach(point -> g2.fillOval(point.x * SIZE_OF_TILE, point.y * SIZE_OF_TILE, SIZE_OF_TILE, SIZE_OF_TILE));
-            }
-        }
+//        }
     }
 
-    private void printPieces(Piece[][] pieces) {
+    public static void printPieces(Piece[][] pieces) {
         System.out.println("");
         for (int loopX = 0; loopX < pieces.length; loopX++) {
             for (int loopY = 0; loopY < pieces.length; loopY++) {
@@ -148,5 +160,61 @@ public class Board extends JPanel {
             }
         }
 
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent mouseEvent) {
+        int mouseCoordinateX = (int) (mouseEvent.getX() / SIZE_OF_TILE);
+        int mouseCoordinateY = (int) (mouseEvent.getY() / SIZE_OF_TILE);
+
+        Point clicked = new Point(mouseCoordinateX, mouseCoordinateY);
+
+        // Ifall vi har tryckt på en pjäs och sedan ska gå dit
+        if (validMovesToDraw.contains(clicked)) {
+            try {
+                Piece p = pieces[selectedPiece.x][selectedPiece.y];
+                p.move(pieces, clicked, selectedPiece);
+                validMovesToDraw.clear();
+                System.out.println("came here");
+
+            } catch (Exception e) {
+
+            }
+
+        } else {
+
+            selectedPiece = new Point(clicked);
+            validMovesToDraw.clear();
+
+        }
+
+        System.out.println("X: " + mouseCoordinateX + ", Y: " + mouseCoordinateY);
+        try {
+            Piece p = pieces[mouseCoordinateX][mouseCoordinateY];
+            LinkedHashSet validMoves = p.validMoves(pieces);
+            System.out.println("valid moves " + validMoves);
+            moveableColor = new Color((int) (255 * Math.random()), (int) (255 * Math.random()), (int) (255 * Math.random()));
+            validMovesToDraw.addAll(validMoves);
+            System.out.println("valid moves to draw " + validMovesToDraw);
+
+        } catch (Exception e) {
+            validMovesToDraw.clear();
+        }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
     }
 }

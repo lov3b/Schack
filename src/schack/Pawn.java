@@ -22,10 +22,6 @@ public class Pawn extends Piece {
     }
 
     @Override
-    public void move(Piece[][] pieces) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-@Override
     public String toString() {
         return "Pawn{" + "position=" + position + ", isWhite=" + isWhite + '}';
     }

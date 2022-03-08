@@ -1,10 +1,11 @@
 package schack;
 
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -15,13 +16,16 @@ import javax.swing.JOptionPane;
  *
  * @author Love Billenius & Simon Hansson
  */
-public class Schack extends JFrame {
+public class Schack extends JFrame implements Runnable {
 
     public Schack() throws IOException {
         setTitle("Schack");
         setAlwaysOnTop(false);
         setResizable(false);
-        setContentPane(new Board());
+        Board board = new Board();
+        setContentPane(board);
+        getContentPane().addMouseListener(board);
+        Thread thread = new Thread(this);
 
         // Create menu        
         JMenuBar menuBar = new JMenuBar();
@@ -62,12 +66,27 @@ public class Schack extends JFrame {
         pack();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
+        this.run();
 
     }
 
     public static void main(String[] args) throws IOException {
         new Schack();
 
+    }
+
+    @Override
+    public void run() {
+
+        while (true) {
+            try {
+                Thread.sleep(12);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Schack.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            repaint();
+
+        }
     }
 
 }

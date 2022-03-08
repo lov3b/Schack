@@ -13,10 +13,7 @@ public final class King extends Piece {
 
     public King(boolean isWhite, Point startingPosition) throws IOException {
         super(isWhite, startingPosition);
-        String colorName = isWhite ? "White" : "Black";
-        String fileName = colorName + "King.png";
-        InputStream is = King.class.getResourceAsStream("../img/" + fileName);
-        icon = ImageIO.read(is);
+        setPieceIcon("King");
     }
 
     public King(boolean isWhite) throws IOException {
@@ -64,12 +61,6 @@ public final class King extends Piece {
     }
 
     @Override
-    public void move(Piece[][] pieces) {
-        eglibleForCastling = false;
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-     @Override
     public String toString() {
         return "Piece{" + "eglibleForCastling=" + eglibleForCastling + "position=" + position + ", isWhite=" + isWhite + '}';
     }

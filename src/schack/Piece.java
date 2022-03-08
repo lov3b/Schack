@@ -16,7 +16,7 @@ public abstract class Piece extends Component {
     public boolean isWhite;
     protected BufferedImage icon;
 
-    public Piece(boolean isWhite, Point startingPosition) {
+    public Piece(boolean isWhite, Point startingPosition) throws IOException {
         this.isWhite = isWhite;
         this.position = startingPosition;
     }
@@ -48,7 +48,23 @@ public abstract class Piece extends Component {
         );
     }
 
-    public abstract void move(Piece[][] pieces);
+    public void move(Piece[][] pieces, Point toMove, Point selected) {
+
+        try {
+            System.out.println("toMove: " + toMove);
+
+            pieces[toMove.x][toMove.y] = this; //new Rook(true,new Point(toMove));
+            pieces[selected.x][selected.y] = null;
+            // varför funkar det nu? det borde inte funka nu.
+            System.out.println("equals: " + selected.equals(this.position));
+
+            this.position = new Point(toMove);
+            Board.printPieces(pieces);
+
+        } catch (Exception e) {
+            System.out.println("jmgfmhyfhm");
+        }
+    }
 
     @Override
     public String toString() {
