@@ -18,7 +18,7 @@ public class Board extends JPanel implements MouseListener {
     private Piece[][] pieces = new Piece[8][8];
     private LinkedHashSet<Point> validMovesToDraw = new LinkedHashSet<>();
     private Point selectedPiece = new Point();
-    private Color moveableColor = new Color(200, 200, 200);
+    private Color moveableColor = new Color(255, 191, 0);
 
     public Board() throws IOException {
 
@@ -193,7 +193,6 @@ public class Board extends JPanel implements MouseListener {
             Piece p = pieces[mouseCoordinateX][mouseCoordinateY];
             LinkedHashSet validMoves = p.validMoves(pieces);
             System.out.println("valid moves " + validMoves);
-            moveableColor = new Color((int) (255 * Math.random()), (int) (255 * Math.random()), (int) (255 * Math.random()));
             validMovesToDraw.addAll(validMoves);
             System.out.println("valid moves to draw " + validMovesToDraw);
 

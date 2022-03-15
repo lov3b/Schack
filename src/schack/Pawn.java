@@ -17,6 +17,8 @@ public class Pawn extends Piece {
 
     @Override
     public LinkedHashSet<Point> validMoves(Piece[][] pieces) {
+        LinkedHashSet<Point> movable = new LinkedHashSet<>();
+        
 
         return new LinkedHashSet<>();
     }

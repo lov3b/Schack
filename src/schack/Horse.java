@@ -16,6 +16,4 @@ public class Horse extends Piece {
         return new LinkedHashSet<>();
     }
 
-   
-
 }
