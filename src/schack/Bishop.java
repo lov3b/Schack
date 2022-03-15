@@ -15,47 +15,111 @@ public class Bishop extends Piece {
 
     @Override
     public LinkedHashSet<Point> validMoves(Piece[][] pieces) {
-        LinkedHashSet<Point> unmovable = new LinkedHashSet<>();
-        LinkedHashSet<Point> perhapsMovable = new LinkedHashSet<>();
+        LinkedHashSet<Point> movable = new LinkedHashSet<>();
 
-//        // Ner höger
-//        for (int x = 0, y = 0; x < 8 && x > -8; x++, y++) {
-//            System.out.println("x: " + x + ", y: " + y);
-//        }
-//        // Upp höger
-//        for (int x = 0, y = 0; x < 8 && x > -8; x++, y--) {
-//            System.out.println("x: " + x + ", y: " + y);
-//        }
-//        // Ner vänster
-//        for (int x = 0, y = 0; x < 8 && x > -8; x--, y--) {
-//            System.out.println("x: " + x + ", y: " + y);
-//        }
-//        // Upp vänster
-//        for (int x = 0, y = 0; x < 8 && x > -8; x--, y++) {
-//            System.out.println("x: " + x + ", y: " + y);
-//        }
-        return new LinkedHashSet<>();
-    }
+        // Upp vänster
+        for (int bishopX = this.position.x - 1, bishopY = this.position.y - 1; bishopX >= 0 && bishopY >= 0; bishopX--, bishopY--) {
 
-    public static void main(String[] args) {
-        // Ner höger
-        for (int x = 0, y = 0; x < 8 && x > -8; x++, y++) {
-            System.out.println("x: " + x + ", y: " + y);
+            Point pos = new Point(bishopX, bishopY);
+
+            // Instead of checking index and null, try-catch
+            try {
+                Piece p = pieces[pos.x][pos.y];
+                System.out.println(p);
+                // If this piece is the same team as ours, skip
+                if (p.isWhite == this.isWhite) {
+                    break;
+                }
+
+                movable.add(pos);
+                break;
+
+            } catch (NullPointerException npe) {
+                // This is an empty spot
+                movable.add(pos);
+            } catch (Exception e) {
+                // This means that the player is at the edge
+            }
+
         }
-        // Upp höger
-        for (int x = 0, y = 0; x < 8 && x > -8; x++, y--) {
-            System.out.println("x: " + x + ", y: " + y);
+
+        // Upp höger 
+        for (int bishopX = this.position.x + 1, bishopY = this.position.y - 1; bishopX <= 7 && bishopY >= 0; bishopX++, bishopY--) {
+
+            Point pos = new Point(bishopX, bishopY);
+
+            // Instead of checking index and null, try-catch
+            try {
+                Piece p = pieces[pos.x][pos.y];
+                System.out.println(p);
+                // If this piece is the same team as ours, skip
+                if (p.isWhite == this.isWhite) {
+                    break;
+                }
+
+                movable.add(pos);
+                break;
+
+            } catch (NullPointerException npe) {
+                // This is an empty spot
+                movable.add(pos);
+            } catch (Exception e) {
+                // This means that the player is at the edge
+            }
+
+        }
+        // Ner höger
+        for (int bishopX = this.position.x + 1, bishopY = this.position.y + 1; bishopX <= 7 && bishopY <= 7; bishopX++, bishopY++) {
+
+            Point pos = new Point(bishopX, bishopY);
+
+            // Instead of checking index and null, try-catch
+            try {
+                Piece p = pieces[pos.x][pos.y];
+                System.out.println(p);
+                // If this piece is the same team as ours, skip
+                if (p.isWhite == this.isWhite) {
+                    break;
+                }
+
+                movable.add(pos);
+                break;
+
+            } catch (NullPointerException npe) {
+                // This is an empty spot
+                movable.add(pos);
+            } catch (Exception e) {
+                // This means that the player is at the edge
+            }
+
         }
         // Ner vänster
-        for (int x = 0, y = 0; x < 8 && x > -8; x--, y--) {
-            System.out.println("x: " + x + ", y: " + y);
-        }
-        // Upp vänster
-        for (int x = 0, y = 0; x < 8 && x > -8; x--, y++) {
-            System.out.println("x: " + x + ", y: " + y);
-        }
-    }
+        for (int bishopX = this.position.x - 1, bishopY = this.position.y + 1; bishopX >= 0 && bishopY <= 7; bishopX--, bishopY++) {
 
+            Point pos = new Point(bishopX, bishopY);
+
+            // Instead of checking index and null, try-catch
+            try {
+                Piece p = pieces[pos.x][pos.y];
+                System.out.println(p);
+                // If this piece is the same team as ours, skip
+                if (p.isWhite == this.isWhite) {
+                    break;
+                }
+
+                movable.add(pos);
+                break;
+
+            } catch (NullPointerException npe) {
+                // This is an empty spot
+                movable.add(pos);
+            } catch (Exception e) {
+                // This means that the player is at the edge
+            }
+
+        }
+        return movable;
+    }
 
     @Override
     public String toString() {

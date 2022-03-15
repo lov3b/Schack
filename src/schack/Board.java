@@ -33,7 +33,7 @@ public class Board extends JPanel implements MouseListener {
             {new Rook(false, new Point(0, 0)), null, null, null, null, null, null, new Rook(true, new Point(0, 7))},
             {new Horse(false, true, new Point(1, 0)), null, null, null, null, null, null, new Horse(true, true, new Point(1, 7))},
             {new Bishop(false, new Point(2, 0)), null, null, null, null, null, null, new Bishop(true, new Point(2, 7))},
-            {new Queen(false, new Point(3, 0)), null, null, null, new Rook(false, new Point(3, 4)), null, null, new Queen(true, new Point(3, 7))},
+            {new Queen(false, new Point(3, 0)), null, null, null, new Bishop(false, new Point(3, 4)), null, null, new Queen(true, new Point(3, 7))},
             {new King(false), null, null, null, null, null, null, new King(true)},
             {null, null, null, null, null, null, null, new King(false, new Point(5, 7))},
             {null, null, null, null, null, null, null, null},
