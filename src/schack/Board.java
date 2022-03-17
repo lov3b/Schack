@@ -172,50 +172,33 @@ public class Board extends JPanel implements MouseListener {
 
         // Ifall vi har tryckt på en pjäs och sedan ska gå dit
         if (validMovesToDraw.contains(clicked)) {
-
-            System.out.println("1");
             try {
                 Piece p = pieces[selectedPiece.x][selectedPiece.y];
-                System.out.println("2");
                 p.move(pieces, clicked, selectedPiece);
-                System.out.println("3");
-                
-                System.out.println("4");
-
             } catch (Exception e) {
                 validMovesToDraw.clear();
             }
 
         } else {
-            System.out.println("5");
             selectedPiece = new Point(clicked);
-            System.out.println("6");
             validMovesToDraw.clear();
-            System.out.println("7");
-
         }
 
         System.out.println("X: " + mouseCoordinateX + ", Y: " + mouseCoordinateY);
         if (!validMovesToDraw.contains(clicked)) {
-            System.out.println("8");
+
             try {
                 Piece p = pieces[mouseCoordinateX][mouseCoordinateY];
-                System.out.println("9");
                 LinkedHashSet validMoves = p.validMoves(pieces);
-                System.out.println("10");
                 validMovesToDraw.addAll(validMoves);
-                System.out.println("11");
-
             } catch (Exception e) {
-                System.out.println("12");
                 validMovesToDraw.clear();
-                System.out.println("13");
             }
-        } else{
+        } else {
             validMovesToDraw.clear();
         }
     }
-
+    
     @Override
     public void mousePressed(MouseEvent e) {
     }
