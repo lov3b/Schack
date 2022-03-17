@@ -51,19 +51,39 @@ public abstract class Piece extends Component {
     public void move(Piece[][] pieces, Point toMove, Point selected) {
 
         try {
-            System.out.println("toMove: " + toMove);
-
             pieces[toMove.x][toMove.y] = this; //new Rook(true,new Point(toMove));
             pieces[selected.x][selected.y] = null;
-            // varför funkar det nu? det borde inte funka nu.
-            System.out.println("equals: " + selected.equals(this.position));
-
             this.position = new Point(toMove);
             Board.printPieces(pieces);
 
         } catch (Exception e) {
-            System.out.println("jmgfmhyfhm");
+           
         }
+    }
+
+    protected boolean checkMove(int x, int y, LinkedHashSet movable, Piece[][] pieces) {
+        Point pos = new Point(x, y);
+
+        // Instead of checking index and null, try-catch
+        try {
+            Piece p = pieces[pos.x][pos.y];
+            System.out.println(p);
+            // If this piece is the same team as ours, skip
+            if (p.isWhite == this.isWhite) {
+                return true;
+            }
+
+            movable.add(pos);
+            return true;
+
+        } catch (NullPointerException npe) {
+            // This is an empty spot
+            movable.add(pos);
+        } catch (Exception e) {
+            // This means that the player is at the edge
+        }
+        return false;
+
     }
 
     @Override

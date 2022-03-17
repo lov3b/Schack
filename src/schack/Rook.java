@@ -20,115 +20,41 @@ public class Rook extends Piece {
 //men jag är trög och har spenderat alldles förmycket tid på att vara trög :^)
 
         // Vänster
-        for (int rookX = this.position.x-1; rookX >= 0; rookX--) {
-            
-            Point pos = new Point(rookX,this.position.y);
-
-
-            // Instead of checking index and null, try-catch
-            try {
-                Piece p = pieces[pos.x][pos.y];
-                System.out.println(p);
-                // If this piece is the same team as ours, skip
-                if (p.isWhite == this.isWhite) {
-                    break;
-                }
-
-                movable.add(pos);
+        for (int rookX = this.position.x - 1; rookX >= 0; rookX--) {
+            boolean shouldBreak = checkMove(rookX, this.position.y, movable, pieces);
+            if (shouldBreak) {
                 break;
-
-            } catch (NullPointerException npe) {
-                // This is an empty spot
-                movable.add(pos);
-            } catch (Exception e) {
-                // This means that the player is at the edge
             }
-
         }
 
         // Höger
-        for (int rookX = this.position.x+1; rookX <= 7; rookX++) {
-            
-            Point pos = new Point(rookX,this.position.y);
-
-
-            // Instead of checking index and null, try-catch
-            try {
-                Piece p = pieces[pos.x][pos.y];
-                System.out.println(p);
-                // If this piece is the same team as ours, skip
-                if (p.isWhite == this.isWhite) {
-                    break;
-                }
-
-                movable.add(pos);
+        for (int rookX = this.position.x + 1; rookX <= 7; rookX++) {
+            boolean shouldBreak = checkMove(rookX, this.position.y, movable, pieces);
+            if (shouldBreak) {
                 break;
-
-            } catch (NullPointerException npe) {
-                // This is an empty spot
-                movable.add(pos);
-            } catch (Exception e) {
-                // This means that the player is at the edge
             }
-
         }
 
         // Ner
-        for (int rookY = this.position.y+1; rookY <= 7; rookY++) {
-            
-            Point pos = new Point(this.position.x,rookY);
-
-
-            // Instead of checking index and null, try-catch
-            try {
-                Piece p = pieces[pos.x][pos.y];
-                System.out.println(p);
-                // If this piece is the same team as ours, skip
-                if (p.isWhite == this.isWhite) {
-                    break;
-                }
-
-                movable.add(pos);
+        for (int rookY = this.position.y + 1; rookY <= 7; rookY++) {
+            boolean shouldBreak = checkMove(this.position.x, rookY, movable, pieces);
+            if (shouldBreak) {
                 break;
-
-            } catch (NullPointerException npe) {
-                // This is an empty spot
-                movable.add(pos);
-            } catch (Exception e) {
-                // This means that the player is at the edge
             }
-
         }
 
         // Upp
-        for (int rookY = this.position.y-1; rookY >= 0; rookY--) {
-            
-            Point pos = new Point(this.position.x,rookY);
-
-
-            // Instead of checking index and null, try-catch
-            try {
-                Piece p = pieces[pos.x][pos.y];
-                System.out.println(p);
-                // If this piece is the same team as ours, skip
-                if (p.isWhite == this.isWhite) {
-                    break;
-                }
-
-                movable.add(pos);
+        for (int rookY = this.position.y - 1; rookY >= 0; rookY--) {
+            boolean shouldBreak = checkMove(this.position.x, rookY, movable, pieces);
+            if (shouldBreak) {
                 break;
-
-            } catch (NullPointerException npe) {
-                // This is an empty spot
-                movable.add(pos);
-            } catch (Exception e) {
-                // This means that the player is at the edge
             }
-
         }
         System.out.println("Len of movable: " + movable.size());
         return movable;
 
     }
+
+  
 
 }
