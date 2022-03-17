@@ -9,7 +9,7 @@ public class Queen extends Piece {
     public Queen(boolean isWhite, Point point) throws IOException {
         super(isWhite, point);
         setPieceIcon("Queen");
-    }
+    } 
 
     @Override
     public LinkedHashSet<Point> validMoves(Piece[][] pieces) {
