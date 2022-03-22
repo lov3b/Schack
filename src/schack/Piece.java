@@ -57,7 +57,7 @@ public abstract class Piece extends Component {
             Board.printPieces(pieces);
 
         } catch (Exception e) {
-           
+
         }
     }
 
@@ -66,22 +66,26 @@ public abstract class Piece extends Component {
 
         // Instead of checking index and null, try-catch
         try {
+            // Ifall vi kollar utanför brädet kommer detta att faila
             Piece p = pieces[pos.x][pos.y];
-            // If this piece is the same team as ours, skip
+
+            // Ifall pjäsen här har samma färg som oss, skip
+            // Ifall det inte är någon pjäs här kommer det att gå ner till
+            // catch(NullPointerException) och då lägger vi till detta drag i listan
             if (p.isWhite == this.isWhite) {
                 return true;
+            } else {
+                // Detta betyder att vi har en med motsatts plats här
+                // Vi kan ta men inte gå längre.
+                movable.add(pos);
+                return true;
             }
-
-            movable.add(pos);
-            return true;
-
         } catch (NullPointerException npe) {
             // This is an empty spot
             movable.add(pos);
-        } catch (IndexOutOfBoundsException e) {
+        } catch (IndexOutOfBoundsException ioobe) {
             // This means that the player is at the edge
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             // For good meassure
         }
         return false;
