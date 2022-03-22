@@ -25,7 +25,7 @@ public class Pawn extends Piece {
         final int upTo = hasMoved ? 1 : 2;
         // Kolla om man kan gå rakt frak
         for (int pawnX = 1; pawnX <= upTo; pawnX++) {
-            Point pos = new Point(this.position.x, this.position.y - pawnX);
+            Point pos = new Point(this.position.x, this.position.y + (this.isWhite ? -pawnX : pawnX));
             boolean shouldBreak = checkMove(pos, movable, pieces);
             if (shouldBreak) {
                 break;
@@ -35,7 +35,7 @@ public class Pawn extends Piece {
         // Logik för att ta
         for (int pawnX : new int[]{-1, 1}) {
             // Position vi kollar just nu, snett upp åt höger & vänster
-            Point pos = new Point(this.position.x + pawnX, this.position.y - 1);
+            Point pos = new Point(this.position.x + pawnX, this.position.y + (this.isWhite ? -1 : 1));
             Piece p = pieces[pos.x][pos.y];
 
             // Ifall det är en pjäs som står här och den inte är samma färg som oss, lägg till
