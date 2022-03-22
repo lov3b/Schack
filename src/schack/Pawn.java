@@ -19,12 +19,15 @@ public class Pawn extends Piece {
 
     @Override
     public LinkedHashSet<Point> validMoves(Piece[][] pieces) {
+        // TODO: Lösa bugg där bunder på kanterna inte kan röra sig
         LinkedHashSet<Point> movable = new LinkedHashSet<>();
 
         // Om bonden har gått en gång, får gå 1 steg, annars 2
         final int upTo = hasMoved ? 1 : 2;
         // Kolla om man kan gå rakt frak
         for (int pawnX = 1; pawnX <= upTo; pawnX++) {
+            System.out.println("this.position.x: " + this.position.x);
+            System.out.println("calced y: " + (this.position.y + (this.isWhite ? -pawnX : pawnX)));
             Point pos = new Point(this.position.x, this.position.y + (this.isWhite ? -pawnX : pawnX));
             boolean shouldBreak = checkMove(pos, movable, pieces);
             if (shouldBreak) {
@@ -38,7 +41,7 @@ public class Pawn extends Piece {
             Point pos = new Point(this.position.x + pawnX, this.position.y + (this.isWhite ? -1 : 1));
             checkAttack(pos, movable, pieces);
         }
-
+        System.out.println("len of movable: " + movable.size());
         return movable;
     }
 
@@ -47,8 +50,11 @@ public class Pawn extends Piece {
         Piece p = pieces[pos.x][pos.y];
 
         // Ifall det är en pjäs som står här och den inte är samma färg som oss, lägg till
-        if (p != null && p.isWhite != this.isWhite) {
-            movable.add(pos);
+        try {
+            if (p.isWhite != this.isWhite) {
+                movable.add(pos);
+            }
+        } catch (Exception e) {
         }
     }
 
