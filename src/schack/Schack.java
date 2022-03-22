@@ -11,6 +11,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 
 /**
  *
@@ -26,6 +27,13 @@ public class Schack extends JFrame implements Runnable {
         setContentPane(board);
         getContentPane().addMouseListener(board);
         Thread thread = new Thread(this);
+
+        // Set theme
+        try {
+            UIManager.setLookAndFeel(
+                    UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception e) {
+        }
 
         // Create menu        
         JMenuBar menuBar = new JMenuBar();
