@@ -61,8 +61,7 @@ public abstract class Piece extends Component {
         }
     }
 
-    protected boolean checkMove(int x, int y, LinkedHashSet movable, Piece[][] pieces) {
-        Point pos = new Point(x, y);
+    protected boolean checkMove(Point pos, LinkedHashSet movable, Piece[][] pieces) {
 
         // Instead of checking index and null, try-catch
         try {

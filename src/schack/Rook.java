@@ -21,7 +21,7 @@ public class Rook extends Piece {
 
         // Vänster
         for (int rookX = this.position.x - 1; rookX >= 0; rookX--) {
-            boolean shouldBreak = checkMove(rookX, this.position.y, movable, pieces);
+            boolean shouldBreak = checkMove(new Point(rookX, this.position.y), movable, pieces);
             if (shouldBreak) {
                 break;
             }
@@ -29,7 +29,7 @@ public class Rook extends Piece {
 
         // Höger
         for (int rookX = this.position.x + 1; rookX <= 7; rookX++) {
-            boolean shouldBreak = checkMove(rookX, this.position.y, movable, pieces);
+            boolean shouldBreak = checkMove(new Point(rookX, this.position.y), movable, pieces);
             if (shouldBreak) {
                 break;
             }
@@ -37,7 +37,7 @@ public class Rook extends Piece {
 
         // Ner
         for (int rookY = this.position.y + 1; rookY <= 7; rookY++) {
-            boolean shouldBreak = checkMove(this.position.x, rookY, movable, pieces);
+            boolean shouldBreak = checkMove(new Point(this.position.x, rookY), movable, pieces);
             if (shouldBreak) {
                 break;
             }
@@ -45,7 +45,7 @@ public class Rook extends Piece {
 
         // Upp
         for (int rookY = this.position.y - 1; rookY >= 0; rookY--) {
-            boolean shouldBreak = checkMove(this.position.x, rookY, movable, pieces);
+            boolean shouldBreak = checkMove(new Point(this.position.x, rookY), movable, pieces);
             if (shouldBreak) {
                 break;
             }
@@ -54,7 +54,5 @@ public class Rook extends Piece {
         return movable;
 
     }
-
-  
 
 }
