@@ -78,8 +78,11 @@ public abstract class Piece extends Component {
         } catch (NullPointerException npe) {
             // This is an empty spot
             movable.add(pos);
-        } catch (Exception e) {
+        } catch (IndexOutOfBoundsException e) {
             // This means that the player is at the edge
+        }
+        catch (Exception e){
+            // For good meassure
         }
         return false;
 
