@@ -32,19 +32,24 @@ public class Pawn extends Piece {
             }
         }
 
-        // Logik för att ta
+        // Kolla ifall vi kan ta någon
         for (int pawnX : new int[]{-1, 1}) {
             // Position vi kollar just nu, snett upp åt höger & vänster
             Point pos = new Point(this.position.x + pawnX, this.position.y + (this.isWhite ? -1 : 1));
-            Piece p = pieces[pos.x][pos.y];
-
-            // Ifall det är en pjäs som står här och den inte är samma färg som oss, lägg till
-            if (p != null && p.isWhite != this.isWhite) {
-                movable.add(pos);
-            }
+            checkAttack(pos, movable, pieces);
         }
 
         return movable;
+    }
+
+    // Känns som det här skulle kunnat vara i validMoves, men nu är det såhär
+    private void checkAttack(Point pos, LinkedHashSet movable, Piece[][] pieces) {
+        Piece p = pieces[pos.x][pos.y];
+
+        // Ifall det är en pjäs som står här och den inte är samma färg som oss, lägg till
+        if (p != null && p.isWhite != this.isWhite) {
+            movable.add(pos);
+        }
     }
 
     @Override
