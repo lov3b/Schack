@@ -67,7 +67,6 @@ public abstract class Piece extends Component {
         // Instead of checking index and null, try-catch
         try {
             Piece p = pieces[pos.x][pos.y];
-            System.out.println(p);
             // If this piece is the same team as ours, skip
             if (p.isWhite == this.isWhite) {
                 return true;
