@@ -62,19 +62,18 @@ public abstract class Piece extends Component {
     }
 
     protected boolean checkMove(Point pos, LinkedHashSet movable, Piece[][] pieces) {
-
         // Instead of checking index and null, try-catch
         try {
             // Ifall vi kollar utanför brädet kommer detta att faila
             Piece p = pieces[pos.x][pos.y];
 
-            // Ifall pjäsen här har samma färg som oss, skip
+            // Ifall pjäsen här har samma färg som oss, break
             // Ifall det inte är någon pjäs här kommer det att gå ner till
             // catch(NullPointerException) och då lägger vi till detta drag i listan
             if (p.isWhite == this.isWhite) {
                 return true;
             } else {
-                // Detta betyder att vi har en med motsatts plats här
+                // Detta betyder att det är en med motsatts pjäs här
                 // Vi kan ta men inte gå längre.
                 movable.add(pos);
                 return true;
