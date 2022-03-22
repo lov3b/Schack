@@ -2,10 +2,8 @@ package schack;
 
 import java.awt.Point;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
-import javax.imageio.ImageIO;
 
 public final class King extends Piece {
 
@@ -55,7 +53,6 @@ public final class King extends Piece {
             }
 
         }
-        System.out.println("Len of movable: " + movable.size());
         return movable;
 
     }

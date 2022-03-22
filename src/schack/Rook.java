@@ -2,7 +2,6 @@ package schack;
 
 import java.awt.Point;
 import java.io.IOException;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 
 public class Rook extends Piece {
@@ -50,7 +49,6 @@ public class Rook extends Piece {
                 break;
             }
         }
-        System.out.println("Len of movable: " + movable.size());
         return movable;
 
     }

@@ -3,8 +3,6 @@ package schack;
 import java.awt.Point;
 import java.io.IOException;
 import java.util.LinkedHashSet;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Bishop extends Piece {
 
