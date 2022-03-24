@@ -59,7 +59,7 @@ public abstract class Piece {
         }
     }
 
-    protected boolean checkMove(Point pos, LinkedHashSet movable, Piece[][] pieces) {
+    protected boolean addMovesIfCan(Point pos, LinkedHashSet movable, Piece[][] pieces) {
         // Instead of checking index and null, try-catch
         try {
             // Ifall vi kollar utanför brädet kommer detta att faila

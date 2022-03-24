@@ -17,7 +17,7 @@ public class Queen extends Piece {
 
         // Vänster
         for (int rookX = this.position.x - 1; rookX >= 0; rookX--) {
-            boolean shouldBreak = checkMove(new Point(rookX, this.position.y), movable, pieces);
+            boolean shouldBreak = addMovesIfCan(new Point(rookX, this.position.y), movable, pieces);
             if (shouldBreak) {
                 break;
             }
@@ -25,7 +25,7 @@ public class Queen extends Piece {
 
         // Höger
         for (int rookX = this.position.x + 1; rookX <= 7; rookX++) {
-            boolean shouldBreak = checkMove(new Point(rookX, this.position.y), movable, pieces);
+            boolean shouldBreak = addMovesIfCan(new Point(rookX, this.position.y), movable, pieces);
             if (shouldBreak) {
                 break;
             }
@@ -33,7 +33,7 @@ public class Queen extends Piece {
 
         // Ner
         for (int rookY = this.position.y + 1; rookY <= 7; rookY++) {
-            boolean shouldBreak = checkMove(new Point(this.position.x, rookY), movable, pieces);
+            boolean shouldBreak = addMovesIfCan(new Point(this.position.x, rookY), movable, pieces);
             if (shouldBreak) {
                 break;
             }
@@ -41,14 +41,14 @@ public class Queen extends Piece {
 
         // Upp
         for (int rookY = this.position.y - 1; rookY >= 0; rookY--) {
-            boolean shouldBreak = checkMove(new Point(this.position.x, rookY), movable, pieces);
+            boolean shouldBreak = addMovesIfCan(new Point(this.position.x, rookY), movable, pieces);
             if (shouldBreak) {
                 break;
             }
         }
         // Upp vänster
         for (int bishopX = this.position.x - 1, bishopY = this.position.y - 1; bishopX >= 0 && bishopY >= 0; bishopX--, bishopY--) {
-            boolean shouldBreak = checkMove(new Point(bishopX, bishopY), movable, pieces);
+            boolean shouldBreak = addMovesIfCan(new Point(bishopX, bishopY), movable, pieces);
             if (shouldBreak) {
                 break;
             }
@@ -57,7 +57,7 @@ public class Queen extends Piece {
 
         // Upp höger 
         for (int bishopX = this.position.x + 1, bishopY = this.position.y - 1; bishopX <= 7 && bishopY >= 0; bishopX++, bishopY--) {
-            boolean shouldBreak = checkMove(new Point(bishopX, bishopY), movable, pieces);
+            boolean shouldBreak = addMovesIfCan(new Point(bishopX, bishopY), movable, pieces);
             if (shouldBreak) {
                 break;
             }
@@ -65,7 +65,7 @@ public class Queen extends Piece {
         }
         // Ner höger
         for (int bishopX = this.position.x + 1, bishopY = this.position.y + 1; bishopX <= 7 && bishopY <= 7; bishopX++, bishopY++) {
-            boolean shouldBreak = checkMove(new Point(bishopX, bishopY), movable, pieces);
+            boolean shouldBreak = addMovesIfCan(new Point(bishopX, bishopY), movable, pieces);
             if (shouldBreak) {
                 break;
             }
@@ -73,7 +73,7 @@ public class Queen extends Piece {
         }
         // Ner vänster
         for (int bishopX = this.position.x - 1, bishopY = this.position.y + 1; bishopX >= 0 && bishopY <= 7; bishopX--, bishopY++) {
-            boolean shouldBreak = checkMove(new Point(bishopX, bishopY), movable, pieces);
+            boolean shouldBreak = addMovesIfCan(new Point(bishopX, bishopY), movable, pieces);
             if (shouldBreak) {
                 break;
             }

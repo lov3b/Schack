@@ -17,7 +17,7 @@ public class Bishop extends Piece {
 
         // Upp vänster
         for (int bishopX = this.position.x - 1, bishopY = this.position.y - 1; bishopX >= 0 && bishopY >= 0; bishopX--, bishopY--) {
-            boolean shouldBreak = checkMove(new Point(bishopX, bishopY), movable, pieces);
+            boolean shouldBreak = addMovesIfCan(new Point(bishopX, bishopY), movable, pieces);
             if (shouldBreak) {
                 break;
             }
@@ -26,7 +26,7 @@ public class Bishop extends Piece {
 
         // Upp höger 
         for (int bishopX = this.position.x + 1, bishopY = this.position.y - 1; bishopX <= 7 && bishopY >= 0; bishopX++, bishopY--) {
-            boolean shouldBreak = checkMove(new Point(bishopX, bishopY), movable, pieces);
+            boolean shouldBreak = addMovesIfCan(new Point(bishopX, bishopY), movable, pieces);
             if (shouldBreak) {
                 break;
             }
@@ -34,7 +34,7 @@ public class Bishop extends Piece {
         }
         // Ner höger
         for (int bishopX = this.position.x + 1, bishopY = this.position.y + 1; bishopX <= 7 && bishopY <= 7; bishopX++, bishopY++) {
-            boolean shouldBreak = checkMove(new Point(bishopX, bishopY), movable, pieces);
+            boolean shouldBreak = addMovesIfCan(new Point(bishopX, bishopY), movable, pieces);
             if (shouldBreak) {
                 break;
             }
@@ -42,7 +42,7 @@ public class Bishop extends Piece {
         }
         // Ner vänster
         for (int bishopX = this.position.x - 1, bishopY = this.position.y + 1; bishopX >= 0 && bishopY <= 7; bishopX--, bishopY++) {
-            boolean shouldBreak = checkMove(new Point(bishopX, bishopY), movable, pieces);
+            boolean shouldBreak = addMovesIfCan(new Point(bishopX, bishopY), movable, pieces);
             if (shouldBreak) {
                 break;
             }

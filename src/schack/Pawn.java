@@ -23,7 +23,7 @@ public class Pawn extends PieceKnownIfMoved {
             System.out.println("this.position.x: " + this.position.x);
             System.out.println("calced y: " + (this.position.y + (this.isWhite ? -pawnDY : pawnDY)));
             Point pos = new Point(this.position.x, this.position.y + (this.isWhite ? -pawnDY : pawnDY));
-            boolean shouldBreak = checkMove(pos, movable, pieces);
+            boolean shouldBreak = addMovesIfCan(pos, movable, pieces);
             if (shouldBreak) {
                 System.out.println("should brkje!");
                 break;
@@ -34,14 +34,14 @@ public class Pawn extends PieceKnownIfMoved {
         for (int pawnX : new int[]{-1, 1}) {
             // Position vi kollar just nu, snett upp åt höger & vänster
             Point pos = new Point(this.position.x + pawnX, this.position.y + (this.isWhite ? -1 : 1));
-            checkAttack(pos, movable, pieces);
+            addAttackMovesIfCan(pos, movable, pieces);
         }
         System.out.println("len of movable: " + movable.size());
         return movable;
     }
 
     // Känns som det här skulle kunnat vara i validMoves, men nu är det såhär
-    private void checkAttack(Point pos, LinkedHashSet movable, Piece[][] pieces) {
+    private void addAttackMovesIfCan(Point pos, LinkedHashSet movable, Piece[][] pieces) {
 
         // Ifall det är en pjäs som står här och den inte är samma färg som oss, lägg till
         try {
@@ -54,7 +54,7 @@ public class Pawn extends PieceKnownIfMoved {
     }
 
     @Override
-    protected boolean checkMove(Point pos, LinkedHashSet movable, Piece[][] pieces) {
+    protected boolean addMovesIfCan(Point pos, LinkedHashSet movable, Piece[][] pieces) {
         if (pos.x < 0 || pos.x > 7 || pos.y < 0 || pos.y > 7) {
             return false;
         }

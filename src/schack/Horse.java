@@ -37,7 +37,7 @@ public class Horse extends Piece {
 
         for (Point pos : positions) {
             // Ifall en är blockerad så ska vi inte sluta kolla
-            checkMove(pos, movable, pieces);
+            addMovesIfCan(pos, movable, pieces);
         }
 
         return movable;
