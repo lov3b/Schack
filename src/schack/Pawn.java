@@ -4,17 +4,11 @@ import java.awt.Point;
 import java.io.IOException;
 import java.util.LinkedHashSet;
 
-public class Pawn extends Piece {
-
-    private boolean hasMoved = false;
+public class Pawn extends PieceKnownIfMoved {
 
     public Pawn(boolean isWhite, Point startingPosition) throws IOException {
         super(isWhite, startingPosition);
         setPieceIcon("Pawn");
-    }
-
-    Pawn(boolean isWhite) {
-        super(isWhite);
     }
 
     @Override
@@ -92,13 +86,6 @@ public class Pawn extends Piece {
         }
         return false;
 
-    }
-
-    @Override
-    public void move(Piece[][] pieces, Point toMove, Point selected) {
-        // Detta är för att veta ifall vi kan gå 2 steg eller inte
-        hasMoved = true;
-        super.move(pieces, toMove, selected);
     }
 
     @Override

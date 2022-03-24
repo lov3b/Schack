@@ -5,9 +5,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 
-public final class King extends Piece {
+public final class King extends PieceKnownIfMoved {
 
-    boolean eglibleForCastling = true;
 
     public King(boolean isWhite, Point startingPosition) throws IOException {
         super(isWhite, startingPosition);
@@ -59,7 +58,7 @@ public final class King extends Piece {
 
     @Override
     public String toString() {
-        return "Piece{" + "eglibleForCastling=" + eglibleForCastling + "position=" + position + ", isWhite=" + isWhite + '}';
+        return "Piece{" + "hasMoved=" + hasMoved + "position=" + position + ", isWhite=" + isWhite + '}';
     }
 
 }
