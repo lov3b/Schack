@@ -30,7 +30,7 @@ public class Board extends JPanel implements MouseListener {
     private Piece[][] initPieces() throws IOException {
 
         Piece[][] piecesRet = {
-            {new Rook(false, new Point(0, 0)), null, null, new Pawn(false, new Point(0,4)), null, null, null, new Rook(true, new Point(0, 7))},
+            {new Rook(false, new Point(0, 0)), null, null, new Pawn(false, new Point(0, 4)), null, null, null, new Rook(true, new Point(0, 7))},
             {new Horse(false, true, new Point(1, 0)), null, null, null, null, null, null, new Horse(true, true, new Point(1, 7))},
             {new Bishop(false, new Point(2, 0)), null, null, null, null, null, null, new Bishop(true, new Point(2, 7))},
             {new Queen(false, new Point(3, 0)), null, null, null, new Pawn(false, new Point(3, 4)), null, null, new Queen(true, new Point(3, 7))},
@@ -165,6 +165,10 @@ public class Board extends JPanel implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent mouseEvent) {
+    }
+
+    @Override
+    public void mousePressed(MouseEvent mouseEvent) {
         int mouseCoordinateX = (int) (mouseEvent.getX() / SIZE_OF_TILE);
         int mouseCoordinateY = (int) (mouseEvent.getY() / SIZE_OF_TILE);
 
@@ -197,11 +201,7 @@ public class Board extends JPanel implements MouseListener {
         } else {
             validMovesToDraw.clear();
         }
-       getParent().repaint();
-    }
-    
-    @Override
-    public void mousePressed(MouseEvent e) {
+        getParent().repaint();
     }
 
     @Override
