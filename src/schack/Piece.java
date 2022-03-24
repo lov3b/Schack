@@ -1,16 +1,14 @@
 package schack;
 
-import java.awt.Component;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
-import java.awt.image.ImageObserver;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.LinkedHashSet;
 import javax.imageio.ImageIO;
 
-public abstract class Piece extends Component {
+public abstract class Piece {
 
     public Point position;
     public boolean isWhite;
@@ -44,7 +42,7 @@ public abstract class Piece extends Component {
                 icon,
                 position.x * Board.SIZE_OF_TILE,
                 position.y * Board.SIZE_OF_TILE,
-                (ImageObserver) this
+                null
         );
     }
 

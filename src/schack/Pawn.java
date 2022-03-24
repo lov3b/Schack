@@ -25,12 +25,13 @@ public class Pawn extends Piece {
         // Om bonden har gått en gång, får gå 1 steg, annars 2
         final int upTo = hasMoved ? 1 : 2;
         // Kolla om man kan gå rakt frak
-        for (int pawnX = 1; pawnX <= upTo; pawnX++) {
+        for (int pawnDY = 1; pawnDY <= upTo; pawnDY++) {
             System.out.println("this.position.x: " + this.position.x);
-            System.out.println("calced y: " + (this.position.y + (this.isWhite ? -pawnX : pawnX)));
-            Point pos = new Point(this.position.x, this.position.y + (this.isWhite ? -pawnX : pawnX));
+            System.out.println("calced y: " + (this.position.y + (this.isWhite ? -pawnDY : pawnDY)));
+            Point pos = new Point(this.position.x, this.position.y + (this.isWhite ? -pawnDY : pawnDY));
             boolean shouldBreak = checkMove(pos, movable, pieces);
             if (shouldBreak) {
+                System.out.println("should brkje!");
                 break;
             }
         }
@@ -47,10 +48,10 @@ public class Pawn extends Piece {
 
     // Känns som det här skulle kunnat vara i validMoves, men nu är det såhär
     private void checkAttack(Point pos, LinkedHashSet movable, Piece[][] pieces) {
-        Piece p = pieces[pos.x][pos.y];
 
         // Ifall det är en pjäs som står här och den inte är samma färg som oss, lägg till
         try {
+            Piece p = pieces[pos.x][pos.y];
             if (p.isWhite != this.isWhite) {
                 movable.add(pos);
             }
@@ -60,6 +61,9 @@ public class Pawn extends Piece {
 
     @Override
     protected boolean checkMove(Point pos, LinkedHashSet movable, Piece[][] pieces) {
+        if (pos.x < 0 || pos.x > 7 || pos.y < 0 || pos.y > 7) {
+            return false;
+        }
         // Instead of checking index and null, try-catch
         try {
             // Ifall vi kollar utanför brädet kommer detta att faila
@@ -82,6 +86,7 @@ public class Pawn extends Piece {
             movable.add(pos);
         } catch (IndexOutOfBoundsException ioobe) {
             // This means that the player is at the edge
+            System.out.println(pos);
         } catch (Exception e) {
             // For good meassure
         }
