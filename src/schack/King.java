@@ -7,7 +7,6 @@ import java.util.LinkedHashSet;
 
 public final class King extends PieceKnownIfMoved {
 
-
     public King(boolean isWhite, Point startingPosition) throws IOException {
         super(isWhite, startingPosition);
         setPieceIcon("King");
@@ -20,6 +19,36 @@ public final class King extends PieceKnownIfMoved {
 
     public boolean isSeen(ArrayList<Piece> pieces) {
         return true;
+    }
+
+    private void addCastlingIfCan(Piece[][] pieces, LinkedHashSet<Point> movable, Point toMove, Point selected) {
+        if (hasMoved) {
+            return;
+        }
+        
+        // Vänster
+        for (int kingX = this.position.x - 1; kingX >= 0; kingX--) {
+            if (kingX == 0) {
+                try {
+
+                } catch (Exception e) {
+                }
+            }
+
+            boolean shouldBreak = addMovesIfCan(new Point(kingX, this.position.y), movable, pieces);
+            if (shouldBreak) {
+                break;
+            }
+        }
+
+        // Höger
+        for (int kingX = this.position.x + 1; kingX <= 7; kingX++) {
+            boolean shouldBreak = addMovesIfCan(new Point(kingX, this.position.y), movable, pieces);
+            if (shouldBreak) {
+                break;
+            }
+        }
+
     }
 
     @Override
