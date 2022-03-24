@@ -17,7 +17,7 @@ import javax.swing.UIManager;
  *
  * @author Love Billenius & Simon Hansson
  */
-public class Schack extends JFrame implements Runnable {
+public class Schack extends JFrame{
 
     public Schack() throws IOException {
         setTitle("Schack");
@@ -26,7 +26,7 @@ public class Schack extends JFrame implements Runnable {
         Board board = new Board();
         setContentPane(board);
         getContentPane().addMouseListener(board);
-        Thread thread = new Thread(this);
+      
 
         // Set theme
         try {
@@ -74,7 +74,7 @@ public class Schack extends JFrame implements Runnable {
         pack();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
-        this.run();
+        
 
     }
 
@@ -83,18 +83,6 @@ public class Schack extends JFrame implements Runnable {
 
     }
 
-    @Override
-    public void run() {
-
-        while (true) {
-            try {
-                Thread.sleep(12);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(Schack.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            repaint();
-
-        }
-    }
-
+   
+   
 }
