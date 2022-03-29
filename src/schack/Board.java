@@ -108,6 +108,7 @@ public class Board extends JPanel implements MouseListener {
             try {
                 Piece p = pieces[selectedPiece.x][selectedPiece.y];
                 p.move(pieces, clicked, selectedPiece);
+                
             } catch (Exception e) {
                 validMovesToDraw.clear();
             }
@@ -117,7 +118,7 @@ public class Board extends JPanel implements MouseListener {
             validMovesToDraw.clear();
         }
 
-        System.out.println("X: " + mouseCoordinateX + ", Y: " + mouseCoordinateY);
+
         if (!validMovesToDraw.contains(clicked)) {
 
             try {
