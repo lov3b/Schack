@@ -7,7 +7,6 @@ import java.util.LinkedHashSet;
 
 public final class King extends PieceKnownIfMoved {
 
-
     public King(boolean isWhite, Point startingPosition) throws IOException {
         super(isWhite, startingPosition);
         setPieceIcon("King");
@@ -31,29 +30,15 @@ public final class King extends PieceKnownIfMoved {
                 if (loopY == 0 && loopX == 0) {
                     continue;
                 }
-                Point pos = new Point(this.position.x + loopX, this.position.y + loopY);
-
-                // Instead of checking index and null, try-catch
-                try {
-                    Piece p = pieces[pos.x][pos.y];
-                    System.out.println(p);
-                    // If this piece is the same team as ours, skip
-                    if (p.isWhite == this.isWhite) {
-                        continue;
-                    }
-                    movable.add(pos);
-
-                } catch (NullPointerException npe) {
-                    // This is an empty spot
-                    movable.add(pos);
-                } catch (Exception e) {
-                    // This means that the player is at the edge
+                boolean shouldBreak = addMovesIfCan(new Point(this.position.x + loopX, this.position.y + loopY), movable, pieces);
+                if (shouldBreak) {
+                    break;
                 }
+
             }
 
         }
         return movable;
-
     }
 
     @Override
