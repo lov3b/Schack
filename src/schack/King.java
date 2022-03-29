@@ -29,25 +29,31 @@ public final class King extends PieceKnownIfMoved {
 
         // Vänster
         boolean nothingInBetween = true;
-        for (int kingX = this.position.x - 1; kingX >= 0; kingX--) {
+        for (int loopX = this.position.x - 1; loopX >= 0; loopX--) {
 
             // Kolla ifall vi kollar tornet och inget är emellan
-            if (kingX == 0 && nothingInBetween) {
-                movable.add(new Point(2, 7));
+            if (loopX == 0 && nothingInBetween) {
+                movable.add(new Point(2, this.position.y));
             }
 
             // Kolla ifall det är tomt emellan kung och torn
-            if (pieces[kingX][this.position.y] != null) {
+            if (pieces[loopX][this.position.y] != null) {
                 nothingInBetween = false;
             }
 
         }
 
         // Höger
-        for (int kingX = this.position.x + 1; kingX <= 7; kingX++) {
-            boolean shouldBreak = addMovesIfCan(new Point(kingX, this.position.y), movable, pieces);
-            if (shouldBreak) {
-                break;
+        for (int loopX = this.position.x + 1; loopX <= 7; loopX++) {
+
+            // Kolla ifall vi kollar tornet och inget är emellan
+            if (loopX == 7 && nothingInBetween) {
+                movable.add(new Point(6, this.position.y));
+            }
+
+            // Kolla ifall det är tomt emellan kung och torn
+            if (pieces[loopX][this.position.y] != null) {
+                nothingInBetween = false;
             }
         }
 
@@ -67,7 +73,6 @@ public final class King extends PieceKnownIfMoved {
         // Uppdatera brädet
         pieces[king.position.x][king.position.y] = king;
         pieces[rook.position.x][rook.position.y] = rook;
-
     }
 
     @Override
