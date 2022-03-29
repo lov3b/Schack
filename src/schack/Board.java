@@ -30,14 +30,14 @@ public class Board extends JPanel implements MouseListener {
     private Piece[][] initPieces() throws IOException {
 
         Piece[][] piecesRet = {
-            {new Rook(false, new Point(0, 0)), null, null, new Pawn(false, new Point(0, 4)), null, null, null, new Rook(true, new Point(0, 7))},
+            {new Rook(false, new Point(0, 0)), null, null, null, null, null, null, new Rook(true, new Point(0, 7))},
             {new Horse(false, true, new Point(1, 0)), null, null, null, null, null, null, new Horse(true, true, new Point(1, 7))},
             {new Bishop(false, new Point(2, 0)), null, null, null, null, null, null, new Bishop(true, new Point(2, 7))},
-            {new Queen(false, new Point(3, 0)), null, null, null, new Pawn(false, new Point(3, 4)), null, null, new Queen(true, new Point(3, 7))},
-            {new King(false), null, null, null, null, null, null, new King(true)},
-            {null, null, null, null, null, null, null, new King(false, new Point(5, 7))},
-            {null, null, null, null, null, null, null, null},
-            {null, null, null, null, null, null, null, null}
+            {new Queen(false, new Point(3, 0)), null, null, null, null, null, null, new Queen(true, new Point(3, 7))},
+            {new King(false, new Point(4,0)), null, null, null, null, null, null, new King(true, new Point(4, 7))},
+            {new Bishop(false, new Point(5,0)), null, null, null, null, null, null, new Bishop(true, new Point(5, 7)) },
+            {new Horse(false, true, new Point(6, 0)), null, null, null, null, null, null, new Horse(true, true, new Point(6, 7))},
+            {new Rook(false, new Point(7, 0)), null, null, null, null, null, null, new Rook(true, new Point(7, 7))}
         };
 
         // Test 
@@ -50,23 +50,6 @@ public class Board extends JPanel implements MouseListener {
             piecesRet[i][6] = new Pawn(true, new Point(i, 6));
         }
 
-//        // Sätt ut bönder no point
-//        for (int i = 0; i < pieces.length; i++) {
-//            piecesRet[i][1] = new Pawn(false);
-//            piecesRet[i][6] = new Pawn(true);
-//        }
-//        // Ställ in varje Point i varje pjäs
-//        for (int x = 0; x < piecesRet.length; x++) {
-//            for (int y = 0; y < piecesRet.length; y++) {
-//                try {
-//                    Point before = new Point(piecesRet[x][y].position);
-//                    piecesRet[x][y].position = new Point(x, y);
-//                    System.out.println("Efter "+piecesRet[x][y].position + " Innan " + before);
-//                } catch (NullPointerException e) {
-//                }
-//            }
-//        }
-        printPieces(piecesRet);
         return piecesRet;
     }
 
@@ -88,62 +71,9 @@ public class Board extends JPanel implements MouseListener {
             if (piece != null) {
                 piece.draw(g2);
             }
-        }));
-        // Check valid moves method
-        //        Arrays.stream(pieces).forEach(pieceArr -> Arrays.stream(pieceArr).forEach(piece -> {
-        //            if (piece != null) {
-        //                // Draw eglible moves
-        //                LinkedHashSet<Point> validMoves = piece.validMoves(pieces);
-        //                Color c = new Color((int) (230 * Math.random()), (int) (230 * Math.random()), (int) (230 * Math.random()));
-        //                g2.setColor(c);
-        //                validMoves.forEach(point -> g2.fillOval(point.x * SIZE_OF_TILE, point.y * SIZE_OF_TILE, SIZE_OF_TILE, SIZE_OF_TILE));
-        //                System.out.println("x:" + piece.position.x + ", y:" + piece.position.y + ": " + validMoves.size());
-        //            }
-        //        }));
-
-        // draw valid moves
-//        for (int y = 0; y < pieces.length; y++) {
-//            for (int x = 0; x < pieces.length; x++) {
-//                Piece p = pieces[y][x];
-//                if (p == null) {
-//                    continue;
-//                }
-//
-//                LinkedHashSet<Point> validMoves = p.validMoves(pieces);
-//                Color c = new Color((int) (255 * Math.random()), (int) (255 * Math.random()), (int) (255 * Math.random()));
-//                g2.setColor(c);
-//                validMoves.forEach(point -> g2.fillOval(point.x * SIZE_OF_TILE, point.y * SIZE_OF_TILE, SIZE_OF_TILE, SIZE_OF_TILE));
-//            }
-//        }
+        }));  
     }
-
-    public static void printPieces(Piece[][] pieces) {
-        System.out.println("");
-        for (int loopX = 0; loopX < pieces.length; loopX++) {
-            for (int loopY = 0; loopY < pieces.length; loopY++) {
-                if (loopY == 0) {
-                    System.out.print("|");
-                }
-                Piece piece = pieces[loopY][loopX];
-
-                // Titta inte Nicklas. Det är bara debug, jag ska ta bort det sedan lovar :P
-                String type;
-                if (piece instanceof Pawn) {
-                    type = "Pawn";
-                } else if (piece instanceof King) {
-                    type = "King";
-                } else {
-                    type = "Nill";
-                }
-
-                String toPrint = piece == null ? "nill??|" : type + piece.position.x + piece.position.y + "|";
-                System.out.print(toPrint);
-
-            }
-            System.out.println("");
-        }
-    }
-
+    
     private void drawSquares(Graphics2D g2) {
 
         g2.setBackground(Color.WHITE);
@@ -160,7 +90,6 @@ public class Board extends JPanel implements MouseListener {
                 g2.fillRect(i * SIZE_OF_TILE, j * SIZE_OF_TILE, 1 * SIZE_OF_TILE, 1 * SIZE_OF_TILE);
             }
         }
-
     }
 
     @Override

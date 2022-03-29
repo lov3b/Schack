@@ -18,6 +18,7 @@ public class Pawn extends PieceKnownIfMoved {
 
         // Om bonden har gått en gång, får gå 1 steg, annars 2
         final int upTo = hasMoved ? 1 : 2;
+        
         // Kolla om man kan gå rakt frak
         for (int pawnDY = 1; pawnDY <= upTo; pawnDY++) {
             System.out.println("this.position.x: " + this.position.x);

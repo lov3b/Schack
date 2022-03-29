@@ -52,7 +52,7 @@ public abstract class Piece {
             pieces[toMove.x][toMove.y] = this; //new Rook(true,new Point(toMove));
             pieces[selected.x][selected.y] = null;
             this.position = new Point(toMove);
-            Board.printPieces(pieces);
+       
 
         } catch (Exception e) {
 
