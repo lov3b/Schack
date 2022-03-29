@@ -13,8 +13,6 @@ public final class King extends PieceKnownIfMoved {
         setPieceIcon("King");
     }
 
-  
-
     public boolean isSeen(ArrayList<Piece> pieces) {
         return true;
     }
@@ -41,6 +39,7 @@ public final class King extends PieceKnownIfMoved {
         }
 
         // Höger
+        nothingInBetween = true;
         for (int loopX = this.position.x + 1; loopX <= 7; loopX++) {
 
             // Kolla ifall vi kollar tornet och inget är emellan
@@ -56,17 +55,17 @@ public final class King extends PieceKnownIfMoved {
 
     }
 
-    private void castle(Piece[][] pieces, boolean left) {
+    private void castle(Piece[][] pieces, boolean shouldGoToLeftSide) {
 
-        Piece rook = pieces[left ? 0 : 7][this.position.y];
+        Piece rook = pieces[shouldGoToLeftSide ? 0 : 7][this.position.y];
         Piece king = this;
 
         // Null där de stod
         pieces[king.position.x][king.position.y] = null;
         pieces[rook.position.x][rook.position.y] = null;
         // Uppdatera internt minne
-        king.position.x = left ? 2 : 6;
-        rook.position.x = left ? 3 : 5;
+        king.position.x = shouldGoToLeftSide ? 2 : 6;
+        rook.position.x = shouldGoToLeftSide ? 3 : 5;
         // Uppdatera brädet
         pieces[king.position.x][king.position.y] = king;
         pieces[rook.position.x][rook.position.y] = rook;
@@ -75,7 +74,8 @@ public final class King extends PieceKnownIfMoved {
     @Override
     public void move(Piece[][] pieces, Point toMove, Point selected) {
         if (Math.abs(selected.x - toMove.x) == 2) {
-            castle(pieces, isWhite);
+            final boolean goToLeftSide = (toMove.x < 5) ? true : false;
+            castle(pieces, goToLeftSide);
         } else {
             super.move(pieces, toMove, selected);
         }
@@ -91,7 +91,7 @@ public final class King extends PieceKnownIfMoved {
                 if (loopY == 0 && loopX == 0) {
                     continue;
                 }
-             addMovesIfCan(new Point(this.position.x + loopX, this.position.y + loopY), movable, pieces);
+                addMovesIfCan(new Point(this.position.x + loopX, this.position.y + loopY), movable, pieces);
             }
 
         }
