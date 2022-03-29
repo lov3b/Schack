@@ -4,7 +4,6 @@ import java.awt.Point;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
-import javax.swing.text.Position;
 
 public final class King extends PieceKnownIfMoved {
 
