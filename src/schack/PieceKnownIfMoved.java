@@ -22,4 +22,8 @@ public abstract class PieceKnownIfMoved extends Piece {
         hasMoved = true;
     }
 
+    public boolean hasMoved() {
+        return hasMoved;
+    }
+
 }

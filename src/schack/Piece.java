@@ -58,7 +58,7 @@ public abstract class Piece {
 
         }
     }
-
+    
     protected boolean addMovesIfCan(Point pos, LinkedHashSet movable, Piece[][] pieces) {
         // Instead of checking index and null, try-catch
         try {

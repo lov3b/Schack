@@ -4,6 +4,7 @@ import java.awt.Point;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import javax.swing.text.Position;
 
 public final class King extends PieceKnownIfMoved {
 
@@ -25,20 +26,21 @@ public final class King extends PieceKnownIfMoved {
         if (hasMoved) {
             return;
         }
-        
+
         // Vänster
+        boolean nothingInBetween = true;
         for (int kingX = this.position.x - 1; kingX >= 0; kingX--) {
-            if (kingX == 0) {
-                try {
 
-                } catch (Exception e) {
-                }
+            // Kolla ifall vi kollar tornet och inget är emellan
+            if (kingX == 0 && nothingInBetween) {
+                movable.add(new Point(2, 7));
             }
 
-            boolean shouldBreak = addMovesIfCan(new Point(kingX, this.position.y), movable, pieces);
-            if (shouldBreak) {
-                break;
+            // Kolla ifall det är tomt emellan kung och torn
+            if (pieces[kingX][this.position.y] != null) {
+                nothingInBetween = false;
             }
+
         }
 
         // Höger
@@ -47,6 +49,33 @@ public final class King extends PieceKnownIfMoved {
             if (shouldBreak) {
                 break;
             }
+        }
+
+    }
+
+    private void castle(Piece[][] pieces, boolean left) {
+
+        Piece rook = pieces[left ? 0 : 7][this.position.y];
+        Piece king = this;
+
+        // Null där de stod
+        pieces[king.position.x][king.position.y] = null;
+        pieces[rook.position.x][rook.position.y] = null;
+        // Uppdatera internt minne
+        king.position.x = left ? 2 : 6;
+        rook.position.x = left ? 3 : 5;
+        // Uppdatera brädet
+        pieces[king.position.x][king.position.y] = king;
+        pieces[rook.position.x][rook.position.y] = rook;
+
+    }
+
+    @Override
+    public void move(Piece[][] pieces, Point toMove, Point selected) {
+        if (Math.abs(selected.x - toMove.x) == 2) {
+            castle(pieces, isWhite);
+        } else {
+            super.move(pieces, toMove, selected);
         }
 
     }
@@ -81,6 +110,7 @@ public final class King extends PieceKnownIfMoved {
             }
 
         }
+        addCastlingIfCan(pieces, movable, position, position);
         return movable;
 
     }
