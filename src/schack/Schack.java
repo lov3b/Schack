@@ -1,5 +1,6 @@
 package schack;
 
+import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.net.InetAddress;
@@ -15,23 +16,30 @@ import javax.swing.UIManager;
  *
  * @author Love Billenius & Simon Hansson
  */
-public class Schack extends JFrame{
+public class Schack {
 
     public Schack() throws IOException {
-        setTitle("Schack");
-        setAlwaysOnTop(false);
-        setResizable(false);
-        Board board = new Board();
-        setContentPane(board);
-        getContentPane().addMouseListener(board);
-      
-
         // Set theme
         try {
-            UIManager.setLookAndFeel(
-                    UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception e) {
+//            FlatSolarizedLightIJTheme.setup();
+            FlatLightLaf.setup();
+            System.setProperty("flatlaf.menuBarEmbedded", "true");
+        } catch (Exception cantThemeWithFlatLaf) {
+            try {
+                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            } catch (Exception cantThemeWithSystemLAF) {
+            }
         }
+
+        JFrame frame = new JFrame();
+        frame.setTitle("Schack");
+        frame.setAlwaysOnTop(false);
+        frame.setResizable(false);
+
+        //  Might throw an IOException if the icon of the Pieces isn't embedded correctly
+        Board board = new Board();
+        frame.setContentPane(board);
+        frame.getContentPane().addMouseListener(board);
 
         // Create menu        
         JMenuBar menuBar = new JMenuBar();
@@ -49,9 +57,9 @@ public class Schack extends JFrame{
         showLocalIP.addActionListener((ActionEvent ae) -> {
             try {
                 String localIp = InetAddress.getLocalHost().toString();
-                JOptionPane.showMessageDialog(this, "Local IP: " + localIp);
+                JOptionPane.showMessageDialog(frame, "Local IP: " + localIp);
             } catch (UnknownHostException ex) {
-                JOptionPane.showMessageDialog(this, "Could not get local IP");
+                JOptionPane.showMessageDialog(frame, "Could not get local IP");
             }
         });
         askForRemi.addActionListener((ActionEvent ae) -> {
@@ -62,25 +70,22 @@ public class Schack extends JFrame{
         });
 
         // Add the menu stuff
-        setJMenuBar(menuBar);
+        frame.setJMenuBar(menuBar);
         menuBar.add(gameMenu);
         menuBar.add(connectMenu);
         connectMenu.add(connectToOpponent);
         connectMenu.add(showLocalIP);
         gameMenu.add(askForRemi);
         gameMenu.add(surrender);
-        pack();
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setVisible(true);
-        
+        frame.pack();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
 
     }
 
     public static void main(String[] args) throws IOException {
         new Schack();
-
+new Schack();
     }
 
-   
-   
 }
