@@ -30,7 +30,7 @@ public abstract class Piece {
     protected void setPieceIcon(String className) throws IOException {
         String colorName = isWhite ? "White" : "Black";
         String fileName = colorName + className + ".png";
-        InputStream is = getClass().getResourceAsStream("../img/" + fileName);
+        InputStream is = getClass().getResourceAsStream("/img/" + fileName);
         icon = ImageIO.read(is);
     }
 
