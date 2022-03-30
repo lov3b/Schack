@@ -18,6 +18,8 @@ import javax.swing.UIManager;
  */
 public class Schack {
 
+    JFrame frame;
+
     public Schack() throws IOException {
         // Set theme
         try {
@@ -32,7 +34,7 @@ public class Schack {
             }
         }
 
-        JFrame frame = new JFrame();
+        frame = new JFrame();
         frame.setTitle("Schack");
         frame.setAlwaysOnTop(false);
         frame.setResizable(false);
