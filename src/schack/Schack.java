@@ -23,7 +23,8 @@ public class Schack {
         try {
 //            FlatSolarizedLightIJTheme.setup();
             FlatLightLaf.setup();
-            System.setProperty("flatlaf.menuBarEmbedded", "true");
+            embedMenuBarIfSupported();
+
         } catch (Exception cantThemeWithFlatLaf) {
             try {
                 UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -85,7 +86,22 @@ public class Schack {
 
     public static void main(String[] args) throws IOException {
         new Schack();
-new Schack();
+    }
+
+    private void embedMenuBarIfSupported() {
+        // Currently only supported in Windows 10+
+        String os = System.getProperty("os.name");
+        if (os.contains("Windows")) {
+            String versionNumberStr = os.split(" ")[1];
+            try {
+                int versionNumber = Integer.parseInt(versionNumberStr);
+                if (versionNumber >= 10) {
+                    System.setProperty("flatlaf.menuBarEmbedded", "true");
+                }
+            } catch (Exception e) {
+            }
+
+        }
     }
 
 }
