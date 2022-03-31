@@ -17,7 +17,7 @@ public final class King extends PieceKnownIfMoved {
     }
 
     private void addCastlingIfCan(Piece[][] pieces, LinkedHashSet<Point> movable, Point toMove, Point selected) {
-        if (hasMoved) {
+        if (moved) {
             return;
         }
 
@@ -27,7 +27,20 @@ public final class King extends PieceKnownIfMoved {
 
             // Kolla ifall vi kollar tornet och inget är emellan
             if (loopX == 0 && nothingInBetween) {
-                movable.add(new Point(2, this.position.y));
+
+                // Check så att man bara kan göra rockad ifall tornet inte rört sig
+                Piece p = pieces[loopX][this.position.y];
+                if (p != null) {
+                    try {
+                        PieceKnownIfMoved PKIM = (PieceKnownIfMoved) p;
+                        if (!PKIM.moved) {
+                            movable.add(new Point(2, this.position.y));
+                        }
+                    } catch (Exception e) {
+                    }
+
+                }
+
             }
 
             // Kolla ifall det är tomt emellan kung och torn
@@ -100,7 +113,7 @@ public final class King extends PieceKnownIfMoved {
 
     @Override
     public String toString() {
-        return "Piece{" + "hasMoved=" + hasMoved + "position=" + position + ", isWhite=" + isWhite + '}';
+        return "Piece{" + "hasMoved=" + moved + "position=" + position + ", isWhite=" + white + '}';
     }
 
 }

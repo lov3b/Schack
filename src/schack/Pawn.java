@@ -17,13 +17,13 @@ public class Pawn extends PieceKnownIfMoved {
         LinkedHashSet<Point> movable = new LinkedHashSet<>();
 
         // Om bonden har gått en gång, får gå 1 steg, annars 2
-        final int upTo = hasMoved ? 1 : 2;
+        final int upTo = moved ? 1 : 2;
         
         // Kolla om man kan gå rakt frak
         for (int pawnDY = 1; pawnDY <= upTo; pawnDY++) {
             System.out.println("this.position.x: " + this.position.x);
-            System.out.println("calced y: " + (this.position.y + (this.isWhite ? -pawnDY : pawnDY)));
-            Point pos = new Point(this.position.x, this.position.y + (this.isWhite ? -pawnDY : pawnDY));
+            System.out.println("calced y: " + (this.position.y + (this.white ? -pawnDY : pawnDY)));
+            Point pos = new Point(this.position.x, this.position.y + (this.white ? -pawnDY : pawnDY));
             boolean shouldBreak = addMovesIfCan(pos, movable, pieces);
             if (shouldBreak) {
                 System.out.println("should brkje!");
@@ -34,7 +34,7 @@ public class Pawn extends PieceKnownIfMoved {
         // Kolla ifall vi kan ta någon
         for (int pawnX : new int[]{-1, 1}) {
             // Position vi kollar just nu, snett upp åt höger & vänster
-            Point pos = new Point(this.position.x + pawnX, this.position.y + (this.isWhite ? -1 : 1));
+            Point pos = new Point(this.position.x + pawnX, this.position.y + (this.white ? -1 : 1));
             addAttackMovesIfCan(pos, movable, pieces);
         }
         System.out.println("len of movable: " + movable.size());
@@ -47,7 +47,7 @@ public class Pawn extends PieceKnownIfMoved {
         // Ifall det är en pjäs som står här och den inte är samma färg som oss, lägg till
         try {
             Piece p = pieces[pos.x][pos.y];
-            if (p.isWhite != this.isWhite) {
+            if (p.white != this.white) {
                 movable.add(pos);
             }
         } catch (Exception e) {
@@ -91,6 +91,6 @@ public class Pawn extends PieceKnownIfMoved {
 
     @Override
     public String toString() {
-        return "Pawn{" + "position=" + position + ", isWhite=" + isWhite + '}';
+        return "Pawn{" + "position=" + position + ", isWhite=" + white + '}';
     }
 }

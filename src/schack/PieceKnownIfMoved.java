@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public abstract class PieceKnownIfMoved extends Piece {
 
-    protected boolean hasMoved = false;
+    protected boolean moved = false;
 
     public PieceKnownIfMoved(boolean isWhite, Point startingPosition) throws IOException {
         super(isWhite, startingPosition);
@@ -19,11 +19,11 @@ public abstract class PieceKnownIfMoved extends Piece {
     @Override
     public void move(Piece[][] pieces, Point toMove, Point selected) {
         super.move(pieces, toMove, selected);
-        hasMoved = true;
+        moved = true;
     }
 
-    public boolean hasMoved() {
-        return hasMoved;
+    public boolean isMoved() {
+        return moved;
     }
 
 }

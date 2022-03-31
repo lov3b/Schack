@@ -11,16 +11,16 @@ import javax.imageio.ImageIO;
 public abstract class Piece {
 
     public Point position;
-    public boolean isWhite;
+    public boolean white;
     protected BufferedImage icon;
 
-    public Piece(boolean isWhite, Point startingPosition) throws IOException {
-        this.isWhite = isWhite;
+    public Piece(boolean white, Point startingPosition) throws IOException {
+        this.white = white;
         this.position = startingPosition;
     }
 
-    public Piece(boolean isWhite) {
-        this.isWhite = isWhite;
+    public Piece(boolean white) {
+        this.white = white;
     }
 
     public void setPosition(Point p) {
@@ -28,7 +28,7 @@ public abstract class Piece {
     }
 
     protected void setPieceIcon(String className) throws IOException {
-        String colorName = isWhite ? "White" : "Black";
+        String colorName = white ? "White" : "Black";
         String fileName = colorName + className + ".png";
         InputStream is = getClass().getResourceAsStream("/img/" + fileName);
         icon = ImageIO.read(is);
@@ -52,13 +52,12 @@ public abstract class Piece {
             pieces[toMove.x][toMove.y] = this; //new Rook(true,new Point(toMove));
             pieces[selected.x][selected.y] = null;
             this.position = new Point(toMove);
-       
 
         } catch (Exception e) {
 
         }
     }
-    
+
     protected boolean addMovesIfCan(Point pos, LinkedHashSet movable, Piece[][] pieces) {
         // Instead of checking index and null, try-catch
         try {
@@ -68,7 +67,7 @@ public abstract class Piece {
             // Ifall pjäsen här har samma färg som oss, break
             // Ifall det inte är någon pjäs här kommer det att gå ner till
             // catch(NullPointerException) och då lägger vi till detta drag i listan
-            if (p.isWhite == this.isWhite) {
+            if (p.white == this.white) {
                 return true;
             } else {
                 // Detta betyder att det är en med motsatts pjäs här
@@ -90,7 +89,11 @@ public abstract class Piece {
 
     @Override
     public String toString() {
-        return "Piece{" + "position=" + position + ", isWhite=" + isWhite + '}';
+        return "Piece{" + "position=" + position + ", isWhite=" + white + '}';
+    }
+
+    public boolean isWhite() {
+        return white;
     }
 
 }

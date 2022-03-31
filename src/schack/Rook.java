@@ -4,7 +4,7 @@ import java.awt.Point;
 import java.io.IOException;
 import java.util.LinkedHashSet;
 
-public class Rook extends Piece {
+public class Rook extends PieceKnownIfMoved {
 
     public Rook(boolean isWhite, Point startingPosition) throws IOException {
         super(isWhite, startingPosition);
