@@ -19,32 +19,32 @@ public class Rook extends PieceKnownIfMoved {
 //men jag är trög och har spenderat alldles förmycket tid på att vara trög :^)
 
         // Vänster
-        for (int rookX = this.position.x - 1; rookX >= 0; rookX--) {
-            boolean shouldBreak = addMovesIfCan(new Point(rookX, this.position.y), movable, pieces);
+        for (int loopX = this.position.x - 1; loopX >= 0; loopX--) {
+            boolean shouldBreak = addMovesIfCan(new Point(loopX, this.position.y), movable, pieces);
             if (shouldBreak) {
                 break;
             }
         }
 
         // Höger
-        for (int rookX = this.position.x + 1; rookX <= 7; rookX++) {
-            boolean shouldBreak = addMovesIfCan(new Point(rookX, this.position.y), movable, pieces);
+        for (int loopX = this.position.x + 1; loopX <= 7; loopX++) {
+            boolean shouldBreak = addMovesIfCan(new Point(loopX, this.position.y), movable, pieces);
             if (shouldBreak) {
                 break;
             }
         }
 
         // Ner
-        for (int rookY = this.position.y + 1; rookY <= 7; rookY++) {
-            boolean shouldBreak = addMovesIfCan(new Point(this.position.x, rookY), movable, pieces);
+        for (int loopY = this.position.y + 1; loopY <= 7; loopY++) {
+            boolean shouldBreak = addMovesIfCan(new Point(this.position.x, loopY), movable, pieces);
             if (shouldBreak) {
                 break;
             }
         }
 
         // Upp
-        for (int rookY = this.position.y - 1; rookY >= 0; rookY--) {
-            boolean shouldBreak = addMovesIfCan(new Point(this.position.x, rookY), movable, pieces);
+        for (int loopY = this.position.y - 1; loopY >= 0; loopY--) {
+            boolean shouldBreak = addMovesIfCan(new Point(this.position.x, loopY), movable, pieces);
             if (shouldBreak) {
                 break;
             }

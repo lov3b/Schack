@@ -16,39 +16,39 @@ public class Queen extends Piece {
         LinkedHashSet<Point> movable = new LinkedHashSet<>();
 
         // Vänster
-        for (int rookX = this.position.x - 1; rookX >= 0; rookX--) {
-            boolean shouldBreak = addMovesIfCan(new Point(rookX, this.position.y), movable, pieces);
+        for (int loopX = this.position.x - 1; loopX >= 0; loopX--) {
+            boolean shouldBreak = addMovesIfCan(new Point(loopX, this.position.y), movable, pieces);
             if (shouldBreak) {
                 break;
             }
         }
 
         // Höger
-        for (int rookX = this.position.x + 1; rookX <= 7; rookX++) {
-            boolean shouldBreak = addMovesIfCan(new Point(rookX, this.position.y), movable, pieces);
+        for (int loopX = this.position.x + 1; loopX <= 7; loopX++) {
+            boolean shouldBreak = addMovesIfCan(new Point(loopX, this.position.y), movable, pieces);
             if (shouldBreak) {
                 break;
             }
         }
 
         // Ner
-        for (int rookY = this.position.y + 1; rookY <= 7; rookY++) {
-            boolean shouldBreak = addMovesIfCan(new Point(this.position.x, rookY), movable, pieces);
+        for (int loopY = this.position.y + 1; loopY <= 7; loopY++) {
+            boolean shouldBreak = addMovesIfCan(new Point(this.position.x, loopY), movable, pieces);
             if (shouldBreak) {
                 break;
             }
         }
 
         // Upp
-        for (int rookY = this.position.y - 1; rookY >= 0; rookY--) {
-            boolean shouldBreak = addMovesIfCan(new Point(this.position.x, rookY), movable, pieces);
+        for (int loopY = this.position.y - 1; loopY >= 0; loopY--) {
+            boolean shouldBreak = addMovesIfCan(new Point(this.position.x, loopY), movable, pieces);
             if (shouldBreak) {
                 break;
             }
         }
         // Upp vänster
-        for (int bishopX = this.position.x - 1, bishopY = this.position.y - 1; bishopX >= 0 && bishopY >= 0; bishopX--, bishopY--) {
-            boolean shouldBreak = addMovesIfCan(new Point(bishopX, bishopY), movable, pieces);
+        for (int loopX = this.position.x - 1, loopY = this.position.y - 1; loopX >= 0 && loopY >= 0; loopX--, loopY--) {
+            boolean shouldBreak = addMovesIfCan(new Point(loopX, loopY), movable, pieces);
             if (shouldBreak) {
                 break;
             }
@@ -56,24 +56,24 @@ public class Queen extends Piece {
         }
 
         // Upp höger 
-        for (int bishopX = this.position.x + 1, bishopY = this.position.y - 1; bishopX <= 7 && bishopY >= 0; bishopX++, bishopY--) {
-            boolean shouldBreak = addMovesIfCan(new Point(bishopX, bishopY), movable, pieces);
+        for (int loopX = this.position.x + 1, loopY = this.position.y - 1; loopX <= 7 && loopY >= 0; loopX++, loopY--) {
+            boolean shouldBreak = addMovesIfCan(new Point(loopX, loopY), movable, pieces);
             if (shouldBreak) {
                 break;
             }
 
         }
         // Ner höger
-        for (int bishopX = this.position.x + 1, bishopY = this.position.y + 1; bishopX <= 7 && bishopY <= 7; bishopX++, bishopY++) {
-            boolean shouldBreak = addMovesIfCan(new Point(bishopX, bishopY), movable, pieces);
+        for (int loopX = this.position.x + 1, loopY = this.position.y + 1; loopX <= 7 && loopY <= 7; loopX++, loopY++) {
+            boolean shouldBreak = addMovesIfCan(new Point(loopX, loopY), movable, pieces);
             if (shouldBreak) {
                 break;
             }
 
         }
         // Ner vänster
-        for (int bishopX = this.position.x - 1, bishopY = this.position.y + 1; bishopX >= 0 && bishopY <= 7; bishopX--, bishopY++) {
-            boolean shouldBreak = addMovesIfCan(new Point(bishopX, bishopY), movable, pieces);
+        for (int loopX = this.position.x - 1, loopY = this.position.y + 1; loopX >= 0 && loopY <= 7; loopX--, loopY++) {
+            boolean shouldBreak = addMovesIfCan(new Point(loopX, loopY), movable, pieces);
             if (shouldBreak) {
                 break;
             }

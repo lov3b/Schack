@@ -20,6 +20,8 @@ public class Board extends JPanel implements MouseListener {
     private Point selectedPiece = new Point();
     private Color moveableColor = new Color(255, 191, 0);
     private boolean turn = true;
+    private LinkedHashSet<Point> whiteAttacks = new LinkedHashSet<>();
+    private LinkedHashSet<Point> blackAttacks = new LinkedHashSet<>();
 
     public Board() throws IOException {
 
@@ -129,6 +131,8 @@ public class Board extends JPanel implements MouseListener {
                 if (p.isWhite() == turn) {
                     LinkedHashSet validMoves = p.validMoves(pieces);
                     validMovesToDraw.addAll(validMoves);
+                    
+                    
                 }
             } catch (Exception e) {
                 validMovesToDraw.clear();
