@@ -19,6 +19,7 @@ public class Board extends JPanel implements MouseListener {
     private LinkedHashSet<Point> validMovesToDraw = new LinkedHashSet<>();
     private Point selectedPiece = new Point();
     private Color moveableColor = new Color(255, 191, 0);
+    private boolean turn = true;
 
     public Board() throws IOException {
 
@@ -34,8 +35,8 @@ public class Board extends JPanel implements MouseListener {
             {new Horse(false, true, new Point(1, 0)), null, null, null, null, null, null, new Horse(true, true, new Point(1, 7))},
             {new Bishop(false, new Point(2, 0)), null, null, null, null, null, null, new Bishop(true, new Point(2, 7))},
             {new Queen(false, new Point(3, 0)), null, null, null, null, null, null, new Queen(true, new Point(3, 7))},
-            {new King(false, new Point(4,0)), null, null, null, null, null, null, new King(true, new Point(4, 7))},
-            {new Bishop(false, new Point(5,0)), null, null, null, null, null, null, new Bishop(true, new Point(5, 7)) },
+            {new King(false, new Point(4, 0)), null, null, null, null, null, null, new King(true, new Point(4, 7))},
+            {new Bishop(false, new Point(5, 0)), null, null, null, null, null, null, new Bishop(true, new Point(5, 7))},
             {new Horse(false, true, new Point(6, 0)), null, null, null, null, null, null, new Horse(true, true, new Point(6, 7))},
             {new Rook(false, new Point(7, 0)), null, null, null, null, null, null, new Rook(true, new Point(7, 7))}
         };
@@ -71,9 +72,9 @@ public class Board extends JPanel implements MouseListener {
             if (piece != null) {
                 piece.draw(g2);
             }
-        }));  
+        }));
     }
-    
+
     private void drawSquares(Graphics2D g2) {
 
         g2.setBackground(Color.WHITE);
@@ -108,7 +109,8 @@ public class Board extends JPanel implements MouseListener {
             try {
                 Piece p = pieces[selectedPiece.x][selectedPiece.y];
                 p.move(pieces, clicked, selectedPiece);
-                
+                turn = !turn;
+
             } catch (Exception e) {
                 validMovesToDraw.clear();
             }
@@ -118,13 +120,16 @@ public class Board extends JPanel implements MouseListener {
             validMovesToDraw.clear();
         }
 
-
+        // Om vi inte redan har valt en pjäs klickar vi på en pjäs
         if (!validMovesToDraw.contains(clicked)) {
 
             try {
                 Piece p = pieces[mouseCoordinateX][mouseCoordinateY];
-                LinkedHashSet validMoves = p.validMoves(pieces);
-                validMovesToDraw.addAll(validMoves);
+                // Kolla endast ifall vi kan röra på pjäsen om det är samma färg som den tur vi är på
+                if (p.isWhite() == turn) {
+                    LinkedHashSet validMoves = p.validMoves(pieces);
+                    validMovesToDraw.addAll(validMoves);
+                }
             } catch (Exception e) {
                 validMovesToDraw.clear();
             }
