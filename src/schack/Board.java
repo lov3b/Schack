@@ -10,6 +10,7 @@ import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class Board extends JPanel implements MouseListener {
@@ -128,7 +129,7 @@ public class Board extends JPanel implements MouseListener {
                 Piece p = pieces[mouseCoordinateX][mouseCoordinateY];
 
                 // Kolla endast ifall vi kan röra på pjäsen om det är samma färg som den tur vi är på
-                if (p.isWhite() == turn||developerMode) {
+                if (p.isWhite() == turn || developerMode) {
 
                     LinkedHashSet<Point> blackAttacks = new LinkedHashSet<>();
                     LinkedHashSet<Point> whiteAttacks = new LinkedHashSet<>();
@@ -150,8 +151,24 @@ public class Board extends JPanel implements MouseListener {
                     }
 
                     LinkedHashSet validMoves = p.validMoves(pieces);
+
+                    // Funkar
+                    if (p.supremeRuler) {
+                        validMoves.removeAll(turn ? blackAttacks : whiteAttacks);
+                    }
+                    // Funkar inte
+                    for (Point attack : turn ? whiteAttacks : blackAttacks) {
+                        Piece attacked = pieces[attack.x][attack.x];
+                        if (attacked == null) {
+                            continue;
+                        }
+                        if (attacked.supremeRuler) {
+                            JOptionPane.showMessageDialog(this, "Du står i schack");
+                        }
+
+                    }
+
                     validMovesToDraw.addAll(validMoves);
-                    validMovesToDraw.addAll(blackAttacks);
 
                 }
             } catch (Exception e) {

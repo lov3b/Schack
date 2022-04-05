@@ -10,6 +10,7 @@ public final class King extends PieceKnownIfMoved {
     public King(boolean isWhite, Point startingPosition) throws IOException {
         super(isWhite, startingPosition);
         setPieceIcon("King");
+        supremeRuler= true;                
     }
 
     public boolean isSeen(ArrayList<Piece> pieces) {

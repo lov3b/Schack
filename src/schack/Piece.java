@@ -12,6 +12,8 @@ public abstract class Piece {
 
     public Point position;
     public boolean white;
+    /** SPECIAL RULÖES APPLY TO THE KING, (ITS GOOD TO BE THE KING:)*/
+    public boolean supremeRuler= false;
     protected BufferedImage icon;
 
     public Piece(boolean white, Point startingPosition) throws IOException {
