@@ -12,13 +12,34 @@ public class Pawn extends PieceKnownIfMoved {
     }
 
     @Override
+    public LinkedHashSet<Point> validAttacks(Piece[][] pieces) {
+        LinkedHashSet<Point> movable = new LinkedHashSet<>();
+
+        // Kolla ifall vi kan ta någon
+        for (int pawnX : new int[]{-1, 1}) {
+            // Position vi kollar just nu, snett upp åt höger & vänster
+            try {
+                Point pos = new Point(this.position.x + pawnX, this.position.y + (this.white ? -1 : 1));
+                Piece piece = pieces[pos.x][pos.y];
+                if (piece == null || piece.white != piece.white) {
+                    movable.add(pos);
+                }
+            } catch (Exception e) {
+                // Out of bounds
+            }
+        }
+
+        return movable;
+    }
+
+    @Override
     public LinkedHashSet<Point> validMoves(Piece[][] pieces) {
         // TODO: Lösa bugg där bunder på kanterna inte kan röra sig
         LinkedHashSet<Point> movable = new LinkedHashSet<>();
 
         // Om bonden har gått en gång, får gå 1 steg, annars 2
         final int upTo = moved ? 1 : 2;
-        
+
         // Kolla om man kan gå rakt frak
         for (int pawnDY = 1; pawnDY <= upTo; pawnDY++) {
             System.out.println("this.position.x: " + this.position.x);

@@ -36,6 +36,10 @@ public abstract class Piece {
 
     public abstract LinkedHashSet<Point> validMoves(Piece[][] pieces);
 
+    public LinkedHashSet<Point> validAttacks(Piece[][] pieces) {
+        return validMoves(pieces);
+    }
+
     public void draw(Graphics2D g2) {
 
         g2.drawImage(

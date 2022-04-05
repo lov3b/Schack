@@ -20,8 +20,7 @@ public class Board extends JPanel implements MouseListener {
     private Point selectedPiece = new Point();
     private Color moveableColor = new Color(255, 191, 0);
     private boolean turn = true;
-    private LinkedHashSet<Point> whiteAttacks = new LinkedHashSet<>();
-    private LinkedHashSet<Point> blackAttacks = new LinkedHashSet<>();
+    public boolean developerMode = false;
 
     public Board() throws IOException {
 
@@ -127,12 +126,33 @@ public class Board extends JPanel implements MouseListener {
 
             try {
                 Piece p = pieces[mouseCoordinateX][mouseCoordinateY];
+
                 // Kolla endast ifall vi kan röra på pjäsen om det är samma färg som den tur vi är på
-                if (p.isWhite() == turn) {
+                if (p.isWhite() == turn||developerMode) {
+
+                    LinkedHashSet<Point> blackAttacks = new LinkedHashSet<>();
+                    LinkedHashSet<Point> whiteAttacks = new LinkedHashSet<>();
+
+                    // Fråga alla pjäser vart de kan gå/ta
+                    for (Piece[] pieceArr : pieces) {
+                        for (Piece piece : pieceArr) {
+                            // Ifall det är tomrum skippa
+                            if (piece == null) {
+                                continue;
+                            }
+                            // Lägg till alla attacker för respektive färg
+                            if (piece.white) {
+                                whiteAttacks.addAll(piece.validAttacks(pieces));
+                            } else {
+                                blackAttacks.addAll(piece.validAttacks(pieces));
+                            }
+                        }
+                    }
+
                     LinkedHashSet validMoves = p.validMoves(pieces);
                     validMovesToDraw.addAll(validMoves);
-                    
-                    
+                    validMovesToDraw.addAll(blackAttacks);
+
                 }
             } catch (Exception e) {
                 validMovesToDraw.clear();
