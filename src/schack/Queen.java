@@ -18,6 +18,7 @@ public class Queen extends Piece {
         // Vänster
         for (int loopX = this.position.x - 1; loopX >= 0; loopX--) {
             boolean shouldBreak = addMovesIfCan(new Point(loopX, this.position.y), movable, pieces);
+            
             if (shouldBreak) {
                 break;
             }
