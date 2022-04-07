@@ -156,7 +156,7 @@ public class Board extends JPanel implements MouseListener {
                     if (p.supremeRuler) {
                         validMoves.removeAll(turn ? blackAttacks : whiteAttacks);
                     }
-                    // Funkar inte
+                    // Kollar ifall kungen står i schack just nu
                     for (Point attack : turn ? blackAttacks  : whiteAttacks) {
                         Piece attacked = pieces[attack.x][attack.y];
                         if (attacked == null) {
