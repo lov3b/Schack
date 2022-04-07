@@ -10,7 +10,7 @@ public final class King extends PieceKnownIfMoved {
     public King(boolean isWhite, Point startingPosition) throws IOException {
         super(isWhite, startingPosition);
         setPieceIcon("King");
-        supremeRuler= true;                
+        supremeRuler = true;
     }
 
     public boolean isSeen(ArrayList<Piece> pieces) {
@@ -111,13 +111,9 @@ public final class King extends PieceKnownIfMoved {
         addCastlingIfCan(pieces, movable, position, position);
         return movable;
     }
-    
-    private boolean chechCheck(Piece[][] pieces, Point point ){
-        
-        
-        
-        
-        
+
+    private boolean chechCheck(Piece[][] pieces, Point point) {
+
         return false;
     }
 
