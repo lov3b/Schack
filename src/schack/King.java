@@ -96,7 +96,7 @@ public final class King extends PieceKnownIfMoved {
     }
 
     @Override
-    public LinkedHashSet<Point> validMoves(Piece[][] pieces) {
+    public LinkedHashSet<Point> validMoves(Piece[][] pieces, boolean isSelected) {
         LinkedHashSet<Point> movable = new LinkedHashSet<>();
 
         for (int loopX = -1; loopX < 2; loopX++) {
@@ -104,7 +104,7 @@ public final class King extends PieceKnownIfMoved {
                 if (loopY == 0 && loopX == 0) {
                     continue;
                 }
-                addMovesIfCan(new Point(this.position.x + loopX, this.position.y + loopY), movable, pieces);
+                addMovesIfCan(new Point(this.position.x + loopX, this.position.y + loopY), movable, pieces,  isSelected);
             }
 
         }

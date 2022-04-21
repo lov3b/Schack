@@ -1,6 +1,5 @@
 package schack;
 
-import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.net.InetAddress;
@@ -24,8 +23,8 @@ public class Schack {
         // Set theme
         try {
 //            FlatSolarizedLightIJTheme.setup();
-            FlatLightLaf.setup();
-            embedMenuBarIfSupported();
+            //FlatLightLaf.setup();
+            //embedMenuBarIfSupported();
 
         } catch (Exception cantThemeWithFlatLaf) {
             try {

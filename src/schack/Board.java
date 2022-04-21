@@ -20,7 +20,7 @@ public class Board extends JPanel implements MouseListener {
     private LinkedHashSet<Point> validMovesToDraw = new LinkedHashSet<>();
     private Point selectedPiece = new Point();
     private Color moveableColor = new Color(255, 191, 0);
-    private boolean turn = true;
+    public static boolean turn = true;
     public boolean developerMode = false;
 
     public Board() throws IOException {
@@ -126,10 +126,10 @@ public class Board extends JPanel implements MouseListener {
         if (!validMovesToDraw.contains(clicked)) {
 
             try {
-                Piece p = pieces[mouseCoordinateX][mouseCoordinateY];
+                Piece selectedPiece = pieces[mouseCoordinateX][mouseCoordinateY];
 
                 // Kolla endast ifall vi kan röra på pjäsen om det är samma färg som den tur vi är på
-                if (p.isWhite() == turn || developerMode) {
+                if (selectedPiece.isWhite() == turn || developerMode) {
 
                     LinkedHashSet<Point> blackAttacks = new LinkedHashSet<>();
                     LinkedHashSet<Point> whiteAttacks = new LinkedHashSet<>();
@@ -150,14 +150,15 @@ public class Board extends JPanel implements MouseListener {
                         }
                     }
 
-                    LinkedHashSet validMoves = p.validMoves(pieces);
+                    LinkedHashSet<Point> validMoves = selectedPiece.validMoves(pieces, true);
 
                     // Funkar
-                    if (p.supremeRuler) {
+                    if (selectedPiece.supremeRuler) {
                         validMoves.removeAll(turn ? blackAttacks : whiteAttacks);
                     }
+
                     // Kollar ifall kungen står i schack just nu
-                    for (Point attack : turn ? blackAttacks  : whiteAttacks) {
+                    for (Point attack : turn ? blackAttacks : whiteAttacks) {
                         Piece attacked = pieces[attack.x][attack.y];
                         if (attacked == null) {
                             continue;

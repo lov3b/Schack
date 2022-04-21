@@ -12,7 +12,7 @@ public class Rook extends PieceKnownIfMoved {
     }
 
     @Override
-    public LinkedHashSet<Point> validMoves(Piece[][] pieces) {
+    public LinkedHashSet<Point> validMoves(Piece[][] pieces, boolean isSelected) {
         LinkedHashSet<Point> movable = new LinkedHashSet<>();
 //Behöver skriva att om rookX = this.position.x så ska vi istället loopa igenom 
 //int rookY = 0-this.position.y; rookY < 8-this.position.Y; rookY++
@@ -20,7 +20,7 @@ public class Rook extends PieceKnownIfMoved {
 
         // Vänster
         for (int loopX = this.position.x - 1; loopX >= 0; loopX--) {
-            boolean shouldBreak = addMovesIfCan(new Point(loopX, this.position.y), movable, pieces);
+            boolean shouldBreak = addMovesIfCan(new Point(loopX, this.position.y), movable, pieces, isSelected);
             if (shouldBreak) {
                 break;
             }
@@ -28,7 +28,7 @@ public class Rook extends PieceKnownIfMoved {
 
         // Höger
         for (int loopX = this.position.x + 1; loopX <= 7; loopX++) {
-            boolean shouldBreak = addMovesIfCan(new Point(loopX, this.position.y), movable, pieces);
+            boolean shouldBreak = addMovesIfCan(new Point(loopX, this.position.y), movable, pieces, isSelected);
             if (shouldBreak) {
                 break;
             }
@@ -36,7 +36,7 @@ public class Rook extends PieceKnownIfMoved {
 
         // Ner
         for (int loopY = this.position.y + 1; loopY <= 7; loopY++) {
-            boolean shouldBreak = addMovesIfCan(new Point(this.position.x, loopY), movable, pieces);
+            boolean shouldBreak = addMovesIfCan(new Point(this.position.x, loopY), movable, pieces, isSelected);
             if (shouldBreak) {
                 break;
             }
@@ -44,7 +44,7 @@ public class Rook extends PieceKnownIfMoved {
 
         // Upp
         for (int loopY = this.position.y - 1; loopY >= 0; loopY--) {
-            boolean shouldBreak = addMovesIfCan(new Point(this.position.x, loopY), movable, pieces);
+            boolean shouldBreak = addMovesIfCan(new Point(this.position.x, loopY), movable, pieces, isSelected);
             if (shouldBreak) {
                 break;
             }

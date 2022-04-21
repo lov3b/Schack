@@ -12,7 +12,7 @@ public class Horse extends Piece {
     }
 
     @Override
-    public LinkedHashSet<Point> validMoves(Piece[][] pieces) {
+    public LinkedHashSet<Point> validMoves(Piece[][] pieces, boolean isSelected) {
         LinkedHashSet<Point> movable = new LinkedHashSet<>();
 
         // Postitioner att checka
@@ -37,7 +37,7 @@ public class Horse extends Piece {
 
         for (Point pos : positions) {
             // Ifall en är blockerad så ska vi inte sluta kolla
-            addMovesIfCan(pos, movable, pieces);
+            addMovesIfCan(pos, movable, pieces, isSelected);
         }
 
         return movable;

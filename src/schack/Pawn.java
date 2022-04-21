@@ -32,7 +32,7 @@ public class Pawn extends PieceKnownIfMoved {
     }
 
     @Override
-    public LinkedHashSet<Point> validMoves(Piece[][] pieces) {
+    public LinkedHashSet<Point> validMoves(Piece[][] pieces, boolean isSelected) {
         // TODO: Lösa bugg där bunder på kanterna inte kan röra sig
         LinkedHashSet<Point> movable = new LinkedHashSet<>();
 
@@ -44,7 +44,7 @@ public class Pawn extends PieceKnownIfMoved {
             System.out.println("this.position.x: " + this.position.x);
             System.out.println("calced y: " + (this.position.y + (this.white ? -pawnDY : pawnDY)));
             Point pos = new Point(this.position.x, this.position.y + (this.white ? -pawnDY : pawnDY));
-            boolean shouldBreak = addMovesIfCan(pos, movable, pieces);
+            boolean shouldBreak = addMovesIfCan(pos, movable, pieces, isSelected);
             if (shouldBreak) {
                 System.out.println("should brkje!");
                 break;
@@ -75,7 +75,7 @@ public class Pawn extends PieceKnownIfMoved {
     }
 
     @Override
-    protected boolean addMovesIfCan(Point pos, LinkedHashSet movable, Piece[][] pieces) {
+    protected boolean addMovesIfCan(Point pos, LinkedHashSet movable, Piece[][] pieces, boolean isSelected) {
         if (pos.x < 0 || pos.x > 7 || pos.y < 0 || pos.y > 7) {
             return false;
         }
