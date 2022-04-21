@@ -18,14 +18,13 @@ public class Pawn extends PieceKnownIfMoved {
         // Kolla ifall vi kan ta någon
         for (int pawnX : new int[]{-1, 1}) {
             // Position vi kollar just nu, snett upp åt höger & vänster
-            try {
-                Point pos = new Point(this.position.x + pawnX, this.position.y + (this.white ? -1 : 1));
-                Piece piece = pieces[pos.x][pos.y];
-                if (piece == null || piece.white != piece.white) {
-                    movable.add(pos);
-                }
-            } catch (Exception e) {
-                // Out of bounds
+            Point pos = new Point(this.position.x + pawnX, this.position.y + (this.white ? -1 : 1));
+            if (pos.x < 0 || pos.x > 7 || pos.y < 0 || pos.y > 7) {
+                continue;
+            }
+            Piece piece = pieces[pos.x][pos.y];
+            if (piece == null || piece.white != piece.white) {
+                movable.add(pos);
             }
         }
 
