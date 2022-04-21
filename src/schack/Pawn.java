@@ -33,7 +33,6 @@ public class Pawn extends PieceKnownIfMoved {
 
     @Override
     public LinkedHashSet<Point> validMoves(Piece[][] pieces, boolean isSelected) {
-        // TODO: Lösa bugg där bunder på kanterna inte kan röra sig
         LinkedHashSet<Point> movable = new LinkedHashSet<>();
 
         // Om bonden har gått en gång, får gå 1 steg, annars 2
@@ -41,8 +40,6 @@ public class Pawn extends PieceKnownIfMoved {
 
         // Kolla om man kan gå rakt frak
         for (int pawnDY = 1; pawnDY <= upTo; pawnDY++) {
-            System.out.println("this.position.x: " + this.position.x);
-            System.out.println("calced y: " + (this.position.y + (this.white ? -pawnDY : pawnDY)));
             Point pos = new Point(this.position.x, this.position.y + (this.white ? -pawnDY : pawnDY));
             boolean shouldBreak = addMovesIfCan(pos, movable, pieces, isSelected);
             if (shouldBreak) {
@@ -68,7 +65,8 @@ public class Pawn extends PieceKnownIfMoved {
         try {
             Piece p = pieces[pos.x][pos.y];
             if (p.white != this.white) {
-                movable.add(pos);
+                tryToMoveAndCheckIfCheck(pieces, movable, pos);
+
             }
         } catch (Exception e) {
         }
@@ -98,7 +96,7 @@ public class Pawn extends PieceKnownIfMoved {
             }
         } catch (NullPointerException npe) {
             // This is an empty spot
-            movable.add(pos);
+            tryToMoveAndCheckIfCheck(pieces, movable, pos);
         } catch (IndexOutOfBoundsException ioobe) {
             // This means that the player is at the edge
             System.out.println(pos);

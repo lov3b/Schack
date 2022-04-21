@@ -84,29 +84,8 @@ public abstract class Piece {
                 // Vi kan ta men inte gå längre.
                 if (!isSelected) {
                     movable.add(pos);
-                    return true;
-                }
-
-                // Kom ihåg vart vi var
-                Point previousPosition = new Point(this.position);
-
-                // Kom ihåg motståndarpjäs
-                Piece opponentPiece = pieces[pos.x][pos.y];
-
-                // Testa att flytta
-                pieces[pos.x][pos.y] = this;
-                pieces[previousPosition.x][previousPosition.y] = null;
-                this.position = new Point(pos);
-
-                boolean inSchack = checkIfSchack(pos, pieces);
-
-                // Flytta tillbaka
-                pieces[previousPosition.x][previousPosition.y] = this;
-                pieces[pos.x][pos.y] = opponentPiece;
-                this.position = new Point(previousPosition);
-
-                if (!inSchack) {
-                    movable.add(pos);
+                } else {
+                    tryToMoveAndCheckIfCheck(pieces, movable, pos);
                 }
                 return true;
 
@@ -118,24 +97,7 @@ public abstract class Piece {
                 return false;
             }
 
-            // Kom ihåg vart vi var
-            Point previousPosition = new Point(this.position);
-
-            // Testa att flytta
-            pieces[pos.x][pos.y] = this;
-            pieces[previousPosition.x][previousPosition.y] = null;
-            this.position = new Point(pos);
-
-            boolean inSchack = checkIfSchack(pos, pieces);
-
-            // Flytta tillbaka
-            pieces[previousPosition.x][previousPosition.y] = this;
-            pieces[pos.x][pos.y] = null;
-            this.position = new Point(previousPosition);
-
-            if (!inSchack) {
-                movable.add(pos);
-            }
+            tryToMoveAndCheckIfCheck(pieces, movable, pos);
             return false;
 
         } catch (IndexOutOfBoundsException ioobe) {
@@ -145,6 +107,30 @@ public abstract class Piece {
         }
         return false;
 
+    }
+
+    void tryToMoveAndCheckIfCheck(Piece[][] pieces, LinkedHashSet movable, Point pos) {
+        // Kom ihåg vart vi var
+        Point previousPosition = new Point(this.position);
+
+        // Kom ihåg motståndarpjäs
+        Piece opponentPiece = pieces[pos.x][pos.y];
+
+        // Testa att flytta
+        pieces[pos.x][pos.y] = this;
+        pieces[previousPosition.x][previousPosition.y] = null;
+        this.position = new Point(pos);
+
+        boolean inSchack = checkIfSchack(pos, pieces);
+
+        // Flytta tillbaka
+        pieces[previousPosition.x][previousPosition.y] = this;
+        pieces[pos.x][pos.y] = opponentPiece;
+        this.position = new Point(previousPosition);
+
+        if (!inSchack) {
+            movable.add(pos);
+        }
     }
 
     boolean checkIfSchack(Point pos, Piece[][] pieces) {
