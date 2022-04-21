@@ -82,8 +82,34 @@ public abstract class Piece {
             } else {
                 // Detta betyder att det är en med motsatts pjäs här
                 // Vi kan ta men inte gå längre.
-                movable.add(pos);
+                if (!isSelected) {
+                    movable.add(pos);
+                    return true;
+                }
+
+                // Kom ihåg vart vi var
+                Point previousPosition = new Point(this.position);
+
+                // Kom ihåg motståndarpjäs
+                Piece opponentPiece = pieces[pos.x][pos.y];
+
+                // Testa att flytta
+                pieces[pos.x][pos.y] = this;
+                pieces[previousPosition.x][previousPosition.y] = null;
+                this.position = new Point(pos);
+
+                boolean inSchack = checkIfSchack(pos, pieces);
+
+                // Flytta tillbaka
+                pieces[previousPosition.x][previousPosition.y] = this;
+                pieces[pos.x][pos.y] = opponentPiece;
+                this.position = new Point(previousPosition);
+
+                if (!inSchack) {
+                    movable.add(pos);
+                }
                 return true;
+
             }
         } catch (NullPointerException npe) {
             // Detta är en tom plats, vi ska inte breaka
