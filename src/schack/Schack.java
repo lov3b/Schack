@@ -25,7 +25,7 @@ public class Schack {
 //            FlatSolarizedLightIJTheme.setup();
             //FlatLightLaf.setup();
             //embedMenuBarIfSupported();
-
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception cantThemeWithFlatLaf) {
             try {
                 UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
