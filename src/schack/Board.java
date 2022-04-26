@@ -8,8 +8,10 @@ import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
+import java.util.stream.Collectors;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -130,47 +132,65 @@ public class Board extends JPanel implements MouseListener {
 
                 // Kolla endast ifall vi kan röra på pjäsen om det är samma färg som den tur vi är på
                 if (selectedPiece.isWhite() == turn || developerMode) {
+                    ArrayList<Point> attacks = checkAttacks(turn);
 
-                    LinkedHashSet<Point> blackAttacks = new LinkedHashSet<>();
-                    LinkedHashSet<Point> whiteAttacks = new LinkedHashSet<>();
+                    LinkedHashSet<Point> validMoves = selectedPiece.validMoves(pieces, true);
+                    // Kolla ifall vi kan röra oss
+                    // Loopa igenom allt
+                    System.out.println("\n\n\n\n\n\n");
 
-                    // Fråga alla pjäser vart de kan gå/ta
+                    LinkedHashSet<Point> allValidMoves = new LinkedHashSet<>();
                     for (Piece[] pieceArr : pieces) {
                         for (Piece piece : pieceArr) {
-                            // Ifall det är tomrum skippa
-                            if (piece == null) {
+                            if (piece == null || turn != piece.white) {
                                 continue;
                             }
-                            // Lägg till alla attacker för respektive färg
-                            if (piece.white) {
-                                whiteAttacks.addAll(piece.validAttacks(pieces));
-                            } else {
-                                blackAttacks.addAll(piece.validAttacks(pieces));
-                            }
+                            // Kolla ifall vi är samma färg som får röra sig
+                            // Ifall en pjäs får röra sig sätt weCanMove till sant och sluta 
+                            allValidMoves.addAll(piece.validMoves(pieces, turn));
                         }
                     }
 
-                    LinkedHashSet<Point> validMoves = selectedPiece.validMoves(pieces, true);
-
                     // Funkar
                     if (selectedPiece.supremeRuler) {
-                        validMoves.removeAll(turn ? blackAttacks : whiteAttacks);
+                        validMoves.removeAll(attacks);
                     }
 
+                    allValidMoves.removeAll(attacks);
+                    boolean weCanMove = allValidMoves.size() > 0;
+
+                    boolean hasShowedMessageAboutSchack = false;
+                    System.out.println("turn: " + (turn ? "white" : "black"));
+                    System.out.println("All valid moves: " + allValidMoves);
+                    System.out.println("WeCanMo´vsadadade: " + weCanMove);
+
+                    ArrayList<Point> opposingAttacks = checkAttacks(!turn);
+                    System.out.println("opposingAttacks: "+opposingAttacks);
+                    System.out.println("attacks: "+attacks);
+                    opposingAttacks.removeAll(allValidMoves);
+
                     // Kollar ifall kungen står i schack just nu
-                    for (Point attack : turn ? blackAttacks : whiteAttacks) {
+                    for (Point attack : opposingAttacks) {
                         Piece attacked = pieces[attack.x][attack.y];
                         if (attacked == null) {
                             continue;
                         }
                         if (attacked.supremeRuler) {
-                            JOptionPane.showMessageDialog(this, "Du står i schack");
+                            // Kolla ifall vi är i schackmatt
+                            if (weCanMove) {
+                                JOptionPane.showMessageDialog(this, "Du står i schack");
+                            } else {
+                                JOptionPane.showMessageDialog(this, "Schackmatt");
+                            }
+                            hasShowedMessageAboutSchack = true;
                         }
+                    }
+                    if (!hasShowedMessageAboutSchack && !weCanMove) {
+                        JOptionPane.showMessageDialog(this, "Patt");
 
                     }
 
                     validMovesToDraw.addAll(validMoves);
-
                 }
             } catch (Exception e) {
                 validMovesToDraw.clear();
@@ -178,7 +198,25 @@ public class Board extends JPanel implements MouseListener {
         } else {
             validMovesToDraw.clear();
         }
-        getParent().repaint();
+
+        getParent()
+                .repaint();
+    }
+
+    public ArrayList<Point> checkAttacks(boolean preferedColor) {
+        ArrayList attacks = new ArrayList();
+        for (Piece[] pieceArr : pieces) {
+            for (Piece piece : pieceArr) {
+                // Ifall det är tomrum skippa
+                if (piece == null || preferedColor != piece.white) {
+                    continue;
+                }
+                // Lägg till alla attacker för respektive färg
+                attacks.addAll(piece.validAttacks(pieces));
+            }
+        }
+
+        return attacks;
     }
 
     @Override
