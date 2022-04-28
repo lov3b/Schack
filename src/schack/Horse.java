@@ -3,7 +3,7 @@ package schack;
 import java.awt.Point;
 import java.io.IOException;
 import static java.lang.Math.abs;
-import java.util.LinkedHashSet;
+import java.util.ArrayList;
 
 public class Horse extends Piece {
 
@@ -13,8 +13,8 @@ public class Horse extends Piece {
     }
 
     @Override
-    public LinkedHashSet<Point> validMoves(Piece[][] pieces, boolean isSelected) {
-        LinkedHashSet<Point> movable = new LinkedHashSet<>();
+    public ArrayList<Point> validMoves(Piece[][] pieces, boolean isSelected) {
+        ArrayList<Point> movable = new ArrayList<>();
 
         // TODO: Integrera
         /*

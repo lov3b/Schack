@@ -2,7 +2,7 @@ package schack;
 
 import java.awt.Point;
 import java.io.IOException;
-import java.util.LinkedHashSet;
+import java.util.ArrayList;
 
 public class Pawn extends PieceKnownIfMoved {
 
@@ -12,8 +12,8 @@ public class Pawn extends PieceKnownIfMoved {
     }
 
     @Override
-    public LinkedHashSet<Point> validAttacks(Piece[][] pieces) {
-        LinkedHashSet<Point> movable = new LinkedHashSet<>();
+    public ArrayList<Point> validAttacks(Piece[][] pieces) {
+        ArrayList<Point> movable = new ArrayList<>();
 
         // Kolla ifall vi kan ta någon
         for (int pawnX : new int[]{-1, 1}) {
@@ -32,8 +32,8 @@ public class Pawn extends PieceKnownIfMoved {
     }
 
     @Override
-    public LinkedHashSet<Point> validMoves(Piece[][] pieces, boolean isSelected) {
-        LinkedHashSet<Point> movable = new LinkedHashSet<>();
+    public ArrayList<Point> validMoves(Piece[][] pieces, boolean isSelected) {
+        ArrayList<Point> movable = new ArrayList<>();
 
         // Om bonden har gått en gång, får gå 1 steg, annars 2
         final int upTo = moved ? 1 : 2;
@@ -59,7 +59,7 @@ public class Pawn extends PieceKnownIfMoved {
     }
 
     // Känns som det här skulle kunnat vara i validMoves, men nu är det såhär
-    private void addAttackMovesIfCan(Point pos, LinkedHashSet movable, Piece[][] pieces) {
+    private void addAttackMovesIfCan(Point pos, ArrayList movable, Piece[][] pieces) {
 
         // Ifall det är en pjäs som står här och den inte är samma färg som oss, lägg till
         try {
@@ -73,7 +73,7 @@ public class Pawn extends PieceKnownIfMoved {
     }
 
     @Override
-    protected boolean addMovesIfCan(Point pos, LinkedHashSet movable, Piece[][] pieces, boolean isSelected) {
+    protected boolean addMovesIfCan(Point pos, ArrayList movable, Piece[][] pieces, boolean isSelected) {
         if (pos.x < 0 || pos.x > 7 || pos.y < 0 || pos.y > 7) {
             return false;
         }

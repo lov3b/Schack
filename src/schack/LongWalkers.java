@@ -2,7 +2,7 @@ package schack;
 
 import java.awt.Point;
 import java.io.IOException;
-import java.util.LinkedHashSet;
+import java.util.ArrayList;
 
 public abstract class LongWalkers extends PieceKnownIfMoved {
 
@@ -10,8 +10,8 @@ public abstract class LongWalkers extends PieceKnownIfMoved {
         super(isWhite, startingPosition);
     }
 
-    LinkedHashSet<Point> getMoves(int[][] directions, Piece[][] pieces, boolean isSelected) {
-        LinkedHashSet<Point> movable = new LinkedHashSet<>();
+    ArrayList<Point> getMoves(int[][] directions, Piece[][] pieces, boolean isSelected) {
+        ArrayList<Point> movable = new ArrayList<>();
 
         for (int[] xy : directions) {
             int loopX = this.position.x, loopY = this.position.y;

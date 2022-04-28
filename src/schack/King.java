@@ -3,7 +3,6 @@ package schack;
 import java.awt.Point;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 
 public final class King extends PieceKnownIfMoved {
 
@@ -13,11 +12,7 @@ public final class King extends PieceKnownIfMoved {
         supremeRuler = true;
     }
 
-    public boolean isSeen(ArrayList<Piece> pieces) {
-        return true;
-    }
-
-    private void addCastlingIfCan(Piece[][] pieces, LinkedHashSet<Point> movable, Point toMove, Point selected) {
+    private void addCastlingIfCan(Piece[][] pieces, ArrayList<Point> movable, Point toMove, Point selected) {
         if (moved) {
             return;
         }
@@ -96,8 +91,8 @@ public final class King extends PieceKnownIfMoved {
     }
 
     @Override
-    public LinkedHashSet<Point> validMoves(Piece[][] pieces, boolean isSelected) {
-        LinkedHashSet<Point> movable = new LinkedHashSet<>();
+    public ArrayList<Point> validMoves(Piece[][] pieces, boolean isSelected) {
+        ArrayList<Point> movable = new ArrayList<>();
 
         for (int loopX = -1; loopX < 2; loopX++) {
             for (int loopY = -1; loopY < 2; loopY++) {
@@ -110,11 +105,6 @@ public final class King extends PieceKnownIfMoved {
         }
         addCastlingIfCan(pieces, movable, position, position);
         return movable;
-    }
-
-    private boolean chechCheck(Piece[][] pieces, Point point) {
-
-        return false;
     }
 
     @Override

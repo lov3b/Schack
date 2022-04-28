@@ -5,10 +5,8 @@ import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.LinkedHashSet;
+import java.util.ArrayList;
 import javax.imageio.ImageIO;
-import javax.swing.JOptionPane;
-import static schack.Board.turn;
 
 public abstract class Piece {
 
@@ -40,9 +38,9 @@ public abstract class Piece {
         icon = ImageIO.read(is);
     }
 
-    public abstract LinkedHashSet<Point> validMoves(Piece[][] pieces, boolean isSelected);
+    public abstract ArrayList<Point> validMoves(Piece[][] pieces, boolean isSelected);
 
-    public LinkedHashSet<Point> validAttacks(Piece[][] pieces) {
+    public ArrayList<Point> validAttacks(Piece[][] pieces) {
         return validMoves(pieces, false);
     }
 
@@ -68,7 +66,7 @@ public abstract class Piece {
         }
     }
 
-    protected boolean addMovesIfCan(Point pos, LinkedHashSet movable, Piece[][] pieces, boolean isSelected) {
+    protected boolean addMovesIfCan(Point pos, ArrayList movable, Piece[][] pieces, boolean isSelected) {
         // Instead of checking index and null, try-catch
         try {
             // Ifall vi kollar utanför brädet kommer detta att faila
@@ -109,7 +107,7 @@ public abstract class Piece {
 
     }
 
-    void tryToMoveAndCheckIfCheck(Piece[][] pieces, LinkedHashSet movable, Point pos) {
+    void tryToMoveAndCheckIfCheck(Piece[][] pieces, ArrayList movable, Point pos) {
         // Kom ihåg vart vi var
         Point previousPosition = new Point(this.position);
 
@@ -136,7 +134,7 @@ public abstract class Piece {
     boolean checkIfSchack(Point pos, Piece[][] pieces) {
         boolean ourColor = this.isWhite();
         Piece selectedPiece = this;
-        LinkedHashSet<Point> attacks = new LinkedHashSet<>();
+        ArrayList<Point> attacks = new ArrayList<>();
 
         // Fråga alla pjäser vart de kan gå/ta
         for (Piece[] pieceArr : pieces) {

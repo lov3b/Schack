@@ -8,10 +8,8 @@ import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedHashSet;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -19,8 +17,8 @@ public class Board extends JPanel implements MouseListener {
 
     public static final int SIZE_OF_TILE = 100;
     private Piece[][] pieces = new Piece[8][8];
-    private LinkedHashSet<Point> validMovesToDraw = new LinkedHashSet<>();
-    private LinkedHashSet<Point> validDebugMovesToDraw = new LinkedHashSet<>();
+    private ArrayList<Point> validMovesToDraw = new ArrayList<>();
+    private ArrayList<Point> validDebugMovesToDraw = new ArrayList<>();
     private Point selectedPiece = new Point();
     private Color moveableColor = new Color(255, 191, 0);
     public static boolean turn = true;
@@ -142,12 +140,12 @@ public class Board extends JPanel implements MouseListener {
                 if (selectedPiece.isWhite() == turn || developerMode) {
                     ArrayList<Point> attacks = checkAttacks(turn);
 
-                    LinkedHashSet<Point> validMoves = selectedPiece.validMoves(pieces, true);
+                    ArrayList<Point> validMoves = selectedPiece.validMoves(pieces, true);
                     // Kolla ifall vi kan röra oss
                     // Loopa igenom allt
                     System.out.println("\n\n\n\n\n\n");
 
-                    LinkedHashSet<Point> allValidMoves = new LinkedHashSet<>();
+                    ArrayList<Point> allValidMoves = new ArrayList<>();
                     for (Piece[] pieceArr : pieces) {
                         for (Piece piece : pieceArr) {
                             if (piece == null || turn != piece.white) {
