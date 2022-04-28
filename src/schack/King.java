@@ -99,17 +99,12 @@ public final class King extends PieceKnownIfMoved {
                 if (loopY == 0 && loopX == 0) {
                     continue;
                 }
-                addMovesIfCan(new Point(this.position.x + loopX, this.position.y + loopY), movable, pieces,  isSelected);
+                addMovesIfCan(new Point(this.position.x + loopX, this.position.y + loopY), movable, pieces, isSelected);
             }
 
         }
         addCastlingIfCan(pieces, movable, position, position);
         return movable;
-    }
-
-    @Override
-    public String toString() {
-        return "Piece{" + "hasMoved=" + moved + "position=" + position + ", isWhite=" + white + '}';
     }
 
 }

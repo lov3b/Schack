@@ -107,8 +107,4 @@ public class Pawn extends PieceKnownIfMoved {
 
     }
 
-    @Override
-    public String toString() {
-        return "Pawn{" + "position=" + position + ", isWhite=" + white + '}';
-    }
 }

@@ -164,7 +164,8 @@ public abstract class Piece {
 
     @Override
     public String toString() {
-        return "Piece{" + "position=" + position + ", isWhite=" + white + '}';
+        return this.getClass().getSimpleName() + "{" + "position=" + position + ", isWhite=" + white + '}';
+//        return "Piece{" + "position=" + position + ", isWhite=" + white + '}';
     }
 
     public boolean isWhite() {

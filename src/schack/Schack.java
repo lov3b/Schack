@@ -23,7 +23,7 @@ public class Schack {
         // Set theme
         try {
 //            FlatSolarizedLightIJTheme.setup();
-            //FlatLightLaf.setup();
+//            FlatLightLaf.setup();
             //embedMenuBarIfSupported();
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception cantThemeWithFlatLaf) {
