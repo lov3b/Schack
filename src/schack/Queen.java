@@ -4,7 +4,7 @@ import java.awt.Point;
 import java.io.IOException;
 import java.util.LinkedHashSet;
 
-public class Queen extends Piece {
+public class Queen extends LongWalkers {
 
     public Queen(boolean isWhite, Point point) throws IOException {
         super(isWhite, point);
@@ -13,73 +13,10 @@ public class Queen extends Piece {
 
     @Override
     public LinkedHashSet<Point> validMoves(Piece[][] pieces, boolean isSelected) {
-        LinkedHashSet<Point> movable = new LinkedHashSet<>();
-
-        // Vänster
-        for (int loopX = this.position.x - 1; loopX >= 0; loopX--) {
-            boolean shouldBreak = addMovesIfCan(new Point(loopX, this.position.y), movable, pieces, isSelected);
-
-            if (shouldBreak) {
-                break;
-            }
-        }
-
-        // Höger
-        for (int loopX = this.position.x + 1; loopX <= 7; loopX++) {
-            boolean shouldBreak = addMovesIfCan(new Point(loopX, this.position.y), movable, pieces, isSelected);
-            if (shouldBreak) {
-                break;
-            }
-        }
-
-        // Ner
-        for (int loopY = this.position.y + 1; loopY <= 7; loopY++) {
-            boolean shouldBreak = addMovesIfCan(new Point(this.position.x, loopY), movable, pieces, isSelected);
-            if (shouldBreak) {
-                break;
-            }
-        }
-
-        // Upp
-        for (int loopY = this.position.y - 1; loopY >= 0; loopY--) {
-            boolean shouldBreak = addMovesIfCan(new Point(this.position.x, loopY), movable, pieces, isSelected);
-            if (shouldBreak) {
-                break;
-            }
-        }
-        // Upp vänster
-        for (int loopX = this.position.x - 1, loopY = this.position.y - 1; loopX >= 0 && loopY >= 0; loopX--, loopY--) {
-            boolean shouldBreak = addMovesIfCan(new Point(loopX, loopY), movable, pieces, isSelected);
-            if (shouldBreak) {
-                break;
-            }
-
-        }
-
-        // Upp höger 
-        for (int loopX = this.position.x + 1, loopY = this.position.y - 1; loopX <= 7 && loopY >= 0; loopX++, loopY--) {
-            boolean shouldBreak = addMovesIfCan(new Point(loopX, loopY), movable, pieces, isSelected);
-            if (shouldBreak) {
-                break;
-            }
-
-        }
-        // Ner höger
-        for (int loopX = this.position.x + 1, loopY = this.position.y + 1; loopX <= 7 && loopY <= 7; loopX++, loopY++) {
-            boolean shouldBreak = addMovesIfCan(new Point(loopX, loopY), movable, pieces, isSelected);
-            if (shouldBreak) {
-                break;
-            }
-
-        }
-        // Ner vänster
-        for (int loopX = this.position.x - 1, loopY = this.position.y + 1; loopX >= 0 && loopY <= 7; loopX--, loopY++) {
-            boolean shouldBreak = addMovesIfCan(new Point(loopX, loopY), movable, pieces, isSelected);
-            if (shouldBreak) {
-                break;
-            }
-
-        }
-        return movable;
+        return getMoves(
+                new int[][]{{1, 0}, {-1, 0}, {0, 1}, {-1, -1}, {0, -1}, {1, 1}, {-1, 1}, {1, -1}},
+                pieces,
+                isSelected
+        );
     }
 }
