@@ -61,27 +61,22 @@ public class Board extends JPanel implements MouseListener {
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
         drawSquares(g2);
-        
 
         validDebugMovesToDraw.stream().filter(point -> point != null).forEach(point -> {
             g2.setColor(Color.CYAN);
             g2.fillRect(point.x * SIZE_OF_TILE, point.y * SIZE_OF_TILE, SIZE_OF_TILE, SIZE_OF_TILE);
         });
-
         // måla alla ställen man kan gå¨till
-        validMovesToDraw.forEach(point -> {
-            if (point != null) {
-                g2.setColor(moveableColor);
-                g2.fillOval(point.x * SIZE_OF_TILE, point.y * SIZE_OF_TILE, SIZE_OF_TILE, SIZE_OF_TILE);
-            }
-        });
+        validMovesToDraw.stream().filter(point -> point != null)
+                .forEach(point -> {
+                    g2.setColor(moveableColor);
+                    g2.fillOval(point.x * SIZE_OF_TILE, point.y * SIZE_OF_TILE, SIZE_OF_TILE, SIZE_OF_TILE);
+                });
 
         // Draw piece
-        Arrays.stream(pieces).forEach(pieceArr -> Arrays.stream(pieceArr).forEach(piece -> {
-            if (piece != null) {
-                piece.draw(g2);
-            }
-        }));
+        Arrays.stream(pieces).forEach(pieceArr -> Arrays.stream(pieceArr)
+                .filter(piece -> piece != null)
+                .forEach(piece -> piece.draw(g2)));
 
     }
 
