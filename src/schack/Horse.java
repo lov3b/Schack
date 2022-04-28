@@ -2,6 +2,7 @@ package schack;
 
 import java.awt.Point;
 import java.io.IOException;
+import static java.lang.Math.abs;
 import java.util.LinkedHashSet;
 
 public class Horse extends Piece {
@@ -15,6 +16,17 @@ public class Horse extends Piece {
     public LinkedHashSet<Point> validMoves(Piece[][] pieces, boolean isSelected) {
         LinkedHashSet<Point> movable = new LinkedHashSet<>();
 
+        // TODO: Integrera
+        /*
+        for (int dx : new int[]{-2, -1, 1, 2}) {
+            for (int y = -1; y <= 1; y += 2) {
+                int dy = y * (3 - abs(dx));
+                
+            }
+        }
+        */
+        
+        
         // Postitioner att checka
         Point[] positions = {
             // Snett höger uppåt
