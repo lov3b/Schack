@@ -66,44 +66,42 @@ public abstract class Piece {
         }
     }
 
-    protected boolean addMovesIfCan(Point pos, ArrayList movable, Piece[][] pieces, boolean isSelected) {
-        // Instead of checking index and null, try-catch
-        try {
-            // Ifall vi kollar utanför brädet kommer detta att faila
-            Piece p = pieces[pos.x][pos.y];
+    protected boolean addMovesIfCan(Point pos, ArrayList<Point> movable, Piece[][] pieces, boolean isSelected) {
+        // Ifall vi är utanför brädet ge tillbaka false
+        if (pos.x > 7 || pos.x < 0 || pos.y > 7 || pos.y < 0) {
+            return false;
+        }
 
-            // Ifall pjäsen här har samma färg som oss, break
-            // Ifall det inte är någon pjäs här kommer det att gå ner till
-            // catch(NullPointerException) och då lägger vi till detta drag i listan
-            if (p.white == this.white) {
-                return true;
-            } else {
-                // Detta betyder att det är en med motsatts pjäs här
-                // Vi kan ta men inte gå längre.
-                if (!isSelected) {
-                    movable.add(pos);
-                } else {
-                    tryToMoveAndCheckIfCheck(pieces, movable, pos);
-                }
-                return true;
+        Piece pieceToCheck = pieces[pos.x][pos.y];
 
-            }
-        } catch (NullPointerException npe) {
-            // Detta är en tom plats, vi ska inte breaka
+        // Detta är en tom plats
+        if (pieceToCheck == null) {
             if (!isSelected) {
                 movable.add(pos);
-                return false;
+            } else {
+                tryToMoveAndCheckIfCheck(pieces, movable, pos);
             }
-
-            tryToMoveAndCheckIfCheck(pieces, movable, pos);
+            // Fortsätt att gå
             return false;
-
-        } catch (IndexOutOfBoundsException ioobe) {
-            // This means that the player is at the edge
-        } catch (Exception e) {
-            // For good meassure
         }
-        return false;
+
+        /**
+         * Ifall det är en pjäs i motståndarlaget här kan vi ta den men inte gå
+         * längre Ifall det är samma färg som oss betyder det att vi inte kan
+         * lägga till den
+         */
+        if (pieceToCheck.isWhite() != this.white) {
+            /**
+             * Detta betyder att det är en motsatts pjäs här, vi kan ta men inte
+             * gå längre
+             */
+            if (!isSelected) {
+                movable.add(pos);
+            } else {
+                tryToMoveAndCheckIfCheck(pieces, movable, pos);
+            }
+        }
+        return true;
 
     }
 
