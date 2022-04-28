@@ -20,6 +20,7 @@ public class Board extends JPanel implements MouseListener {
     public static final int SIZE_OF_TILE = 100;
     private Piece[][] pieces = new Piece[8][8];
     private LinkedHashSet<Point> validMovesToDraw = new LinkedHashSet<>();
+    private LinkedHashSet<Point> validDebugMovesToDraw = new LinkedHashSet<>();
     private Point selectedPiece = new Point();
     private Color moveableColor = new Color(255, 191, 0);
     public static boolean turn = true;
@@ -62,6 +63,12 @@ public class Board extends JPanel implements MouseListener {
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
         drawSquares(g2);
+        
+
+        validDebugMovesToDraw.stream().filter(point -> point != null).forEach(point -> {
+            g2.setColor(Color.CYAN);
+            g2.fillRect(point.x * SIZE_OF_TILE, point.y * SIZE_OF_TILE, SIZE_OF_TILE, SIZE_OF_TILE);
+        });
 
         // måla alla ställen man kan gå¨till
         validMovesToDraw.forEach(point -> {
@@ -77,6 +84,7 @@ public class Board extends JPanel implements MouseListener {
                 piece.draw(g2);
             }
         }));
+
     }
 
     private void drawSquares(Graphics2D g2) {
@@ -153,10 +161,11 @@ public class Board extends JPanel implements MouseListener {
 
                     // Funkar
                     if (selectedPiece.supremeRuler) {
-                        validMoves.removeAll(attacks);
+                        //validMoves.removeAll(attacks);
                     }
 
                     allValidMoves.removeAll(attacks);
+                    validDebugMovesToDraw = allValidMoves;
                     boolean weCanMove = allValidMoves.size() > 0;
 
                     boolean hasShowedMessageAboutSchack = false;
@@ -165,8 +174,8 @@ public class Board extends JPanel implements MouseListener {
                     System.out.println("WeCanMo´vsadadade: " + weCanMove);
 
                     ArrayList<Point> opposingAttacks = checkAttacks(!turn);
-                    System.out.println("opposingAttacks: "+opposingAttacks);
-                    System.out.println("attacks: "+attacks);
+                    System.out.println("opposingAttacks: " + opposingAttacks);
+                    System.out.println("attacks: " + attacks);
                     opposingAttacks.removeAll(allValidMoves);
 
                     // Kollar ifall kungen står i schack just nu
