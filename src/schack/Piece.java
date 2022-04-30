@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import javax.imageio.ImageIO;
 
 public abstract class Piece {
@@ -178,7 +179,13 @@ public abstract class Piece {
         ArrayList<Point> attacks = new ArrayList<>();
 
         // Fråga alla pjäser vart de kan gå/ta
-        for (Piece[] pieceArr : pieces) {
+        Arrays.stream(pieces).forEach(array -> {
+            Arrays.stream(array).filter(piece -> piece != null && piece.isWhite() != this.isWhite()).forEach(piece -> {
+                attacks.addAll(piece.validAttacks(pieces));
+            });
+        });
+
+        /* for (Piece[] pieceArr : pieces) {
             for (Piece piece : pieceArr) {
                 // Ifall det är tomrum skippa
                 if (piece == null) {
@@ -190,8 +197,8 @@ public abstract class Piece {
                 // Lägg till alla attacker för mostståndaren
                 attacks.addAll(piece.validAttacks(pieces));
             }
-        }
-
+        }*/
+        
         // Kollar ifall kungen står i schack just nu
         for (Point attack : attacks) {
             Piece attacked = pieces[attack.x][attack.y];
