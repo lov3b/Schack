@@ -58,17 +58,29 @@ public class Pawn extends PieceKnownIfMoved {
     }
 
     // Känns som det här skulle kunnat vara i validMoves, men nu är det såhär
+    /**
+     * Ifall det är en pjäs som står här och den inte är samma färg som oss,
+     * lägg till i listan
+     *
+     * @param pos
+     * @param movable
+     * @param pieces
+     */
     private void addAttackMovesIfCan(Point pos, ArrayList movable, Piece[][] pieces) {
 
-        // Ifall det är en pjäs som står här och den inte är samma färg som oss, lägg till
-        try {
-            Piece p = pieces[pos.x][pos.y];
-            if (p.white != this.white) {
-                tryToMoveAndCheckIfCheck(pieces, movable, pos);
-
-            }
-        } catch (Exception e) {
+        // Se till att vi inte är utanför brädet
+        if (pos.x >= pieces.length || pos.x < 0 || pos.y >= pieces[0].length || pos.y < 0) {
+            return;
         }
+
+        Piece piece = pieces[pos.x][pos.y];
+        // Ifall det är tomt här, gör ingenting
+        if (piece == null) {
+            return;
+        } else if (piece.isWhite() != this.isWhite()) {
+            tryToMoveAndCheckIfCheck(pieces, movable, pos);
+        }
+
     }
 
     @Override
