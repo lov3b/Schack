@@ -10,17 +10,28 @@ import javax.imageio.ImageIO;
 
 public abstract class Piece {
 
+    /**
+     * Variabel som alltid bör vara samma värde som pjäsen är i brädes av
+     * Piece[][]
+     */
     public Point position;
+    /**
+     * Sant ifall pjäsens färg är vit, falskt ifall den är svart
+     */
     public boolean white;
     /**
      * SPECIAL RULÖES APPLY TO THE KING, (ITS GOOD TO BE THE KING:)
      */
     public boolean supremeRuler = false;
+    /**
+     * Bild av pjäsen som ritas ut på bärdet
+     */
     protected BufferedImage icon;
 
     public Piece(boolean white, Point startingPosition) throws IOException {
         this.white = white;
         this.position = startingPosition;
+        setPieceIcon();
     }
 
     public Piece(boolean white) {
@@ -31,19 +42,44 @@ public abstract class Piece {
         this.position = p;
     }
 
-    protected void setPieceIcon(String className) throws IOException {
+    /**
+     * Ladda in pjäsbild från paketet img
+     *
+     * @param className
+     * @throws IOException ifall det inte finns någon bild på pjäsen
+     */
+    protected void setPieceIcon() throws IOException {
+        String className = this.getClass().getSimpleName();
         String colorName = white ? "White" : "Black";
         String fileName = colorName + className + ".png";
         InputStream is = getClass().getResourceAsStream("/img/" + fileName);
         icon = ImageIO.read(is);
     }
 
+    /**
+     * Ger tillbaks alla ställen pjäsen kan gå till
+     *
+     * @param pieces
+     * @param isSelected
+     * @return
+     */
     public abstract ArrayList<Point> validMoves(Piece[][] pieces, boolean isSelected);
 
+    /**
+     * Ger tillbaks alla ställen pjäsen kan attackera
+     *
+     * @param pieces
+     * @return
+     */
     public ArrayList<Point> validAttacks(Piece[][] pieces) {
         return validMoves(pieces, false);
     }
 
+    /**
+     * Ritar ut pjäsen baserat på den ihågkommna positionen
+     *
+     * @param g2
+     */
     public void draw(Graphics2D g2) {
 
         g2.drawImage(
@@ -54,16 +90,23 @@ public abstract class Piece {
         );
     }
 
-    public void move(Piece[][] pieces, Point toMove, Point selected) {
+    /**
+     * Flyttar pjäsen till toMove
+     *
+     * @param pieces
+     * @param toMove
+     * @param selected
+     */
+    public void move(Piece[][] pieces, Point toMove) {
 
-        try {
-            pieces[toMove.x][toMove.y] = this; //new Rook(true,new Point(toMove));
-            pieces[selected.x][selected.y] = null;
-            this.position = new Point(toMove);
-
-        } catch (Exception e) {
-
+        // Gör ingenting ifall vi är utanför brädet
+        if (toMove.x >= pieces.length || toMove.y < 0 || position.x >= pieces[0].length || position.y < 0) {
+            return;
         }
+
+        pieces[toMove.x][toMove.y] = this;
+        pieces[position.x][position.y] = null;
+        this.position = new Point(toMove);
     }
 
     protected boolean addMovesIfCan(Point pos, ArrayList<Point> movable, Piece[][] pieces, boolean isSelected) {

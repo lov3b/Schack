@@ -8,7 +8,6 @@ public class Bishop extends LongWalkers {
 
     public Bishop(boolean isWhite, Point startingPosition) throws IOException {
         super(isWhite, startingPosition);
-        setPieceIcon("Bishop");
     }
 
     @Override

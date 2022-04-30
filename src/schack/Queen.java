@@ -8,7 +8,6 @@ public class Queen extends LongWalkers {
 
     public Queen(boolean isWhite, Point point) throws IOException {
         super(isWhite, point);
-        setPieceIcon("Queen");
     }
 
     @Override

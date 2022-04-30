@@ -17,8 +17,8 @@ public abstract class PieceKnownIfMoved extends Piece {
     }
 
     @Override
-    public void move(Piece[][] pieces, Point toMove, Point selected) {
-        super.move(pieces, toMove, selected);
+    public void move(Piece[][] pieces, Point toMove) {
+        super.move(pieces, toMove);
         moved = true;
     }
 

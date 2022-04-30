@@ -8,7 +8,6 @@ public class Rook extends LongWalkers {
 
     public Rook(boolean isWhite, Point startingPosition) throws IOException {
         super(isWhite, startingPosition);
-        setPieceIcon("Rook");
     }
 
     @Override

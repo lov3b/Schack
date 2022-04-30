@@ -8,7 +8,6 @@ public class Pawn extends PieceKnownIfMoved {
 
     public Pawn(boolean isWhite, Point startingPosition) throws IOException {
         super(isWhite, startingPosition);
-        setPieceIcon("Pawn");
     }
 
     @Override

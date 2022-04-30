@@ -113,7 +113,7 @@ public class Board extends JPanel implements MouseListener {
         if (validMovesToDraw.contains(clicked)) {
             try {
                 Piece p = pieces[selectedPiece.x][selectedPiece.y];
-                p.move(pieces, clicked, selectedPiece);
+                p.move(pieces, clicked);
                 turn = !turn;
 
             } catch (Exception e) {

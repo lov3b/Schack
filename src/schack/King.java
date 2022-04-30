@@ -1,3 +1,4 @@
+
 package schack;
 
 import java.awt.Point;
@@ -8,7 +9,6 @@ public final class King extends PieceKnownIfMoved {
 
     public King(boolean isWhite, Point startingPosition) throws IOException {
         super(isWhite, startingPosition);
-        setPieceIcon("King");
         supremeRuler = true;
     }
 
@@ -80,12 +80,12 @@ public final class King extends PieceKnownIfMoved {
     }
 
     @Override
-    public void move(Piece[][] pieces, Point toMove, Point selected) {
-        if (Math.abs(selected.x - toMove.x) == 2) {
+    public void move(Piece[][] pieces, Point toMove) {
+        if (Math.abs(position.x - toMove.x) == 2) {
             final boolean goToLeftSide = (toMove.x < 5) ? true : false;
             castle(pieces, goToLeftSide);
         } else {
-            super.move(pieces, toMove, selected);
+            super.move(pieces, toMove);
         }
 
     }
