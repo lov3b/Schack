@@ -19,6 +19,7 @@ public class Board extends JPanel implements MouseListener {
     private Piece[][] pieces = new Piece[8][8];
     private ArrayList<Point> validMovesToDraw = new ArrayList<>();
     private ArrayList<Point> validDebugMovesToDraw = new ArrayList<>();
+    private ArrayList<Point> validDebugAttacksToDraw = new ArrayList<>();
     private Point selectedPiece = new Point();
     private Color moveableColor = new Color(255, 191, 0);
     public static boolean turn = true;
@@ -64,7 +65,12 @@ public class Board extends JPanel implements MouseListener {
 
         validDebugMovesToDraw.stream().filter(point -> point != null).forEach(point -> {
             g2.setColor(Color.CYAN);
-            g2.fillRect(point.x * SIZE_OF_TILE, point.y * SIZE_OF_TILE, SIZE_OF_TILE, SIZE_OF_TILE);
+            g2.fillRect(point.x * SIZE_OF_TILE, point.y * SIZE_OF_TILE, SIZE_OF_TILE/2, SIZE_OF_TILE);
+        });
+        
+        validDebugAttacksToDraw.stream().filter(point -> point != null).forEach(point -> {
+            g2.setColor(Color.RED);
+            g2.fillRect(point.x * SIZE_OF_TILE, point.y * SIZE_OF_TILE, SIZE_OF_TILE, SIZE_OF_TILE/2);
         });
         // måla alla ställen man kan gå¨till
         validMovesToDraw.stream().filter(point -> point != null)
@@ -116,6 +122,48 @@ public class Board extends JPanel implements MouseListener {
                 p.move(pieces, clicked);
                 turn = !turn;
 
+                ArrayList<Point> allValidMoves = new ArrayList<>();
+                for (Piece[] pieceArr : pieces) {
+                    for (Piece piece : pieceArr) {
+                        if (piece == null || turn != piece.white) {
+                            continue;
+                        }
+                        // Kolla ifall vi är samma färg som får röra sig
+                        // Ifall en pjäs får röra sig sätt weCanMove till sant och sluta 
+                        allValidMoves.addAll(piece.validMoves(pieces, true));
+                    }
+                }
+
+                ArrayList<Point> opposingAttacks = checkAttacks(!turn);
+
+               // opposingAttacks.removeAll(allValidMoves);
+
+                validDebugMovesToDraw = allValidMoves;
+                validDebugAttacksToDraw = opposingAttacks;
+                boolean weCanMove = allValidMoves.size() > 0;
+
+                boolean hasShowedMessageAboutSchack = false;
+
+                for (Point attack : opposingAttacks) {
+                    Piece attacked = pieces[attack.x][attack.y];
+                    if (attacked == null) {
+                        continue;
+                    }
+                    if (attacked.supremeRuler) {
+                        // Kolla ifall vi är i schackmatt
+                        if (weCanMove) {
+                            JOptionPane.showMessageDialog(this, "Du står i schack");
+                        } else {
+                            JOptionPane.showMessageDialog(this, "Schackmatt");
+                        }
+                        hasShowedMessageAboutSchack = true;
+                    }
+                }
+                if (!hasShowedMessageAboutSchack && !weCanMove) {
+                    JOptionPane.showMessageDialog(this, "Patt");
+
+                }
+
             } catch (Exception e) {
                 validMovesToDraw.clear();
             }
@@ -157,41 +205,8 @@ public class Board extends JPanel implements MouseListener {
                         //validMoves.removeAll(attacks);
                     }
 
-                    allValidMoves.removeAll(attacks);
-                    validDebugMovesToDraw = allValidMoves;
-                    boolean weCanMove = allValidMoves.size() > 0;
-
-                    boolean hasShowedMessageAboutSchack = false;
-                    System.out.println("turn: " + (turn ? "white" : "black"));
-                    System.out.println("All valid moves: " + allValidMoves);
-                    System.out.println("WeCanMo´vsadadade: " + weCanMove);
-
-                    ArrayList<Point> opposingAttacks = checkAttacks(!turn);
-                    System.out.println("opposingAttacks: " + opposingAttacks);
-                    System.out.println("attacks: " + attacks);
-                    opposingAttacks.removeAll(allValidMoves);
-
+                    //allValidMoves.removeAll(attacks);
                     // Kollar ifall kungen står i schack just nu
-                    for (Point attack : opposingAttacks) {
-                        Piece attacked = pieces[attack.x][attack.y];
-                        if (attacked == null) {
-                            continue;
-                        }
-                        if (attacked.supremeRuler) {
-                            // Kolla ifall vi är i schackmatt
-                            if (weCanMove) {
-                                JOptionPane.showMessageDialog(this, "Du står i schack");
-                            } else {
-                                JOptionPane.showMessageDialog(this, "Schackmatt");
-                            }
-                            hasShowedMessageAboutSchack = true;
-                        }
-                    }
-                    if (!hasShowedMessageAboutSchack && !weCanMove) {
-                        JOptionPane.showMessageDialog(this, "Patt");
-
-                    }
-
                     validMovesToDraw.addAll(validMoves);
                 }
             } catch (Exception e) {
