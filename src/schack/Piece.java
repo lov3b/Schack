@@ -110,6 +110,15 @@ public abstract class Piece {
         this.position = new Point(toMove);
     }
 
+    /**
+     * Lägger till möjliga drag i movable ifall det går
+     *
+     * @param pos
+     * @param movable
+     * @param pieces
+     * @param isSelected
+     * @return true ifall det inte finns fler drag att lägga till
+     */
     protected boolean addMovesIfCan(Point pos, ArrayList<Point> movable, Piece[][] pieces, boolean isSelected) {
         // Ifall vi är utanför brädet ge tillbaka false
         if (pos.x > 7 || pos.x < 0 || pos.y > 7 || pos.y < 0) {
@@ -149,6 +158,14 @@ public abstract class Piece {
 
     }
 
+    /**
+     * Simulera ett drag och kolla ifall det är schack. Ifall det inte är schack
+     * lägg till draget i listan movable
+     *
+     * @param pieces
+     * @param movable Lista där allt kommer läggas till
+     * @param pos
+     */
     void tryToMoveAndCheckIfCheck(Piece[][] pieces, ArrayList movable, Point pos) {
         // Kom ihåg vart vi var
         Point previousPosition = new Point(this.position);
