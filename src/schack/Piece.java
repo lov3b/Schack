@@ -174,38 +174,22 @@ public abstract class Piece {
     }
 
     boolean checkIfSchack(Point pos, Piece[][] pieces) {
-        boolean ourColor = this.isWhite();
         Piece selectedPiece = this;
         ArrayList<Point> attacks = new ArrayList<>();
 
         // Fråga alla pjäser vart de kan gå/ta
-        Arrays.stream(pieces).forEach(array -> {
-            Arrays.stream(array).filter(piece -> piece != null && piece.isWhite() != this.isWhite()).forEach(piece -> {
-                attacks.addAll(piece.validAttacks(pieces));
-            });
-        });
-
-        /* for (Piece[] pieceArr : pieces) {
+        for (Piece[] pieceArr : pieces) {
             for (Piece piece : pieceArr) {
-                // Ifall det är tomrum skippa
-                if (piece == null) {
-                    continue;
-                } else if (piece.isWhite() == ourColor) {
-                    continue;
+                if (piece != null && piece.isWhite() != this.isWhite()) {
+                    attacks.addAll(piece.validAttacks(pieces));
                 }
-
-                // Lägg till alla attacker för mostståndaren
-                attacks.addAll(piece.validAttacks(pieces));
             }
-        }*/
-        
+        }
+
         // Kollar ifall kungen står i schack just nu
         for (Point attack : attacks) {
             Piece attacked = pieces[attack.x][attack.y];
-            if (attacked == null) {
-                continue;
-            }
-            if (attacked.supremeRuler) {
+            if (attacked != null && attacked.supremeRuler) {
                 return true;
             }
         }
