@@ -82,6 +82,14 @@ public class Pawn extends PieceKnownIfMoved {
     }
 
     @Override
+    public void move(Piece[][] pieces, Point toMove) {
+        if (Math.abs(toMove.y - this.position.y) == 2) {
+            othersMayDoEnPassant = true;
+        }
+        super.move(pieces, toMove);
+    }
+
+    @Override
     protected boolean addMovesIfCan(Point pos, ArrayList movable, Piece[][] pieces, boolean isSelected) {
         if (pos.x < 0 || pos.x > 7 || pos.y < 0 || pos.y > 7) {
             return false;

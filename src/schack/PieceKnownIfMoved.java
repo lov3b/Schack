@@ -5,20 +5,19 @@ import java.io.IOException;
 
 public abstract class PieceKnownIfMoved extends Piece {
 
-    protected boolean moved = false;
-
     public PieceKnownIfMoved(boolean isWhite, Point startingPosition) throws IOException {
         super(isWhite, startingPosition);
+        lastTurnMoved = -1;
     }
 
     @Override
     public void move(Piece[][] pieces, Point toMove) {
         super.move(pieces, toMove);
-        moved = true;
+        lastTurnMoved++;
     }
 
     public boolean isMoved() {
-        return moved;
+        return lastTurnMoved > -1;
     }
 
 }

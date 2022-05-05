@@ -21,7 +21,7 @@ public class Board extends JPanel implements MouseListener {
     private Point selectedPiece = new Point();
     private Color moveableColor = new Color(255, 191, 0);
     public boolean developerMode = false;
-    short turnCount = 0;
+    public static short turnCount = 0;
     boolean whitesTurn = true;
 
     public Board() throws IOException {
