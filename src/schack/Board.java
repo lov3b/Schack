@@ -20,8 +20,9 @@ public class Board extends JPanel implements MouseListener {
     private ArrayList<Point> validMovesToDraw = new ArrayList<>();
     private Point selectedPiece = new Point();
     private Color moveableColor = new Color(255, 191, 0);
-    public static boolean whiteToMove = true;
     public boolean developerMode = false;
+    short turnCount = 0;
+    boolean whitesTurn = true;
 
     public Board() throws IOException {
 
@@ -109,13 +110,14 @@ public class Board extends JPanel implements MouseListener {
             try {
                 Piece p = pieces[selectedPiece.x][selectedPiece.y];
                 p.move(pieces, clicked);
-                whiteToMove = !whiteToMove;
+                turnCount++;
+                whitesTurn = !whitesTurn;
 
                 ArrayList<Point> allValidMoves = new ArrayList<>();
                 for (Piece[] pieceArr : pieces) {
                     for (Piece piece : pieceArr) {
                         // || pieces[currentPlayer].contains(piece)
-                        if (piece == null || whiteToMove != piece.isWhite()) {
+                        if (piece == null || whitesTurn != piece.isWhite()) {
                             continue;
                         }
                         // Kolla ifall vi är samma färg som får röra sig
@@ -124,7 +126,7 @@ public class Board extends JPanel implements MouseListener {
                     }
                 }
 
-                ArrayList<Point> opposingAttacks = checkAttacks(!whiteToMove);
+                ArrayList<Point> opposingAttacks = checkAttacks(!whitesTurn);
 
                 boolean weCanMove = allValidMoves.size() > 0;
                 boolean hasShowedMessageAboutSchack = false;
@@ -165,8 +167,8 @@ public class Board extends JPanel implements MouseListener {
                 Piece selectedPiece = pieces[mouseCoordinateX][mouseCoordinateY];
 
                 // Kolla endast ifall vi kan röra på pjäsen om det är samma färg som den tur vi är på
-                if (selectedPiece.isWhite() == whiteToMove || developerMode) {
-                    ArrayList<Point> attacks = checkAttacks(whiteToMove);
+                if (selectedPiece.isWhite() == whitesTurn || developerMode) {
+                    ArrayList<Point> attacks = checkAttacks(whitesTurn);
 
                     ArrayList<Point> validMoves = selectedPiece.validMoves(pieces, true);
                     // Kolla ifall vi kan röra oss
@@ -175,12 +177,12 @@ public class Board extends JPanel implements MouseListener {
                     ArrayList<Point> allValidMoves = new ArrayList<>();
                     for (Piece[] pieceArr : pieces) {
                         for (Piece piece : pieceArr) {
-                            if (piece == null || whiteToMove != piece.isWhite) {
+                            if (piece == null || whitesTurn != piece.isWhite) {
                                 continue;
                             }
                             // Kolla ifall vi är samma färg som får röra sig
                             // Ifall en pjäs får röra sig sätt weCanMove till sant och sluta 
-                            allValidMoves.addAll(piece.validMoves(pieces, whiteToMove));
+                            allValidMoves.addAll(piece.validMoves(pieces, whitesTurn));
                         }
                     }
 
