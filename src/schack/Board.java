@@ -21,7 +21,7 @@ public class Board extends JPanel implements MouseListener {
     private Point selectedPiece = new Point();
     private Color moveableColor = new Color(255, 191, 0);
     public static boolean whiteToMove = true;
-    public boolean developerMode = false;
+  
 
     public Board() throws IOException {
 
@@ -165,7 +165,7 @@ public class Board extends JPanel implements MouseListener {
                 Piece selectedPiece = pieces[mouseCoordinateX][mouseCoordinateY];
 
                 // Kolla endast ifall vi kan röra på pjäsen om det är samma färg som den tur vi är på
-                if (selectedPiece.isWhite() == whiteToMove || developerMode) {
+                if (selectedPiece.isWhite() == whiteToMove) {
                     ArrayList<Point> attacks = checkAttacks(whiteToMove);
 
                     ArrayList<Point> validMoves = selectedPiece.validMoves(pieces, true);
