@@ -18,8 +18,6 @@ public class Board extends JPanel implements MouseListener {
     public static final int SIZE_OF_TILE = 100;
     private Piece[][] pieces = new Piece[8][8];
     private ArrayList<Point> validMovesToDraw = new ArrayList<>();
-    private ArrayList<Point> validDebugMovesToDraw = new ArrayList<>();
-    private ArrayList<Point> validDebugAttacksToDraw = new ArrayList<>();
     private Point selectedPiece = new Point();
     private Color moveableColor = new Color(255, 191, 0);
     public static boolean whiteToMove = true;
@@ -63,15 +61,6 @@ public class Board extends JPanel implements MouseListener {
         Graphics2D g2 = (Graphics2D) g;
         drawSquares(g2);
 
-        validDebugMovesToDraw.stream().filter(point -> point != null).forEach(point -> {
-            g2.setColor(Color.CYAN);
-            g2.fillRect(point.x * SIZE_OF_TILE, point.y * SIZE_OF_TILE, SIZE_OF_TILE/2, SIZE_OF_TILE);
-        });
-        
-        validDebugAttacksToDraw.stream().filter(point -> point != null).forEach(point -> {
-            g2.setColor(Color.RED);
-            g2.fillRect(point.x * SIZE_OF_TILE, point.y * SIZE_OF_TILE, SIZE_OF_TILE, SIZE_OF_TILE/2);
-        });
         // måla alla ställen man kan gå¨till
         validMovesToDraw.stream().filter(point -> point != null)
                 .forEach(point -> {
@@ -137,12 +126,7 @@ public class Board extends JPanel implements MouseListener {
 
                 ArrayList<Point> opposingAttacks = checkAttacks(!whiteToMove);
 
-               // opposingAttacks.removeAll(allValidMoves);
-
-                validDebugMovesToDraw = allValidMoves;
-                validDebugAttacksToDraw = opposingAttacks;
                 boolean weCanMove = allValidMoves.size() > 0;
-
                 boolean hasShowedMessageAboutSchack = false;
 
                 for (Point attack : opposingAttacks) {
@@ -187,7 +171,6 @@ public class Board extends JPanel implements MouseListener {
                     ArrayList<Point> validMoves = selectedPiece.validMoves(pieces, true);
                     // Kolla ifall vi kan röra oss
                     // Loopa igenom allt
-                    System.out.println("\n\n\n\n\n\n");
 
                     ArrayList<Point> allValidMoves = new ArrayList<>();
                     for (Piece[] pieceArr : pieces) {
