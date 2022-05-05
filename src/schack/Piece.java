@@ -19,7 +19,7 @@ public abstract class Piece {
     /**
      * Sant ifall pjäsens färg är vit, falskt ifall den är svart
      */
-    public boolean white;
+    public boolean isWhite;
     /**
      * SPECIAL RULÖES APPLY TO THE KING, (ITS GOOD TO BE THE KING:)
      */
@@ -30,13 +30,13 @@ public abstract class Piece {
     protected BufferedImage icon;
 
     public Piece(boolean white, Point startingPosition) throws IOException {
-        this.white = white;
+        this.isWhite = white;
         this.position = startingPosition;
         setPieceIcon();
     }
 
     public Piece(boolean white) {
-        this.white = white;
+        this.isWhite = white;
     }
 
     public void setPosition(Point p) {
@@ -51,7 +51,7 @@ public abstract class Piece {
      */
     protected void setPieceIcon() throws IOException {
         String className = this.getClass().getSimpleName();
-        String colorName = white ? "White" : "Black";
+        String colorName = isWhite ? "White" : "Black";
         String fileName = colorName + className + ".png";
         InputStream is = getClass().getResourceAsStream("/img/" + fileName);
         icon = ImageIO.read(is);
@@ -134,7 +134,7 @@ public abstract class Piece {
          * längre Ifall det är samma färg som oss betyder det att vi inte kan
          * lägga till den
          */
-        if (pieceToCheck.isWhite() != this.white) {
+        if (pieceToCheck.isWhite() != this.isWhite) {
             /**
              * Detta betyder att det är en motsatts pjäs här, vi kan ta men inte
              * gå längre
@@ -214,12 +214,12 @@ public abstract class Piece {
 
     @Override
     public String toString() {
-        return this.getClass().getSimpleName() + "{" + "position=" + position + ", isWhite=" + white + '}';
+        return this.getClass().getSimpleName() + "{" + "position=" + position + ", isWhite=" + isWhite + '}';
 //        return "Piece{" + "position=" + position + ", isWhite=" + white + '}';
     }
 
     public boolean isWhite() {
-        return white;
+        return isWhite;
     }
 
 }
