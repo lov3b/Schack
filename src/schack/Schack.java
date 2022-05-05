@@ -51,7 +51,7 @@ public class Schack {
         JMenuItem showLocalIP = new JMenuItem("Show IP");
         JMenuItem askForRemi = new JMenuItem("Ask for remi");
         JMenuItem surrender = new JMenuItem("Surrender");
-        JMenuItem developerMode = new JMenuItem("Toggle Developermode");
+        
 
         // Actions
         connectToOpponent.addActionListener((ActionEvent ae) -> {
@@ -71,9 +71,7 @@ public class Schack {
         surrender.addActionListener((ActionEvent ae) -> {
             System.out.println("I'M FRENCH! (TODO)");
         });
-        developerMode.addActionListener(ae -> {
-            board.developerMode = !board.developerMode;
-        });
+        
 
         // Add the menu stuff
         frame.setJMenuBar(menuBar);
@@ -83,7 +81,6 @@ public class Schack {
         connectMenu.add(showLocalIP);
         gameMenu.add(askForRemi);
         gameMenu.add(surrender);
-        gameMenu.add(developerMode);
         frame.pack();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
