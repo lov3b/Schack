@@ -123,7 +123,7 @@ public abstract class Piece {
             if (!isSelected) {
                 movable.add(pos);
             } else {
-                tryToMoveAndCheckIfCheck(pieces, movable, pos);
+                movable.addAll(tryToMoveAndCheckIfCheck(pieces, pos));
             }
             // Fortsätt att gå
             return false;
@@ -142,14 +142,15 @@ public abstract class Piece {
             if (!isSelected) {
                 movable.add(pos);
             } else {
-                tryToMoveAndCheckIfCheck(pieces, movable, pos);
+                movable.addAll(tryToMoveAndCheckIfCheck(pieces, pos));
             }
         }
         return true;
 
     }
 
-    void tryToMoveAndCheckIfCheck(Piece[][] pieces, ArrayList movable, Point pos) {
+    ArrayList<Point> tryToMoveAndCheckIfCheck(Piece[][] pieces, Point pos) {
+        ArrayList<Point> movable = new ArrayList<>();
         // Kom ihåg vart vi var
         Point previousPosition = new Point(this.position);
 
@@ -171,6 +172,7 @@ public abstract class Piece {
         if (!inSchack) {
             movable.add(pos);
         }
+        return movable;
     }
 
     boolean checkIfSchack(Point pos, Piece[][] pieces) {
@@ -198,7 +200,6 @@ public abstract class Piece {
                 attacks.addAll(piece.validAttacks(pieces));
             }
         }*/
-        
         // Kollar ifall kungen står i schack just nu
         for (Point attack : attacks) {
             Piece attacked = pieces[attack.x][attack.y];

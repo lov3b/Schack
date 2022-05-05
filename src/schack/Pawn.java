@@ -78,7 +78,7 @@ public class Pawn extends PieceKnownIfMoved {
         if (piece == null) {
             return;
         } else if (piece.isWhite() != this.isWhite()) {
-            tryToMoveAndCheckIfCheck(pieces, movable, pos);
+            movable.addAll(tryToMoveAndCheckIfCheck(pieces, pos));
         }
 
     }
@@ -107,7 +107,7 @@ public class Pawn extends PieceKnownIfMoved {
             }
         } catch (NullPointerException npe) {
             // This is an empty spot
-            tryToMoveAndCheckIfCheck(pieces, movable, pos);
+            movable.addAll(tryToMoveAndCheckIfCheck(pieces, pos));
         } catch (IndexOutOfBoundsException ioobe) {
             // This means that the player is at the edge
             System.out.println(pos);
