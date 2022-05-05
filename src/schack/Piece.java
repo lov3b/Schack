@@ -11,6 +11,8 @@ import javax.imageio.ImageIO;
 
 public abstract class Piece {
 
+    protected Short lastTurnMoved = null;
+
     /**
      * Variabel som alltid bör vara samma värde som pjäsen är i brädes av
      * Piece[][]
