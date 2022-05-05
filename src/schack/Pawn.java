@@ -42,7 +42,6 @@ public class Pawn extends PieceKnownIfMoved {
             Point pos = new Point(this.position.x, this.position.y + (this.isWhite ? -pawnDY : pawnDY));
             boolean shouldBreak = addMovesIfCan(pos, movable, pieces, isSelected);
             if (shouldBreak) {
-                System.out.println("should brkje!");
                 break;
             }
         }
@@ -53,7 +52,6 @@ public class Pawn extends PieceKnownIfMoved {
             Point pos = new Point(this.position.x + pawnX, this.position.y + (this.isWhite ? -1 : 1));
             addAttackMovesIfCan(pos, movable, pieces);
         }
-        System.out.println("len of movable: " + movable.size());
         return movable;
     }
 
