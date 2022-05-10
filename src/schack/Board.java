@@ -140,7 +140,11 @@ public class Board extends JPanel implements MouseListener {
                         if (weCanMove) {
                             JOptionPane.showMessageDialog(this, "Du står i schack");
                         } else {
-                            JOptionPane.showMessageDialog(this, "Schackmatt");
+                            int choise = JOptionPane.showConfirmDialog(this, "Schackmatt\nVill du starta om?");
+                            if (choise == JOptionPane.YES_OPTION) {
+                                this.pieces = initPieces();
+                                whitesTurn = true;
+                            }
                         }
                         inSchack = true;
                     }
