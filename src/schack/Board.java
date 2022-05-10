@@ -128,7 +128,7 @@ public class Board extends JPanel implements MouseListener {
                 ArrayList<Point> opposingAttacks = checkAttacks(!whitesTurn);
 
                 boolean weCanMove = allValidMoves.size() > 0;
-                boolean isPatt = false;
+                boolean inSchack = false;
 
                 for (Point attack : opposingAttacks) {
                     Piece attacked = pieces[attack.x][attack.y];
@@ -142,10 +142,10 @@ public class Board extends JPanel implements MouseListener {
                         } else {
                             JOptionPane.showMessageDialog(this, "Schackmatt");
                         }
-                        isPatt = true;
+                        inSchack = true;
                     }
                 }
-                if (!isPatt && !weCanMove) {
+                if (!inSchack && !weCanMove) {
                     JOptionPane.showMessageDialog(this, "Patt");
 
                 }
