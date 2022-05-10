@@ -17,12 +17,12 @@ public class Pawn extends PieceKnownIfMoved {
         // Kolla ifall vi kan ta någon
         for (int pawnX : new int[]{-1, 1}) {
             // Position vi kollar just nu, snett upp åt höger & vänster
-            Point pos = new Point(this.position.x + pawnX, this.position.y + (this.white ? -1 : 1));
+            Point pos = new Point(this.position.x + pawnX, this.position.y + (this.isWhite ? -1 : 1));
             if (pos.x < 0 || pos.x > 7 || pos.y < 0 || pos.y > 7) {
                 continue;
             }
             Piece piece = pieces[pos.x][pos.y];
-            if (piece == null || piece.white != piece.white) {
+            if (piece == null || piece.isWhite != piece.isWhite) {
                 movable.add(pos);
             }
         }
@@ -39,10 +39,9 @@ public class Pawn extends PieceKnownIfMoved {
 
         // Kolla om man kan gå rakt frak
         for (int pawnDY = 1; pawnDY <= upTo; pawnDY++) {
-            Point pos = new Point(this.position.x, this.position.y + (this.white ? -pawnDY : pawnDY));
+            Point pos = new Point(this.position.x, this.position.y + (this.isWhite ? -pawnDY : pawnDY));
             boolean shouldBreak = addMovesIfCan(pos, movable, pieces, isSelected);
             if (shouldBreak) {
-                System.out.println("should brkje!");
                 break;
             }
         }
@@ -50,10 +49,9 @@ public class Pawn extends PieceKnownIfMoved {
         // Kolla ifall vi kan ta någon
         for (int pawnX : new int[]{-1, 1}) {
             // Position vi kollar just nu, snett upp åt höger & vänster
-            Point pos = new Point(this.position.x + pawnX, this.position.y + (this.white ? -1 : 1));
+            Point pos = new Point(this.position.x + pawnX, this.position.y + (this.isWhite ? -1 : 1));
             addAttackMovesIfCan(pos, movable, pieces);
         }
-        System.out.println("len of movable: " + movable.size());
         return movable;
     }
 
@@ -78,23 +76,44 @@ public class Pawn extends PieceKnownIfMoved {
         if (piece == null) {
             return;
         } else if (piece.isWhite() != this.isWhite()) {
-            tryToMoveAndCheckIfCheck(pieces, movable, pos);
+            movable.addAll(tryToMoveAndCheckIfCheck(pieces, pos));
         }
 
     }
 
     @Override
-    protected boolean addMovesIfCan(Point pos, ArrayList<Point> movable, Piece[][] pieces, boolean isSelected) {
+    protected boolean addMovesIfCan(Point pos, ArrayList movable, Piece[][] pieces, boolean isSelected) {
         if (pos.x < 0 || pos.x > 7 || pos.y < 0 || pos.y > 7) {
             return false;
         }
+        // Instead of checking index and null, try-catch
+        try {
+            // Ifall vi kollar utanför brädet kommer detta att faila
+            Piece p = pieces[pos.x][pos.y];
 
-        Piece pieceToCheck = pieces[pos.x][pos.y];
-        if (pieceToCheck != null) {
-            return true;
-        } else {
-            tryToMoveAndCheckIfCheck(pieces, movable, pos);
-            return false;
+            // Ifall pjäsen här har samma färg som oss, break
+            // Ifall det inte är någon pjäs här kommer det att gå ner till
+            // catch(NullPointerException) och då lägger vi till detta drag i listan
+            // Ifall det är inte är en pjäs här, kasta ett NullPointerException
+            // Detta är för att vara så lik super-implementationen som möjligt
+            if (p == null) {
+                throw new NullPointerException();
+            } else {
+                // Detta betyder att det finns en pjäs här
+                // Vi kan ta men inte gå längre.
+                return true;
+            }
+        } catch (NullPointerException npe) {
+            // This is an empty spot
+            movable.addAll(tryToMoveAndCheckIfCheck(pieces, pos));
+        } catch (IndexOutOfBoundsException ioobe) {
+            // This means that the player is at the edge
+            System.out.println(pos);
+        } catch (Exception e) {
+            // For good meassure
         }
+        return false;
+
     }
+
 }

@@ -2,7 +2,6 @@ package schack;
 
 import java.awt.Point;
 import java.io.IOException;
-import java.util.ArrayList;
 
 public abstract class PieceKnownIfMoved extends Piece {
 
@@ -12,16 +11,13 @@ public abstract class PieceKnownIfMoved extends Piece {
         super(isWhite, startingPosition);
     }
 
-    public boolean isSeen(ArrayList<Piece> pieces) {
-        return true;
-    }
-
     @Override
     public void move(Piece[][] pieces, Point toMove) {
         super.move(pieces, toMove);
         moved = true;
     }
 
+    @Override
     public boolean isMoved() {
         return moved;
     }
