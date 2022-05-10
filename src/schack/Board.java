@@ -116,7 +116,6 @@ public class Board extends JPanel implements MouseListener {
                 ArrayList<Point> allValidMoves = new ArrayList<>();
                 for (Piece[] pieceArr : pieces) {
                     for (Piece piece : pieceArr) {
-                        // || pieces[currentPlayer].contains(piece)
                         if (piece == null || whitesTurn != piece.isWhite()) {
                             continue;
                         }
@@ -129,7 +128,7 @@ public class Board extends JPanel implements MouseListener {
                 ArrayList<Point> opposingAttacks = checkAttacks(!whitesTurn);
 
                 boolean weCanMove = allValidMoves.size() > 0;
-                boolean hasShowedMessageAboutSchack = false;
+                boolean isPatt = false;
 
                 for (Point attack : opposingAttacks) {
                     Piece attacked = pieces[attack.x][attack.y];
@@ -143,10 +142,10 @@ public class Board extends JPanel implements MouseListener {
                         } else {
                             JOptionPane.showMessageDialog(this, "Schackmatt");
                         }
-                        hasShowedMessageAboutSchack = true;
+                        isPatt = true;
                     }
                 }
-                if (!hasShowedMessageAboutSchack && !weCanMove) {
+                if (!isPatt && !weCanMove) {
                     JOptionPane.showMessageDialog(this, "Patt");
 
                 }
