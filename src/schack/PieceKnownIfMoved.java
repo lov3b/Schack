@@ -17,6 +17,7 @@ public abstract class PieceKnownIfMoved extends Piece {
         moved = true;
     }
 
+    @Override
     public boolean isMoved() {
         return moved;
     }

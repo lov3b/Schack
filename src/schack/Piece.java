@@ -223,4 +223,13 @@ public abstract class Piece {
         return isWhite;
     }
 
+    /**
+     * Kompabilitet med PieceKnownIfMoved
+     *
+     * @return false
+     */
+    public boolean isMoved() {
+        return false;
+    }
+
 }

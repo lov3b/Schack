@@ -1,4 +1,3 @@
-
 package schack;
 
 import java.awt.Point;
@@ -13,7 +12,7 @@ public final class King extends PieceKnownIfMoved {
     }
 
     private void addCastlingIfCan(Piece[][] pieces, ArrayList<Point> movable, Point toMove, Point selected) {
-        if (moved) {
+        if (isMoved()) {
             return;
         }
 
@@ -27,23 +26,16 @@ public final class King extends PieceKnownIfMoved {
                 // Check så att man bara kan göra rockad ifall tornet inte rört sig
                 Piece p = pieces[loopX][this.position.y];
                 if (p != null) {
-                    try {
-                        PieceKnownIfMoved PKIM = (PieceKnownIfMoved) p;
-                        if (!PKIM.moved) {
-                            movable.add(new Point(2, this.position.y));
-                        }
-                    } catch (Exception e) {
+                    if (!p.isMoved()) {
+                        movable.add(new Point(2, this.position.y));
                     }
-
                 }
-
             }
 
             // Kolla ifall det är tomt emellan kung och torn
             if (pieces[loopX][this.position.y] != null) {
                 nothingInBetween = false;
             }
-
         }
 
         // Höger
@@ -52,7 +44,13 @@ public final class King extends PieceKnownIfMoved {
 
             // Kolla ifall vi kollar tornet och inget är emellan
             if (loopX == 7 && nothingInBetween) {
-                movable.add(new Point(6, this.position.y));
+                // Check så att man bara kan göra rockad ifall tornet inte rört sig
+                Piece p = pieces[loopX][this.position.y];
+                if (p != null) {
+                    if (!p.isMoved()) {
+                        movable.add(new Point(6, this.position.y));
+                    }
+                }
             }
 
             // Kolla ifall det är tomt emellan kung och torn
