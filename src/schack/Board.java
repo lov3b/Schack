@@ -19,19 +19,30 @@ public class Board extends JPanel implements MouseListener {
     private Piece[][] pieces = new Piece[8][8];
     private ArrayList<Point> validMovesToDraw = new ArrayList<>();
     private Point selectedPiece = new Point();
-    private Color moveableColor = new Color(255, 191, 0);
+    private final Color moveableColor = new Color(255, 191, 0);
     public boolean developerMode = false;
     short turnCount = 0;
-    boolean whitesTurn = true;
+    private boolean whitesTurn = true;
 
     public Board() throws IOException {
 
-        this.pieces = initPieces();
+        this.pieces = getPieces();
         setPreferredSize(new Dimension(800, 800));
 
     }
 
-    private Piece[][] initPieces() throws IOException {
+    /**
+     * Nollställ brädet
+     *
+     * @throws IOException
+     */
+    public void restartGame() throws IOException {
+        this.pieces = getPieces();
+        this.whitesTurn = true;
+        getParent().repaint();
+    }
+
+    private Piece[][] getPieces() throws IOException {
 
         Piece[][] piecesRet = {
             {new Rook(false, new Point(0, 0)), null, null, null, null, null, null, new Rook(true, new Point(0, 7))},
@@ -102,7 +113,6 @@ public class Board extends JPanel implements MouseListener {
     public void mousePressed(MouseEvent mouseEvent) {
         int mouseCoordinateX = (int) (mouseEvent.getX() / SIZE_OF_TILE);
         int mouseCoordinateY = (int) (mouseEvent.getY() / SIZE_OF_TILE);
-
         Point clicked = new Point(mouseCoordinateX, mouseCoordinateY);
 
         // Ifall vi har tryckt på en pjäs och sedan ska gå dit
@@ -127,7 +137,7 @@ public class Board extends JPanel implements MouseListener {
 
                 ArrayList<Point> opposingAttacks = checkAttacks(!whitesTurn);
 
-                boolean weCanMove = allValidMoves.size() > 0;
+                boolean weCanMove = !allValidMoves.isEmpty();
                 boolean inSchack = false;
 
                 for (Point attack : opposingAttacks) {
@@ -140,10 +150,11 @@ public class Board extends JPanel implements MouseListener {
                         if (weCanMove) {
                             JOptionPane.showMessageDialog(this, "Du står i schack");
                         } else {
+                            validMovesToDraw = new ArrayList<>();
+                            getParent().repaint();
                             int choise = JOptionPane.showConfirmDialog(this, "Schackmatt\nVill du starta om?");
                             if (choise == JOptionPane.YES_OPTION) {
-                                this.pieces = initPieces();
-                                whitesTurn = true;
+                                restartGame();
                             }
                         }
                         inSchack = true;
@@ -205,8 +216,7 @@ public class Board extends JPanel implements MouseListener {
             validMovesToDraw.clear();
         }
 
-        getParent()
-                .repaint();
+        getParent().repaint();
     }
 
     public ArrayList<Point> checkAttacks(boolean preferedColor) {
@@ -235,5 +245,9 @@ public class Board extends JPanel implements MouseListener {
 
     @Override
     public void mouseExited(MouseEvent e) {
+    }
+
+    public boolean isWhitesTurn() {
+        return whitesTurn;
     }
 }

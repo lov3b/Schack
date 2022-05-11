@@ -1,9 +1,12 @@
 package schack;
 
+import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -51,7 +54,6 @@ public class Schack {
         JMenuItem showLocalIP = new JMenuItem("Show IP");
         JMenuItem askForRemi = new JMenuItem("Ask for remi");
         JMenuItem surrender = new JMenuItem("Surrender");
-        
 
         // Actions
         connectToOpponent.addActionListener((ActionEvent ae) -> {
@@ -66,12 +68,30 @@ public class Schack {
             }
         });
         askForRemi.addActionListener((ActionEvent ae) -> {
-            System.out.println("I BEG FOR LE MERCY! (TODO)");
+            String whosWantingRemi = board.isWhitesTurn() ? "Vit" : "Svart";
+            int choice = JOptionPane.showConfirmDialog(board, whosWantingRemi + " erbjuder remi\nAccepterar du?");
+            if (choice == JOptionPane.YES_OPTION) {
+                choice = JOptionPane.showConfirmDialog(board, "Lika\nStarta om?");
+                if (choice == JOptionPane.YES_OPTION) {
+                    try {
+                        board.restartGame();
+                    } catch (IOException ex) {
+                        Logger.getLogger(Schack.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
         });
         surrender.addActionListener((ActionEvent ae) -> {
-            System.out.println("I'M FRENCH! (TODO)");
+            String whosGivingUp = board.isWhitesTurn() ? "Vit" : "Svart";
+            int choice = JOptionPane.showConfirmDialog(board, whosGivingUp + " har gett upp\nStarta om?");
+            if (choice == JOptionPane.YES_OPTION) {
+                try {
+                    board.restartGame();
+                } catch (IOException ex) {
+                    Logger.getLogger(Schack.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
         });
-        
 
         // Add the menu stuff
         frame.setJMenuBar(menuBar);
