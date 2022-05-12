@@ -11,6 +11,12 @@ public final class King extends PieceKnownIfMoved {
         supremeRuler = true;
     }
 
+    /**
+     * Få en ArrayList<Point> med möjliga rockadMoves
+     *
+     * @param pieces
+     * @return
+     */
     private ArrayList<Point> getCastlingIfPossible(Piece[][] pieces) {
         ArrayList<Point> possibleCastling = new ArrayList<>();
         if (this.isMoved()) {
@@ -59,6 +65,12 @@ public final class King extends PieceKnownIfMoved {
 
     }
 
+    /**
+     * Gör en rockad
+     *
+     * @param pieces
+     * @param shouldGoToLeftSide avgör ifall rockaden är åt vänster håll
+     */
     private void castle(Piece[][] pieces, boolean shouldGoToLeftSide) {
 
         Piece rook = pieces[shouldGoToLeftSide ? 0 : 7][this.position.y];

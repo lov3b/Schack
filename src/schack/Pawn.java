@@ -17,12 +17,12 @@ public class Pawn extends PieceKnownIfMoved {
         // Kolla ifall vi kan ta någon
         for (int pawnX : new int[]{-1, 1}) {
             // Position vi kollar just nu, snett upp åt höger & vänster
-            Point pos = new Point(this.position.x + pawnX, this.position.y + (this.isWhite ? -1 : 1));
+            Point pos = new Point(this.position.x + pawnX, this.position.y + (this.isWhite() ? -1 : 1));
             if (pos.x < 0 || pos.x > 7 || pos.y < 0 || pos.y > 7) {
                 continue;
             }
             Piece piece = pieces[pos.x][pos.y];
-            if (piece == null || piece.isWhite != piece.isWhite) {
+            if (piece == null || piece.isWhite() != piece.isWhite()) {
                 movable.add(pos);
             }
         }
@@ -39,7 +39,7 @@ public class Pawn extends PieceKnownIfMoved {
 
         // Kolla om man kan gå rakt frak
         for (int pawnDY = 1; pawnDY <= upTo; pawnDY++) {
-            Point pos = new Point(this.position.x, this.position.y + (this.isWhite ? -pawnDY : pawnDY));
+            Point pos = new Point(this.position.x, this.position.y + (this.isWhite() ? -pawnDY : pawnDY));
             boolean shouldBreak = addMovesIfCan(pos, movable, pieces, isSelected);
             if (shouldBreak) {
                 break;
@@ -49,7 +49,7 @@ public class Pawn extends PieceKnownIfMoved {
         // Kolla ifall vi kan ta någon
         for (int pawnX : new int[]{-1, 1}) {
             // Position vi kollar just nu, snett upp åt höger & vänster
-            Point pos = new Point(this.position.x + pawnX, this.position.y + (this.isWhite ? -1 : 1));
+            Point pos = new Point(this.position.x + pawnX, this.position.y + (this.isWhite() ? -1 : 1));
             addAttackMovesIfCan(pos, movable, pieces);
         }
         return movable;

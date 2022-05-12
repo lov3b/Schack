@@ -6,7 +6,6 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import javax.imageio.ImageIO;
 
 public abstract class Piece {
@@ -19,7 +18,7 @@ public abstract class Piece {
     /**
      * Sant ifall pjäsens färg är vit, falskt ifall den är svart
      */
-    public boolean isWhite;
+    private boolean isWhite;
     /**
      * SPECIAL RULÖES APPLY TO THE KING, (ITS GOOD TO BE THE KING:)
      */
@@ -51,7 +50,7 @@ public abstract class Piece {
      */
     private void setPieceIcon() throws IOException {
         String className = this.getClass().getSimpleName();
-        String colorName = isWhite ? "White" : "Black";
+        String colorName = this.isWhite() ? "White" : "Black";
         String fileName = colorName + className + ".png";
         InputStream is = getClass().getResourceAsStream("/img/" + fileName);
         icon = ImageIO.read(is);
@@ -109,6 +108,14 @@ public abstract class Piece {
         this.position = new Point(toMove);
     }
 
+    /**
+     * Lägg till move ifall det går, alltså inte är schack där
+     * @param pos drag att lägga till ifall det går
+     * @param movable lägger till drag i denna ArrayList<Point>
+     * @param pieces Piece[][] över brädet
+     * @param isSelected
+     * @return true ifall man inte kan gå längre i denna riktning
+     */
     protected boolean addMovesIfCan(Point pos, ArrayList<Point> movable, Piece[][] pieces, boolean isSelected) {
         // Ifall vi är utanför brädet ge tillbaka false
         if (pos.x > 7 || pos.x < 0 || pos.y > 7 || pos.y < 0) {
@@ -133,7 +140,7 @@ public abstract class Piece {
          * längre Ifall det är samma färg som oss betyder det att vi inte kan
          * lägga till den
          */
-        if (pieceToCheck.isWhite() != this.isWhite) {
+        if (pieceToCheck.isWhite() != this.isWhite()) {
             /**
              * Detta betyder att det är en motsatts pjäs här, vi kan ta men inte
              * gå längre
@@ -218,6 +225,10 @@ public abstract class Piece {
 //        return "Piece{" + "position=" + position + ", isWhite=" + white + '}';
     }
 
+    /**
+     * 
+     * @return true ifall pjäsen är vit
+     */
     public boolean isWhite() {
         return isWhite;
     }

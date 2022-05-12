@@ -10,6 +10,13 @@ public abstract class LongWalkers extends PieceKnownIfMoved {
         super(isWhite, startingPosition);
     }
 
+    /**
+     * Generell metod för att generera möjliga drag för LongWalkers
+     * @param directions
+     * @param pieces
+     * @param isSelected
+     * @return 
+     */
     ArrayList<Point> getMoves(int[][] directions, Piece[][] pieces, boolean isSelected) {
         ArrayList<Point> movable = new ArrayList<>();
 
@@ -19,7 +26,6 @@ public abstract class LongWalkers extends PieceKnownIfMoved {
                 loopX += xy[0];
                 loopY += xy[1];
                 boolean shouldBreak = addMovesIfCan(new Point(loopX, loopY), movable, pieces, isSelected);
-
                 if (shouldBreak) {
                     break;
                 }

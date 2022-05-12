@@ -178,7 +178,7 @@ public class Board extends JPanel implements MouseListener {
         if (!validMovesToDraw.contains(clicked)) {
 
             try {
-                Piece selectedPiece = pieces[mouseCoordinateX][mouseCoordinateY];
+                final Piece selectedPiece = pieces[mouseCoordinateX][mouseCoordinateY];
 
                 // Kolla endast ifall vi kan röra på pjäsen om det är samma färg som den tur vi är på
                 if (selectedPiece.isWhite() == whitesTurn || developerMode) {
@@ -191,7 +191,7 @@ public class Board extends JPanel implements MouseListener {
                     ArrayList<Point> allValidMoves = new ArrayList<>();
                     for (Piece[] pieceArr : pieces) {
                         for (Piece piece : pieceArr) {
-                            if (piece == null || whitesTurn != piece.isWhite) {
+                            if (piece == null || whitesTurn != piece.isWhite()) {
                                 continue;
                             }
                             // Kolla ifall vi är samma färg som får röra sig
@@ -224,7 +224,7 @@ public class Board extends JPanel implements MouseListener {
         for (Piece[] pieceArr : pieces) {
             for (Piece piece : pieceArr) {
                 // Ifall det är tomrum skippa
-                if (piece == null || preferedColor != piece.isWhite) {
+                if (piece == null || preferedColor != piece.isWhite()) {
                     continue;
                 }
                 // Lägg till alla attacker för respektive färg
