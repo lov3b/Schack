@@ -69,9 +69,10 @@ public abstract class Piece {
      * Ger tillbaks alla ställen pjäsen kan attackera
      *
      * @param pieces
+     * @param shouldNotCareIfAttackSpaceIsEmptyOrNot Ifall man inte ska bry sig ifall 
      * @return
      */
-    public ArrayList<Point> validAttacks(Piece[][] pieces) {
+    public ArrayList<Point> validAttacks(Piece[][] pieces, boolean shouldNotCareIfAttackSpaceIsEmptyOrNot) {
         return validMoves(pieces, false);
     }
 
@@ -110,6 +111,7 @@ public abstract class Piece {
 
     /**
      * Lägg till move ifall det går, alltså inte är schack där
+     *
      * @param pos drag att lägga till ifall det går
      * @param movable lägger till drag i denna ArrayList<Point>
      * @param pieces Piece[][] över brädet
@@ -204,7 +206,7 @@ public abstract class Piece {
             for (Piece piece : pieceArr) {
                 if (piece != null && piece.isWhite != this.isWhite()) {
                     // Lägg till alla attacker för mostståndaren
-                    enemyAttacks.addAll(piece.validAttacks(pieces));
+                    enemyAttacks.addAll(piece.validAttacks(pieces, false));
                 }
             }
         }
@@ -226,7 +228,7 @@ public abstract class Piece {
     }
 
     /**
-     * 
+     *
      * @return true ifall pjäsen är vit
      */
     public boolean isWhite() {

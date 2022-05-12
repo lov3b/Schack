@@ -11,7 +11,7 @@ public class Pawn extends PieceKnownIfMoved {
     }
 
     @Override
-    public ArrayList<Point> validAttacks(Piece[][] pieces) {
+    public ArrayList<Point> validAttacks(Piece[][] pieces, boolean shouldNotCareIfAttackSpaceIsEmptyOrNot) {
         ArrayList<Point> movable = new ArrayList<>();
 
         // Kolla ifall vi kan ta någon
@@ -22,7 +22,8 @@ public class Pawn extends PieceKnownIfMoved {
                 continue;
             }
             Piece piece = pieces[pos.x][pos.y];
-            if (piece == null || piece.isWhite() != piece.isWhite()) {
+            if (piece == null || piece.isWhite() != this.isWhite()
+                    || (shouldNotCareIfAttackSpaceIsEmptyOrNot && piece.isWhite() != this.isWhite())) {
                 movable.add(pos);
             }
         }

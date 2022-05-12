@@ -228,7 +228,7 @@ public class Board extends JPanel implements MouseListener {
                     continue;
                 }
                 // Lägg till alla attacker för respektive färg
-                attacks.addAll(piece.validAttacks(pieces));
+                attacks.addAll(piece.validAttacks(pieces, true));
             }
         }
 
