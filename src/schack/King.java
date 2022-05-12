@@ -13,7 +13,7 @@ public final class King extends PieceKnownIfMoved {
 
     private ArrayList<Point> getCastlingIfPossible(Piece[][] pieces) {
         ArrayList<Point> possibleCastling = new ArrayList<>();
-        if (isMoved()) {
+        if (this.isMoved()) {
             return possibleCastling;
         }
 
@@ -25,11 +25,9 @@ public final class King extends PieceKnownIfMoved {
             if (loopX == 0 && nothingInBetween) {
 
                 // Check så att man bara kan göra rockad ifall tornet inte rört sig
-                Piece p = pieces[loopX][this.position.y];
-                if (p != null) {
-                    if (!p.isMoved()) {
-                        possibleCastling.add(new Point(2, this.position.y));
-                    }
+                Piece possibleRook = pieces[loopX][this.position.y];
+                if (possibleRook != null && !possibleRook.isMoved()) {
+                    possibleCastling.add(new Point(2, this.position.y));
                 }
             }
 
@@ -46,11 +44,9 @@ public final class King extends PieceKnownIfMoved {
             // Kolla ifall vi kollar tornet och inget är emellan
             if (loopX == 7 && nothingInBetween) {
                 // Check så att man bara kan göra rockad ifall tornet inte rört sig
-                Piece p = pieces[loopX][this.position.y];
-                if (p != null) {
-                    if (!p.isMoved()) {
-                        possibleCastling.add(new Point(6, this.position.y));
-                    }
+                Piece possibleRook = pieces[loopX][this.position.y];
+                if (possibleRook != null && !possibleRook.isMoved()) {
+                    possibleCastling.add(new Point(6, this.position.y));
                 }
             }
 
@@ -82,7 +78,7 @@ public final class King extends PieceKnownIfMoved {
     @Override
     public void move(Piece[][] pieces, Point toMove) {
         if (Math.abs(position.x - toMove.x) == 2) {
-            final boolean goToLeftSide = (toMove.x < 5) ? true : false;
+            final boolean goToLeftSide = toMove.x < 5;
             castle(pieces, goToLeftSide);
         } else {
             super.move(pieces, toMove);
