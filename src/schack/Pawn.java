@@ -87,33 +87,13 @@ public class Pawn extends PieceKnownIfMoved {
         if (pos.x < 0 || pos.x > 7 || pos.y < 0 || pos.y > 7) {
             return false;
         }
-        // Instead of checking index and null, try-catch
-        try {
-            // Ifall vi kollar utanför brädet kommer detta att faila
-            Piece p = pieces[pos.x][pos.y];
 
-            // Ifall pjäsen här har samma färg som oss, break
-            // Ifall det inte är någon pjäs här kommer det att gå ner till
-            // catch(NullPointerException) och då lägger vi till detta drag i listan
-            // Ifall det är inte är en pjäs här, kasta ett NullPointerException
-            // Detta är för att vara så lik super-implementationen som möjligt
-            if (p == null) {
-                throw new NullPointerException();
-            } else {
-                // Detta betyder att det finns en pjäs här
-                // Vi kan ta men inte gå längre.
-                return true;
-            }
-        } catch (NullPointerException npe) {
-            // This is an empty spot
+        Piece pieceToCheck = pieces[pos.x][pos.y];
+        if (pieceToCheck == null) {
             movable.addAll(tryToMoveAndCheckIfCheck(pieces, pos));
-        } catch (IndexOutOfBoundsException ioobe) {
-            // This means that the player is at the edge
-            System.out.println(pos);
-        } catch (Exception e) {
-            // For good meassure
+            return false;
         }
-        return false;
+        return true;
 
     }
 
