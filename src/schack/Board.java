@@ -146,12 +146,12 @@ public class Board extends JPanel implements MouseListener {
                         continue;
                     }
                     if (attacked.supremeRuler) {
+                        validMovesToDraw.clear();
+                        getParent().repaint();
                         // Kolla ifall vi är i schackmatt
                         if (weCanMove) {
                             JOptionPane.showMessageDialog(this, "Du står i schack");
                         } else {
-                            validMovesToDraw.clear();
-                            getParent().repaint();
                             int choise = JOptionPane.showConfirmDialog(this, "Schackmatt\nVill du starta om?");
                             if (choise == JOptionPane.YES_OPTION) {
                                 restartGame();

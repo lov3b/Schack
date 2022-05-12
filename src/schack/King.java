@@ -11,9 +11,10 @@ public final class King extends PieceKnownIfMoved {
         supremeRuler = true;
     }
 
-    private void addCastlingIfCan(Piece[][] pieces, ArrayList<Point> movable, Point toMove, Point selected) {
+    private ArrayList<Point> getCastlingIfPossible(Piece[][] pieces) {
+        ArrayList<Point> possibleCastling = new ArrayList<>();
         if (isMoved()) {
-            return;
+            return possibleCastling;
         }
 
         // Vänster
@@ -27,7 +28,7 @@ public final class King extends PieceKnownIfMoved {
                 Piece p = pieces[loopX][this.position.y];
                 if (p != null) {
                     if (!p.isMoved()) {
-                        movable.add(new Point(2, this.position.y));
+                        possibleCastling.add(new Point(2, this.position.y));
                     }
                 }
             }
@@ -48,7 +49,7 @@ public final class King extends PieceKnownIfMoved {
                 Piece p = pieces[loopX][this.position.y];
                 if (p != null) {
                     if (!p.isMoved()) {
-                        movable.add(new Point(6, this.position.y));
+                        possibleCastling.add(new Point(6, this.position.y));
                     }
                 }
             }
@@ -58,6 +59,7 @@ public final class King extends PieceKnownIfMoved {
                 nothingInBetween = false;
             }
         }
+        return possibleCastling;
 
     }
 
@@ -101,7 +103,7 @@ public final class King extends PieceKnownIfMoved {
             }
 
         }
-        addCastlingIfCan(pieces, movable, position, position);
+        movable.addAll(getCastlingIfPossible(pieces));
         return movable;
     }
 
