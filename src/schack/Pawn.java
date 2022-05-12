@@ -36,7 +36,7 @@ public class Pawn extends PieceKnownIfMoved {
         ArrayList<Point> movable = new ArrayList<>();
 
         // Om bonden har gått en gång, får gå 1 steg, annars 2
-        final int upTo = moved ? 1 : 2;
+        final int upTo = this.isMoved() ? 1 : 2;
 
         // Kolla om man kan gå rakt frak
         for (int pawnDY = 1; pawnDY <= upTo; pawnDY++) {
@@ -51,7 +51,7 @@ public class Pawn extends PieceKnownIfMoved {
         for (int pawnX : new int[]{-1, 1}) {
             // Position vi kollar just nu, snett upp åt höger & vänster
             Point pos = new Point(this.position.x + pawnX, this.position.y + (this.isWhite() ? -1 : 1));
-            addAttackMovesIfCan(pos, movable, pieces);
+            movable.addAll(addAttackMovesIfCan(pos, pieces));
         }
         return movable;
     }
@@ -65,21 +65,19 @@ public class Pawn extends PieceKnownIfMoved {
      * @param movable
      * @param pieces
      */
-    private void addAttackMovesIfCan(Point pos, ArrayList movable, Piece[][] pieces) {
-
+    private ArrayList<Point> addAttackMovesIfCan(Point pos, Piece[][] pieces) {
+        ArrayList movable = new ArrayList<Point>();
         // Se till att vi inte är utanför brädet
         if (pos.x >= pieces.length || pos.x < 0 || pos.y >= pieces[0].length || pos.y < 0) {
-            return;
+            return movable;
         }
 
         Piece piece = pieces[pos.x][pos.y];
         // Ifall det är tomt här, gör ingenting
-        if (piece == null) {
-            return;
-        } else if (piece.isWhite() != this.isWhite()) {
+        if (piece != null && piece.isWhite() != this.isWhite()) {
             movable.addAll(tryToMoveAndCheckIfCheck(pieces, pos));
         }
-
+        return movable;
     }
 
     @Override
@@ -96,5 +94,4 @@ public class Pawn extends PieceKnownIfMoved {
         return true;
 
     }
-
 }
