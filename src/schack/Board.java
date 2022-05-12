@@ -10,6 +10,8 @@ import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -18,7 +20,7 @@ public class Board extends JPanel implements MouseListener {
     public static final int SIZE_OF_TILE = 100;
     private Piece[][] pieces = new Piece[8][8];
     private ArrayList<Point> validMovesToDraw = new ArrayList<>();
-    private Point selectedPiece = new Point();
+    private Point previouslyClickedPoint = new Point();
     private final Color moveableColor = new Color(255, 191, 0);
     short turnCount = 0;
     private boolean whitesTurn = true;
@@ -116,99 +118,73 @@ public class Board extends JPanel implements MouseListener {
 
         // Ifall vi har tryckt på en pjäs och sedan ska gå dit
         if (validMovesToDraw.contains(clicked)) {
-            try {
-                Piece p = pieces[selectedPiece.x][selectedPiece.y];
-                p.move(pieces, clicked);
-                turnCount++;
-                whitesTurn = !whitesTurn;
+            final Piece selectedPiece = pieces[previouslyClickedPoint.x][previouslyClickedPoint.y];
+            if (selectedPiece == null) {
+                validMovesToDraw.clear();
+                return;
+            }
+            selectedPiece.move(pieces, clicked);
+            turnCount++;
+            whitesTurn = !whitesTurn;
 
-                ArrayList<Point> allValidMoves = new ArrayList<>();
-                for (Piece[] pieceArr : pieces) {
-                    for (Piece piece : pieceArr) {
-                        if (piece == null || whitesTurn != piece.isWhite()) {
-                            continue;
-                        }
-                        // Kolla ifall vi är samma färg som får röra sig
-                        // Ifall en pjäs får röra sig sätt weCanMove till sant och sluta 
-                        allValidMoves.addAll(piece.validMoves(pieces, true));
-                    }
-                }
-
-                ArrayList<Point> opposingAttacks = checkAttacks(!whitesTurn);
-
-                boolean weCanMove = !allValidMoves.isEmpty();
-                boolean inSchack = false;
-
-                for (Point attack : opposingAttacks) {
-                    Piece attacked = pieces[attack.x][attack.y];
-                    if (attacked == null) {
+            ArrayList<Point> allValidMoves = new ArrayList<>();
+            for (Piece[] pieceArr : pieces) {
+                for (Piece piece : pieceArr) {
+                    if (piece == null || whitesTurn != piece.isWhite()) {
                         continue;
                     }
-                    if (attacked.supremeRuler) {
-                        validMovesToDraw.clear();
-                        getParent().repaint();
-                        // Kolla ifall vi är i schackmatt
-                        if (weCanMove) {
-                            JOptionPane.showMessageDialog(this, "Du står i schack");
-                        } else {
-                            int choise = JOptionPane.showConfirmDialog(this, "Schackmatt\nVill du starta om?");
-                            if (choise == JOptionPane.YES_OPTION) {
+                    // Kolla ifall vi är samma färg som får röra sig
+                    // Ifall en pjäs får röra sig sätt weCanMove till sant och sluta 
+                    allValidMoves.addAll(piece.validMoves(pieces, true));
+                }
+            }
+
+            ArrayList<Point> opposingAttacks = checkAttacks(!whitesTurn);
+
+            boolean weCanMove = !allValidMoves.isEmpty();
+            boolean inSchack = false;
+
+            for (Point attack : opposingAttacks) {
+                Piece attacked = pieces[attack.x][attack.y];
+                if (attacked == null) {
+                    continue;
+                }
+                if (attacked.supremeRuler) {
+                    validMovesToDraw.clear();
+                    getParent().repaint();
+                    // Kolla ifall vi är i schackmatt
+                    if (weCanMove) {
+                        JOptionPane.showMessageDialog(this, "Du står i schack");
+                    } else {
+                        int choise = JOptionPane.showConfirmDialog(this, "Schackmatt\nVill du starta om?");
+                        if (choise == JOptionPane.YES_OPTION) {
+                            try {
                                 restartGame();
+                            } catch (IOException ex) {
+                                Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
                             }
                         }
-                        inSchack = true;
                     }
+                    inSchack = true;
                 }
-                if (!inSchack && !weCanMove) {
-                    JOptionPane.showMessageDialog(this, "Patt");
-
-                }
-
-            } catch (Exception e) {
-                validMovesToDraw.clear();
+            }
+            if (!inSchack && !weCanMove) {
+                JOptionPane.showMessageDialog(this, "Patt");
             }
 
         } else {
-            selectedPiece = new Point(clicked);
+            previouslyClickedPoint = new Point(clicked);
             validMovesToDraw.clear();
         }
 
         // Om vi inte redan har valt en pjäs klickar vi på en pjäs
         if (!validMovesToDraw.contains(clicked)) {
 
-            try {
-                final Piece selectedPiece = pieces[mouseCoordinateX][mouseCoordinateY];
+            final Piece selectedPiece = pieces[mouseCoordinateX][mouseCoordinateY];
 
-                // Kolla endast ifall vi kan röra på pjäsen om det är samma färg som den tur vi är på
-                if (selectedPiece.isWhite() == whitesTurn) {
-                    ArrayList<Point> attacks = checkAttacks(whitesTurn);
-
-                    ArrayList<Point> validMoves = selectedPiece.validMoves(pieces, true);
-                    // Kolla ifall vi kan röra oss
-                    // Loopa igenom allt
-
-                    ArrayList<Point> allValidMoves = new ArrayList<>();
-                    for (Piece[] pieceArr : pieces) {
-                        for (Piece piece : pieceArr) {
-                            if (piece == null || whitesTurn != piece.isWhite()) {
-                                continue;
-                            }
-                            // Kolla ifall vi är samma färg som får röra sig
-                            // Ifall en pjäs får röra sig sätt weCanMove till sant och sluta 
-                            allValidMoves.addAll(piece.validMoves(pieces, whitesTurn));
-                        }
-                    }
-
-                    // Funkar
-                    if (selectedPiece.supremeRuler) {
-                        //validMoves.removeAll(attacks);
-                    }
-
-                    //allValidMoves.removeAll(attacks);
-                    // Kollar ifall kungen står i schack just nu
-                    validMovesToDraw.addAll(validMoves);
-                }
-            } catch (Exception e) {
+            if (selectedPiece != null && selectedPiece.isWhite() == whitesTurn) {
+                validMovesToDraw.addAll(selectedPiece.validMoves(pieces, true));
+            } else {
                 validMovesToDraw.clear();
             }
         } else {
