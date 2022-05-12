@@ -49,7 +49,7 @@ public abstract class Piece {
      * @param className
      * @throws IOException ifall det inte finns någon bild på pjäsen
      */
-    protected void setPieceIcon() throws IOException {
+    private void setPieceIcon() throws IOException {
         String className = this.getClass().getSimpleName();
         String colorName = isWhite ? "White" : "Black";
         String fileName = colorName + className + ".png";
@@ -96,7 +96,6 @@ public abstract class Piece {
      *
      * @param pieces
      * @param toMove
-     * @param selected
      */
     public void move(Piece[][] pieces, Point toMove) {
 
@@ -149,6 +148,14 @@ public abstract class Piece {
 
     }
 
+    /**
+     * Testa att flytta pjäs till pos och ifall det inte är schack så lägg ge
+     * tillbaka möjligt drag i en ArrayList
+     *
+     * @param pieces
+     * @param pos
+     * @return
+     */
     ArrayList<Point> tryToMoveAndCheckIfCheck(Piece[][] pieces, Point pos) {
         ArrayList<Point> movable = new ArrayList<>();
         // Kom ihåg vart vi var
@@ -162,7 +169,7 @@ public abstract class Piece {
         pieces[previousPosition.x][previousPosition.y] = null;
         this.position = new Point(pos);
 
-        boolean inSchack = checkIfSchack(pos, pieces);
+        boolean inSchack = isInSchack(pos, pieces);
 
         // Flytta tillbaka
         pieces[previousPosition.x][previousPosition.y] = this;
@@ -175,38 +182,30 @@ public abstract class Piece {
         return movable;
     }
 
-    boolean checkIfSchack(Point pos, Piece[][] pieces) {
-        boolean ourColor = this.isWhite();
-        Piece selectedPiece = this;
-        ArrayList<Point> attacks = new ArrayList<>();
+    /**
+     * Kolla ifall det är schack vid den här positionen
+     *
+     * @param pos
+     * @param pieces
+     * @return true ifall det är schack
+     */
+    boolean isInSchack(Point pos, Piece[][] pieces) {
+        ArrayList<Point> enemyAttacks = new ArrayList<>();
 
         // Fråga alla pjäser vart de kan gå/ta
-        Arrays.stream(pieces).forEach(array -> {
-            Arrays.stream(array).filter(piece -> piece != null && piece.isWhite() != this.isWhite()).forEach(piece -> {
-                attacks.addAll(piece.validAttacks(pieces));
-            });
-        });
-
-        /* for (Piece[] pieceArr : pieces) {
+        for (Piece[] pieceArr : pieces) {
             for (Piece piece : pieceArr) {
-                // Ifall det är tomrum skippa
-                if (piece == null) {
-                    continue;
-                } else if (piece.isWhite() == ourColor) {
-                    continue;
+                if (piece != null && piece.isWhite != this.isWhite()) {
+                    // Lägg till alla attacker för mostståndaren
+                    enemyAttacks.addAll(piece.validAttacks(pieces));
                 }
+            }
+        }
 
-                // Lägg till alla attacker för mostståndaren
-                attacks.addAll(piece.validAttacks(pieces));
-            }
-        }*/
         // Kollar ifall kungen står i schack just nu
-        for (Point attack : attacks) {
-            Piece attacked = pieces[attack.x][attack.y];
-            if (attacked == null) {
-                continue;
-            }
-            if (attacked.supremeRuler) {
+        for (Point enemyAttack : enemyAttacks) {
+            Piece attackedPiece = pieces[enemyAttack.x][enemyAttack.y];
+            if (attackedPiece != null && attackedPiece.supremeRuler) {
                 return true;
             }
         }
