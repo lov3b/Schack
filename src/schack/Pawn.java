@@ -75,10 +75,7 @@ public class Pawn extends PieceKnownIfMoved {
         Piece piece = pieces[pos.x][pos.y];
         // Ifall det är tomt här, gör ingenting
         if (piece != null && piece.isWhite() != this.isWhite()) {
-            boolean isSchack = isInSchack(pos, pieces);
-            if (isSchack) {
-                movable.add(pos);
-            }
+            movable.addAll(tryToMoveAndCheckIfCheck(pieces, pos));
         }
         return movable;
     }
@@ -91,10 +88,7 @@ public class Pawn extends PieceKnownIfMoved {
 
         Piece pieceToCheck = pieces[pos.x][pos.y];
         if (pieceToCheck == null) {
-            boolean isSchack = isInSchack(pos, pieces);
-            if (isSchack) {
-                movable.add(pos);
-            }
+            movable.addAll(tryToMoveAndCheckIfCheck(pieces, pos));
             return false;
         }
         return true;

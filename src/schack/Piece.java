@@ -69,8 +69,7 @@ public abstract class Piece {
      * Ger tillbaks alla ställen pjäsen kan attackera
      *
      * @param pieces
-     * @param shouldNotCareIfAttackSpaceIsEmptyOrNot Ifall man inte ska bry sig
-     * ifall
+     * @param shouldNotCareIfAttackSpaceIsEmptyOrNot Ifall man inte ska bry sig ifall 
      * @return
      */
     public ArrayList<Point> validAttacks(Piece[][] pieces, boolean shouldNotCareIfAttackSpaceIsEmptyOrNot) {
@@ -132,11 +131,7 @@ public abstract class Piece {
             if (!isSelected) {
                 movable.add(pos);
             } else {
-                boolean isSchack = isInSchack(pos, pieces);
-                if (isSchack) {
-                    movable.add(pos);
-                }
-
+                movable.addAll(tryToMoveAndCheckIfCheck(pieces, pos));
             }
             // Fortsätt att gå
             return false;
@@ -155,10 +150,7 @@ public abstract class Piece {
             if (!isSelected) {
                 movable.add(pos);
             } else {
-                boolean isSchack = isInSchack(pos, pieces);
-                if (isSchack) {
-                    movable.add(pos);
-                }
+                movable.addAll(tryToMoveAndCheckIfCheck(pieces, pos));
             }
         }
         return true;
@@ -173,7 +165,8 @@ public abstract class Piece {
      * @param pos
      * @return
      */
-    boolean isSchackHere(Piece[][] pieces, Point pos) {
+    ArrayList<Point> tryToMoveAndCheckIfCheck(Piece[][] pieces, Point pos) {
+        ArrayList<Point> movable = new ArrayList<>();
         // Kom ihåg vart vi var
         Point previousPosition = new Point(this.position);
 
@@ -191,8 +184,11 @@ public abstract class Piece {
         pieces[previousPosition.x][previousPosition.y] = this;
         pieces[pos.x][pos.y] = opponentPiece;
         this.position = new Point(previousPosition);
-        return inSchack;
 
+        if (!inSchack) {
+            movable.add(pos);
+        }
+        return movable;
     }
 
     /**
