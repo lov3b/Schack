@@ -143,14 +143,13 @@ public abstract class Piece {
     }
 
     /**
-     * Testa att flytta pjäs till pos och ifall det inte är schack så lägg ge
-     * tillbaka möjligt drag i en ArrayList
+     * Kolla ifall det är schack vid den här positionen
      *
-     * @param pieces
-     * @param pos
-     * @return
+     * @param pieces Piece[][] över hela brädet
+     * @param pos Kollar ifall det är schack om denna Piece flyttar hit
+     * @return true ifall det är schack
      */
-    private boolean moveAndTestSchackHere(Piece[][] pieces, Point pos) {
+    boolean isInSchack(Piece[][] pieces, Point pos) {
         // Kom ihåg vart vi var
         Point previousPosition = new Point(this.position);
 
@@ -162,7 +161,7 @@ public abstract class Piece {
         pieces[previousPosition.x][previousPosition.y] = null;
         this.position = new Point(pos);
 
-        boolean inSchack = isInSchack(pieces, null);
+        boolean inSchack = isInSchack(pieces);
 
         // Flytta tillbaka
         pieces[previousPosition.x][previousPosition.y] = this;
@@ -173,18 +172,12 @@ public abstract class Piece {
     }
 
     /**
-     * Kolla ifall det är schack vid den här positionen
+     * Kolla ifall det är schack
      *
      * @param pieces Piece[][] över hela brädet
-     * @param pos null ifall man endast ska kolla ifall det är schack just nu,
-     * alltså ifall pos inte är null testar vi att flytta oss dit och sedan
-     * kollar ifall det är schack där
      * @return true ifall det är schack
      */
-    boolean isInSchack(Piece[][] pieces, Point pos) {
-        if (pos != null) {
-            return moveAndTestSchackHere(pieces, pos);
-        }
+    private boolean isInSchack(Piece[][] pieces) {
         ArrayList<Point> enemyAttacks = new ArrayList<>();
 
         // Fråga alla pjäser vart de kan gå/ta
