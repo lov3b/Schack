@@ -65,8 +65,8 @@ public abstract class Piece {
      * Ger tillbaks alla ställen pjäsen kan attackera
      *
      * @param pieces
-     * @param shouldNotCareIfAttackSpaceIsEmptyOrNot För bönder ifall den ska kolla ifall det är något i möjliga attackrutor
-     * ifall
+     * @param shouldNotCareIfAttackSpaceIsEmptyOrNot För bönder ifall den ska
+     * kolla ifall det är något i möjliga attackrutor ifall
      * @return Alla lämpliga attackMoves
      */
     public ArrayList<Point> validAttacks(Piece[][] pieces, boolean shouldNotCareIfAttackSpaceIsEmptyOrNot) {
@@ -123,14 +123,9 @@ public abstract class Piece {
 
         // Detta är en tom plats
         if (pieceToCheck == null) {
-            if (!isSelected) {
+            if (!isSelected || !isInSchack(pieces, pos)) {
                 movable.add(pos);
-            } else {
-                if (!isInSchack(pieces, pos)) {
-                    movable.add(pos);
-                }
             }
-            // Fortsätt att gå
             return false;
         }
 
@@ -139,18 +134,9 @@ public abstract class Piece {
          * längre Ifall det är samma färg som oss betyder det att vi inte kan
          * lägga till den
          */
-        if (pieceToCheck.isWhite() != this.isWhite()) {
-            /**
-             * Detta betyder att det är en motsatts pjäs här, vi kan ta men inte
-             * gå längre
-             */
-            if (!isSelected) {
-                movable.add(pos);
-            } else {
-                if (!isInSchack(pieces, pos)) {
-                    movable.add(pos);
-                }
-            }
+        if ((pieceToCheck.isWhite() != this.isWhite())
+                && ((isSelected && !isInSchack(pieces, pos)) || !isSelected)) {
+            movable.add(pos);
         }
         return true;
 
