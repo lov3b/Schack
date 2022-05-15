@@ -10,6 +10,14 @@ public class Pawn extends PieceKnownIfMoved {
         super(isWhite, startingPosition);
     }
 
+    /**
+     * Ger tillbaks alla ställen pjäsen kan attackera
+     *
+     * @param pieces
+     * @param shouldNotCareIfAttackSpaceIsEmptyOrNot Ifall man ska kolla ifall det är något i möjliga attackrutor
+     * ifall
+     * @return Alla lämpliga attackMoves
+     */
     @Override
     public ArrayList<Point> validAttacks(Piece[][] pieces, boolean shouldNotCareIfAttackSpaceIsEmptyOrNot) {
         ArrayList<Point> movable = new ArrayList<>();
@@ -75,7 +83,7 @@ public class Pawn extends PieceKnownIfMoved {
         Piece piece = pieces[pos.x][pos.y];
         // Ifall det är tomt här, gör ingenting
         if (piece != null && piece.isWhite() != this.isWhite()) {
-            if (!isInSchackHere(pieces, pos)) {
+            if (!isInSchack(pieces, pos)) {
                 movable.add(pos);
             }
         }
@@ -90,7 +98,7 @@ public class Pawn extends PieceKnownIfMoved {
 
         Piece pieceToCheck = pieces[pos.x][pos.y];
         if (pieceToCheck == null) {
-            if (!isInSchackHere(pieces, pos)) {
+            if (!isInSchack(pieces, pos)) {
                 movable.add(pos);
             }
             return false;
