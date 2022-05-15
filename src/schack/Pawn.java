@@ -79,7 +79,6 @@ public class Pawn extends PieceKnownIfMoved {
         if (pos.x >= pieces.length || pos.x < 0 || pos.y >= pieces[0].length || pos.y < 0) {
             return movable;
         }
-
         final Piece potentialEnemy = pieces[pos.x][pos.y];
         // Ifall det är tomt här, gör ingenting
         if (potentialEnemy != null && potentialEnemy.isWhite() != this.isWhite()) {

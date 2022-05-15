@@ -53,10 +53,6 @@ public class Board extends JPanel implements MouseListener {
             {new Rook(false, new Point(7, 0)), null, null, null, null, null, null, new Rook(true, new Point(7, 7))}
         };
 
-        // Test 
-        piecesRet[2][2] = null;
-        piecesRet[2][3] = null;
-
         // Sätt ut bönder
         for (int i = 0; i < pieces.length; i++) {
             piecesRet[i][1] = new Pawn(false, new Point(i, 1));
@@ -71,17 +67,24 @@ public class Board extends JPanel implements MouseListener {
         Graphics2D g2 = (Graphics2D) g;
         drawSquares(g2);
 
-        // måla alla ställen man kan gå¨till
-        validMovesToDraw.stream().filter(point -> point != null)
-                .forEach(point -> {
-                    g2.setColor(moveableColor);
-                    g2.fillOval(point.x * SIZE_OF_TILE, point.y * SIZE_OF_TILE, SIZE_OF_TILE, SIZE_OF_TILE);
-                });
+        // Måla alla ställen man kan gå till
+        g2.setColor(moveableColor);
+        for (Point validMove : validMovesToDraw) {
+            if (validMove == null) {
+                continue;
+            }
+            g2.fillOval(validMove.x * SIZE_OF_TILE, validMove.y * SIZE_OF_TILE, SIZE_OF_TILE, SIZE_OF_TILE);
+        }
 
-        // Draw piece
-        Arrays.stream(pieces).forEach(pieceArr -> Arrays.stream(pieceArr)
-                .filter(piece -> piece != null)
-                .forEach(piece -> piece.draw(g2)));
+        // Måla alla pjäser
+        for (Piece[] pieceArr : pieces) {
+            for (Piece piece : pieceArr) {
+                if (piece == null) {
+                    continue;
+                }
+                piece.draw(g2);
+            }
+        }
     }
 
     private void drawSquares(Graphics2D g2) {
@@ -90,13 +93,8 @@ public class Board extends JPanel implements MouseListener {
 
         for (int i = 0; i < 8; i += 2) {
             for (int j = 0; j < 8; j += 2) {
-                g2.fillRect(i * SIZE_OF_TILE, j * SIZE_OF_TILE, 1 * SIZE_OF_TILE, 1 * SIZE_OF_TILE);
-            }
-        }
-
-        for (int i = 1; i < 8; i += 2) {
-            for (int j = 1; j < 8; j += 2) {
-                g2.fillRect(i * SIZE_OF_TILE, j * SIZE_OF_TILE, 1 * SIZE_OF_TILE, 1 * SIZE_OF_TILE);
+                g2.fillRect(i * SIZE_OF_TILE, j * SIZE_OF_TILE, SIZE_OF_TILE, SIZE_OF_TILE);
+                g2.fillRect((i + 1) * SIZE_OF_TILE, (j + 1) * SIZE_OF_TILE, SIZE_OF_TILE, SIZE_OF_TILE);
             }
         }
     }
