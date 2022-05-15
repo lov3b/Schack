@@ -8,7 +8,6 @@ import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -116,25 +115,14 @@ public class Board extends JPanel implements MouseListener {
             turnCount++;
             whitesTurn = !whitesTurn;
 
-            final ArrayList<Point> allValidMoves = new ArrayList<>();
-            for (Piece[] pieceArr : pieces) {
-                for (Piece piece : pieceArr) {
-                    if (piece == null || whitesTurn != piece.isWhite()) {
-                        continue;
-                    }
-                    // Kolla ifall vi är samma färg som får röra sig
-                    // Ifall en pjäs får röra sig sätt weCanMove till sant och sluta 
-                    allValidMoves.addAll(piece.validMoves(pieces, true));
-                }
-            }
-
-            ArrayList<Point> opposingAttacks = checkAttacks(!whitesTurn);
+            final ArrayList<Point> allValidMoves = getMoves(whitesTurn);
+            final ArrayList<Point> opposingAttacks = getAttacks(!whitesTurn);
 
             final boolean weCanMove = !allValidMoves.isEmpty();
             boolean inSchack = false;
 
             for (Point attack : opposingAttacks) {
-                Piece attacked = pieces[attack.x][attack.y];
+                final Piece attacked = pieces[attack.x][attack.y];
                 if (attacked == null) {
                     continue;
                 }
@@ -168,7 +156,6 @@ public class Board extends JPanel implements MouseListener {
 
         // Om vi inte redan har valt en pjäs klickar vi på en pjäs
         if (!validMovesToDraw.contains(clickedCoordinate)) {
-
             final Piece selectedPiece = pieces[mouseCoordinateX][mouseCoordinateY];
 
             if (selectedPiece != null && selectedPiece.isWhite() == whitesTurn) {
@@ -183,19 +170,29 @@ public class Board extends JPanel implements MouseListener {
         getParent().repaint();
     }
 
-    public ArrayList<Point> checkAttacks(boolean preferedColor) {
+    private ArrayList<Point> getMoves(boolean whiteMovesAreWanted) {
+        final ArrayList<Point> allValidMoves = new ArrayList<>();
+        for (Piece[] pieceArr : pieces) {
+            for (Piece piece : pieceArr) {
+                if (piece == null || whiteMovesAreWanted != piece.isWhite()) {
+                    continue;
+                }
+                allValidMoves.addAll(piece.validMoves(pieces, true));
+            }
+        }
+        return allValidMoves;
+    }
+
+    public ArrayList<Point> getAttacks(boolean whiteAttacksAreWanted) {
         final ArrayList attacks = new ArrayList();
         for (Piece[] pieceArr : pieces) {
             for (Piece piece : pieceArr) {
-                // Ifall det är tomrum skippa
-                if (piece == null || preferedColor != piece.isWhite()) {
+                if (piece == null || whiteAttacksAreWanted != piece.isWhite()) {
                     continue;
                 }
-                // Lägg till alla attacker för respektive färg
                 attacks.addAll(piece.validAttacks(pieces, true));
             }
         }
-
         return attacks;
     }
 
