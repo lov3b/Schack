@@ -25,19 +25,19 @@ public final class King extends PieceKnownIfMoved {
             return possibleCastling;
         }
 
-        boolean[] nothingInBetweenAndNotSchackOnTheWay = new boolean[2]; // Vänster, höger
+        boolean[] somethingBetweenOrSchackOnTheWay = new boolean[2]; // Vänster, höger
         final int LEFT_MODIFIER = -1, RIGHT_MODIFIER = 1;
         for (final int modifier : new int[]{LEFT_MODIFIER, RIGHT_MODIFIER}) {
             for (int loopX = this.position.x + modifier; loopX > 0 && loopX < 7; loopX += modifier) {
                 if (pieces[loopX][this.position.y] != null || isInSchack(pieces, new Point(loopX, this.position.y))) {
-                    nothingInBetweenAndNotSchackOnTheWay[(modifier == RIGHT_MODIFIER) ? 0 : 1] = true;
+                    somethingBetweenOrSchackOnTheWay[(modifier == LEFT_MODIFIER) ? 0 : 1] = true;
                     break;
                 }
             }
         }
         final int LEFT_DIRECTION = 0, RIGHT_DIRECTION = 1;
         for (final int direction : new int[]{LEFT_DIRECTION, RIGHT_DIRECTION}) {
-            if (nothingInBetweenAndNotSchackOnTheWay[direction]) {
+            if (!somethingBetweenOrSchackOnTheWay[direction]) {
                 final Piece possibleRook = pieces[direction == LEFT_DIRECTION ? 0 : 7][this.position.y];
                 if (possibleRook != null && !possibleRook.isMoved()) {
                     possibleCastling.add(new Point(direction == LEFT_DIRECTION ? 2 : 6, this.position.y));
