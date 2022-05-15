@@ -76,7 +76,6 @@ public class Schack {
                     try {
                         board.restartGame();
                     } catch (IOException ex) {
-                        Logger.getLogger(Schack.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
             }
@@ -88,7 +87,6 @@ public class Schack {
                 try {
                     board.restartGame();
                 } catch (IOException ex) {
-                    Logger.getLogger(Schack.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });

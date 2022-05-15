@@ -122,20 +122,15 @@ public class Board extends JPanel implements MouseListener {
                     JOptionPane.showMessageDialog(this, "Du står i schack");
                     break;
                 case SCHACKMATT:
-                    if (JOptionPane.showConfirmDialog(this, "Schackmatt\nVill du starta om?") == JOptionPane.YES_OPTION) {
-                        try {
-                            restartGame();
-                        } catch (IOException ex) {
-                            Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
-                    break;
                 case PATT:
-                    if (JOptionPane.showConfirmDialog(this, "Patt\nVill du starta om?") == JOptionPane.YES_OPTION) {
+                    String stateStr = state.toString();
+                    String msg = stateStr.charAt(0) + stateStr.substring(1, stateStr.length()).toLowerCase();
+                    int choice = JOptionPane.showConfirmDialog(this, msg + "\nVill du starta om?");
+
+                    if (choice == JOptionPane.YES_OPTION) {
                         try {
                             restartGame();
                         } catch (IOException ex) {
-                            Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     }
                     break;
