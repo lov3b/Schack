@@ -27,13 +27,13 @@ public abstract class Piece {
      * Bild av pjäsen som ritas ut på bärdet
      */
     protected BufferedImage icon;
-    
+
     public Piece(boolean white, Point startingPosition) throws IOException {
         this.isWhite = white;
         this.position = startingPosition;
         setPieceIcon();
     }
-    
+
     public Piece(boolean white) {
         this.isWhite = white;
     }
@@ -45,9 +45,9 @@ public abstract class Piece {
      * @throws IOException ifall det inte finns någon bild på pjäsen
      */
     private void setPieceIcon() throws IOException {
-        String className = this.getClass().getSimpleName();
-        String colorName = this.isWhite() ? "White" : "Black";
-        String fileName = colorName + className + ".png";
+        final String className = this.getClass().getSimpleName();
+        final String colorName = this.isWhite() ? "White" : "Black";
+        final String fileName = colorName + className + ".png";
         InputStream is = getClass().getResourceAsStream("/img/" + fileName);
         icon = ImageIO.read(is);
     }
@@ -98,7 +98,7 @@ public abstract class Piece {
         if (toMove.x >= pieces.length || toMove.y < 0 || position.x >= pieces[0].length || position.y < 0) {
             return;
         }
-        
+
         pieces[toMove.x][toMove.y] = this;
         pieces[position.x][position.y] = null;
         this.position = new Point(toMove);
@@ -118,8 +118,8 @@ public abstract class Piece {
         if (pos.x > 7 || pos.x < 0 || pos.y > 7 || pos.y < 0) {
             return false;
         }
-        
-        Piece pieceToCheck = pieces[pos.x][pos.y];
+
+        final Piece pieceToCheck = pieces[pos.x][pos.y];
 
         // Detta är en tom plats
         if (pieceToCheck == null) {
@@ -139,7 +139,7 @@ public abstract class Piece {
             movable.add(pos);
         }
         return true;
-        
+
     }
 
     /**
@@ -151,23 +151,23 @@ public abstract class Piece {
      */
     protected boolean isInSchack(Piece[][] pieces, Point pos) {
         // Kom ihåg vart vi var
-        Point previousPosition = new Point(this.position);
+        final Point previousPosition = new Point(this.position);
 
         // Kom ihåg motståndarpjäs
-        Piece guyThatsAlreadyHere = pieces[pos.x][pos.y];
+        final Piece guyThatsAlreadyHere = pieces[pos.x][pos.y];
 
         // Testa att flytta
         pieces[pos.x][pos.y] = this;
         pieces[previousPosition.x][previousPosition.y] = null;
         this.position = pos;
-        
-        boolean inSchack = isInSchack(pieces);
+
+        final boolean inSchack = isInSchack(pieces);
 
         // Flytta tillbaka
         pieces[previousPosition.x][previousPosition.y] = this;
         pieces[pos.x][pos.y] = guyThatsAlreadyHere;
         this.position = previousPosition;
-        
+
         return inSchack;
     }
 
@@ -192,18 +192,17 @@ public abstract class Piece {
 
         // Kollar ifall kungen står i schack just nu
         for (Point enemyAttack : enemyAttacks) {
-            Piece attackedPiece = pieces[enemyAttack.x][enemyAttack.y];
+            final Piece attackedPiece = pieces[enemyAttack.x][enemyAttack.y];
             if (attackedPiece != null && attackedPiece.supremeRuler) {
                 return true;
             }
         }
         return false;
     }
-    
+
     @Override
     public String toString() {
         return this.getClass().getSimpleName() + "{" + "position=" + position + ", isWhite=" + isWhite + '}';
-//        return "Piece{" + "position=" + position + ", isWhite=" + white + '}';
     }
 
     /**
@@ -222,5 +221,5 @@ public abstract class Piece {
     public boolean isMoved() {
         return false;
     }
-    
+
 }
