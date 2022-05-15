@@ -13,7 +13,10 @@ public abstract class LongWalkers extends PieceKnownIfMoved {
     /**
      * Generell metod för att generera möjliga drag för LongWalkers
      *
-     * @param directions
+     * @param directions vilka håll. Exempel: <pre>
+     * {@code new int[][]{{1, 0}, {-1, 0}, {0, 1}, {0, -1}}}</pre> för att gå
+     * som ett torn
+     *
      * @param pieces
      * @param allowedToRecurse
      * @return

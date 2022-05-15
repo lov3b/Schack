@@ -88,7 +88,7 @@ public abstract class Piece {
     }
 
     /**
-     * Flyttar pjäsen till toMove
+     * Flyttar pjäsen till toMove och tar bort det som tidigare var där
      *
      * @param pieces
      * @param toMove
@@ -107,10 +107,12 @@ public abstract class Piece {
     /**
      * Lägg till move ifall det går, alltså inte är schack där
      *
-     * @param pos drag att lägga till ifall det går
-     * @param movable lägger till drag i denna ArrayList
+     * @param pos Drag att lägga till ifall det går
+     * @param movable Lägger till drag i denna ArrayList
      * @param pieces Piece[][] över brädet
-     * @param allowedToRecurse
+     * @param allowedToRecurse Behövs för att inte gå in i en evig loop där
+     * <pre>{@code addMovesIfCan -> isInSchack -> validMoves -> getCastlingIfPossible(King) -> isInSchack}</pre>
+     *
      * @return true ifall man inte kan gå längre i denna riktning
      */
     protected boolean addMovesIfCan(Point pos, ArrayList<Point> movable, Piece[][] pieces, boolean allowedToRecurse) {
