@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.HeadlessException;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -115,38 +116,30 @@ public class Board extends JPanel implements MouseListener {
             turnCount++;
             whitesTurn = !whitesTurn;
 
-            final ArrayList<Point> allValidMoves = getMoves(whitesTurn);
-            final ArrayList<Point> opposingAttacks = getAttacks(!whitesTurn);
-
-            final boolean weCanMove = !allValidMoves.isEmpty();
-            boolean inSchack = false;
-
-            for (Point attack : opposingAttacks) {
-                final Piece attacked = pieces[attack.x][attack.y];
-                if (attacked == null) {
-                    continue;
-                }
-                if (attacked.supremeRuler) {
-                    validMovesToDraw.clear();
-                    getParent().repaint();
-                    // Kolla ifall vi är i schackmatt
-                    if (weCanMove) {
-                        JOptionPane.showMessageDialog(this, "Du står i schack");
-                    } else {
-                        final int choise = JOptionPane.showConfirmDialog(this, "Schackmatt\nVill du starta om?");
-                        if (choise == JOptionPane.YES_OPTION) {
-                            try {
-                                restartGame();
-                            } catch (IOException ex) {
-                                Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
-                            }
+            SchackState state = getSchackState();
+            switch (state) {
+                case SCHACK:
+                    JOptionPane.showMessageDialog(this, "Du står i schack");
+                    break;
+                case SCHACKMATT:
+                    if (JOptionPane.showConfirmDialog(this, "Schackmatt\nVill du starta om?") == JOptionPane.YES_OPTION) {
+                        try {
+                            restartGame();
+                        } catch (IOException ex) {
+                            Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     }
-                    inSchack = true;
-                }
-            }
-            if (!inSchack && !weCanMove) {
-                JOptionPane.showMessageDialog(this, "Patt");
+                    break;
+                case PATT:
+                    if (JOptionPane.showConfirmDialog(this, "Patt\nVill du starta om?") == JOptionPane.YES_OPTION) {
+                        try {
+                            restartGame();
+                        } catch (IOException ex) {
+                            Logger.getLogger(Board.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                    break;
+                default:
             }
 
         } else {
@@ -168,6 +161,34 @@ public class Board extends JPanel implements MouseListener {
         }
 
         getParent().repaint();
+    }
+
+    private SchackState getSchackState() {
+        final ArrayList<Point> allValidMoves = getMoves(whitesTurn);
+        final ArrayList<Point> opposingAttacks = getAttacks(!whitesTurn);
+        final boolean weCanMove = !allValidMoves.isEmpty();
+
+        boolean inSchack = false;
+        for (Point attack : opposingAttacks) {
+            final Piece attacked = pieces[attack.x][attack.y];
+            if (attacked == null) {
+                continue;
+            }
+            if (attacked.supremeRuler) {
+                inSchack = true;
+                validMovesToDraw.clear();
+                getParent().repaint();
+                if (weCanMove) {
+                    return SchackState.SCHACK;
+                } else {
+                    return SchackState.SCHACKMATT;
+                }
+            }
+        }
+        if (!inSchack && !weCanMove) {
+            return SchackState.PATT;
+        }
+        return SchackState.NORMAL;
     }
 
     private ArrayList<Point> getMoves(boolean whiteMovesAreWanted) {
