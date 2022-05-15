@@ -3,8 +3,6 @@ package schack;
 import java.awt.Point;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.stream.Stream;
 
 public final class King extends PieceKnownIfMoved {
 
@@ -20,7 +18,7 @@ public final class King extends PieceKnownIfMoved {
      * @return
      */
     private ArrayList<Point> getCastlingIfPossible(Piece[][] pieces) {
-        ArrayList<Point> possibleCastling = new ArrayList<>();
+        final ArrayList<Point> possibleCastling = new ArrayList<>();
         if (this.isMoved()) {
             return possibleCastling;
         }
@@ -85,8 +83,8 @@ public final class King extends PieceKnownIfMoved {
      * @param shouldGoToLeftSide avgör ifall rockaden är åt vänster håll
      */
     private void castle(Piece[][] pieces, boolean shouldGoToLeftSide) {
-        Piece rook = pieces[shouldGoToLeftSide ? 0 : 7][this.position.y];
-        Piece king = this;
+        final Piece rook = pieces[shouldGoToLeftSide ? 0 : 7][this.position.y];
+        final Piece king = this;
 
         // Null där de stod
         pieces[king.position.x][king.position.y] = null;

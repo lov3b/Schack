@@ -48,7 +48,7 @@ public class Pawn extends PieceKnownIfMoved {
 
         // Kolla om man kan gå rakt frak
         for (int pawnDY = 1; pawnDY <= upTo; pawnDY++) {
-            Point pos = new Point(this.position.x, this.position.y + (this.isWhite() ? -pawnDY : pawnDY));
+            final Point pos = new Point(this.position.x, this.position.y + (this.isWhite() ? -pawnDY : pawnDY));
             boolean shouldBreak = addMovesIfCan(pos, movable, pieces, allowedToRecurse);
             if (shouldBreak) {
                 break;
@@ -58,7 +58,7 @@ public class Pawn extends PieceKnownIfMoved {
         // Kolla ifall vi kan ta någon
         for (int pawnX : new int[]{-1, 1}) {
             // Position vi kollar just nu, snett upp åt höger & vänster
-            Point pos = new Point(this.position.x + pawnX, this.position.y + (this.isWhite() ? -1 : 1));
+            final Point pos = new Point(this.position.x + pawnX, this.position.y + (this.isWhite() ? -1 : 1));
             movable.addAll(addAttackMovesIfCan(pos, pieces));
         }
         return movable;
@@ -80,9 +80,9 @@ public class Pawn extends PieceKnownIfMoved {
             return movable;
         }
 
-        Piece piece = pieces[pos.x][pos.y];
+        final Piece potentialEnemy = pieces[pos.x][pos.y];
         // Ifall det är tomt här, gör ingenting
-        if (piece != null && piece.isWhite() != this.isWhite()) {
+        if (potentialEnemy != null && potentialEnemy.isWhite() != this.isWhite()) {
             if (!isInSchack(pieces, pos)) {
                 movable.add(pos);
             }

@@ -103,22 +103,22 @@ public class Board extends JPanel implements MouseListener {
 
     @Override
     public void mousePressed(MouseEvent mouseEvent) {
-        int mouseCoordinateX = (int) (mouseEvent.getX() / SIZE_OF_TILE);
-        int mouseCoordinateY = (int) (mouseEvent.getY() / SIZE_OF_TILE);
-        Point clicked = new Point(mouseCoordinateX, mouseCoordinateY);
+        final int mouseCoordinateX = (int) (mouseEvent.getX() / SIZE_OF_TILE);
+        final int mouseCoordinateY = (int) (mouseEvent.getY() / SIZE_OF_TILE);
+        final Point clickedCoordinate = new Point(mouseCoordinateX, mouseCoordinateY);
 
         // Ifall vi har tryckt på en pjäs och sedan ska gå dit
-        if (validMovesToDraw.contains(clicked)) {
+        if (validMovesToDraw.contains(clickedCoordinate)) {
             final Piece selectedPiece = pieces[previouslyClickedPoint.x][previouslyClickedPoint.y];
             if (selectedPiece == null) {
                 validMovesToDraw.clear();
                 return;
             }
-            selectedPiece.move(pieces, clicked);
+            selectedPiece.move(pieces, clickedCoordinate);
             turnCount++;
             whitesTurn = !whitesTurn;
 
-            ArrayList<Point> allValidMoves = new ArrayList<>();
+            final ArrayList<Point> allValidMoves = new ArrayList<>();
             for (Piece[] pieceArr : pieces) {
                 for (Piece piece : pieceArr) {
                     if (piece == null || whitesTurn != piece.isWhite()) {
@@ -132,7 +132,7 @@ public class Board extends JPanel implements MouseListener {
 
             ArrayList<Point> opposingAttacks = checkAttacks(!whitesTurn);
 
-            boolean weCanMove = !allValidMoves.isEmpty();
+            final boolean weCanMove = !allValidMoves.isEmpty();
             boolean inSchack = false;
 
             for (Point attack : opposingAttacks) {
@@ -147,7 +147,7 @@ public class Board extends JPanel implements MouseListener {
                     if (weCanMove) {
                         JOptionPane.showMessageDialog(this, "Du står i schack");
                     } else {
-                        int choise = JOptionPane.showConfirmDialog(this, "Schackmatt\nVill du starta om?");
+                        final int choise = JOptionPane.showConfirmDialog(this, "Schackmatt\nVill du starta om?");
                         if (choise == JOptionPane.YES_OPTION) {
                             try {
                                 restartGame();
@@ -164,12 +164,12 @@ public class Board extends JPanel implements MouseListener {
             }
 
         } else {
-            previouslyClickedPoint = new Point(clicked);
+            previouslyClickedPoint = new Point(clickedCoordinate);
             validMovesToDraw.clear();
         }
 
         // Om vi inte redan har valt en pjäs klickar vi på en pjäs
-        if (!validMovesToDraw.contains(clicked)) {
+        if (!validMovesToDraw.contains(clickedCoordinate)) {
 
             final Piece selectedPiece = pieces[mouseCoordinateX][mouseCoordinateY];
 
@@ -186,7 +186,7 @@ public class Board extends JPanel implements MouseListener {
     }
 
     public ArrayList<Point> checkAttacks(boolean preferedColor) {
-        ArrayList attacks = new ArrayList();
+        final ArrayList attacks = new ArrayList();
         for (Piece[] pieceArr : pieces) {
             for (Piece piece : pieceArr) {
                 // Ifall det är tomrum skippa

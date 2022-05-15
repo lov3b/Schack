@@ -20,7 +20,7 @@ import javax.swing.UIManager;
  */
 public class Schack {
 
-    JFrame frame;
+    final JFrame frame;
 
     public Schack() throws IOException {
         // Set theme
@@ -42,18 +42,18 @@ public class Schack {
         frame.setResizable(false);
 
         //  Might throw an IOException if the icon of the Pieces isn't embedded correctly
-        Board board = new Board();
+        final Board board = new Board();
         frame.setContentPane(board);
         frame.getContentPane().addMouseListener(board);
 
         // Create menu        
-        JMenuBar menuBar = new JMenuBar();
-        JMenu gameMenu = new JMenu("Game");
-        JMenu connectMenu = new JMenu("Connect");
-        JMenuItem connectToOpponent = new JMenuItem("Connect to opponent");
-        JMenuItem showLocalIP = new JMenuItem("Show IP");
-        JMenuItem askForRemi = new JMenuItem("Ask for remi");
-        JMenuItem surrender = new JMenuItem("Surrender");
+        final JMenuBar menuBar = new JMenuBar();
+        final JMenu gameMenu = new JMenu("Game");
+        final JMenu connectMenu = new JMenu("Connect");
+        final JMenuItem connectToOpponent = new JMenuItem("Connect to opponent");
+        final JMenuItem showLocalIP = new JMenuItem("Show IP");
+        final JMenuItem askForRemi = new JMenuItem("Ask for remi");
+        final JMenuItem surrender = new JMenuItem("Surrender");
 
         // Actions
         connectToOpponent.addActionListener((ActionEvent ae) -> {
@@ -83,7 +83,7 @@ public class Schack {
         });
         surrender.addActionListener((ActionEvent ae) -> {
             String whosGivingUp = board.isWhitesTurn() ? "Vit" : "Svart";
-            int choice = JOptionPane.showConfirmDialog(board, whosGivingUp + " har gett upp\nStarta om?");
+            final int choice = JOptionPane.showConfirmDialog(board, whosGivingUp + " har gett upp\nStarta om?");
             if (choice == JOptionPane.YES_OPTION) {
                 try {
                     board.restartGame();
