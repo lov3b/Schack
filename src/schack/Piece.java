@@ -154,19 +154,19 @@ public abstract class Piece {
         Point previousPosition = new Point(this.position);
 
         // Kom ihåg motståndarpjäs
-        Piece opponentPiece = pieces[pos.x][pos.y];
+        Piece guyThatsAlreadyHere = pieces[pos.x][pos.y];
 
         // Testa att flytta
         pieces[pos.x][pos.y] = this;
         pieces[previousPosition.x][previousPosition.y] = null;
-        this.position = new Point(pos);
+        this.position = pos;
 
         boolean inSchack = isInSchack(pieces);
 
         // Flytta tillbaka
         pieces[previousPosition.x][previousPosition.y] = this;
-        pieces[pos.x][pos.y] = opponentPiece;
-        this.position = new Point(previousPosition);
+        pieces[pos.x][pos.y] = guyThatsAlreadyHere;
+        this.position = previousPosition;
 
         return inSchack;
     }
