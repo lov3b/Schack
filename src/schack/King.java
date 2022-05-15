@@ -24,43 +24,35 @@ public final class King extends PieceKnownIfMoved {
         }
 
         // Vänster
-        boolean nothingInBetween = true;
-        for (int loopX = this.position.x - 1; loopX >= 0; loopX--) {
-
-            // Kolla ifall vi kollar tornet och inget är emellan
-            if (loopX == 0 && nothingInBetween) {
-
-                // Check så att man bara kan göra rockad ifall tornet inte rört sig
-                Piece possibleRook = pieces[loopX][this.position.y];
-                if (possibleRook != null && !possibleRook.isMoved()) {
-                    possibleCastling.add(new Point(2, this.position.y));
-                }
+        boolean nothingInBetweenAndNotSchackOnTheWay = true;
+        for (int loopX = this.position.x - 1; loopX > 0; loopX--) {
+            if (pieces[loopX][this.position.y] != null || isInSchack(pieces, new Point(loopX, this.position.y))) {
+                nothingInBetweenAndNotSchackOnTheWay = false;
+                break;
             }
-
-            // Kolla ifall det är tomt emellan kung och torn
-            if (pieces[loopX][this.position.y] != null) {
-                nothingInBetween = false;
+        }
+        if (nothingInBetweenAndNotSchackOnTheWay) {
+            Piece possibleRook = pieces[0][this.position.y];
+            if (possibleRook != null && !possibleRook.isMoved()) {
+                possibleCastling.add(new Point(2, this.position.y));
             }
         }
 
         // Höger
-        nothingInBetween = true;
-        for (int loopX = this.position.x + 1; loopX <= 7; loopX++) {
-
-            // Kolla ifall vi kollar tornet och inget är emellan
-            if (loopX == 7 && nothingInBetween) {
-                // Check så att man bara kan göra rockad ifall tornet inte rört sig
-                Piece possibleRook = pieces[loopX][this.position.y];
-                if (possibleRook != null && !possibleRook.isMoved()) {
-                    possibleCastling.add(new Point(6, this.position.y));
-                }
-            }
-
-            // Kolla ifall det är tomt emellan kung och torn
-            if (pieces[loopX][this.position.y] != null) {
-                nothingInBetween = false;
+        nothingInBetweenAndNotSchackOnTheWay = true;
+        for (int loopX = this.position.x + 1; loopX < 7; loopX++) {
+            if (pieces[loopX][this.position.y] != null || isInSchack(pieces, new Point(loopX, this.position.y))) {
+                nothingInBetweenAndNotSchackOnTheWay = false;
+                break;
             }
         }
+        if (nothingInBetweenAndNotSchackOnTheWay) {
+            Piece possibleRook = pieces[7][this.position.y];
+            if (possibleRook != null && !possibleRook.isMoved()) {
+                possibleCastling.add(new Point(6, this.position.y));
+            }
+        }
+
         return possibleCastling;
 
     }
@@ -72,7 +64,6 @@ public final class King extends PieceKnownIfMoved {
      * @param shouldGoToLeftSide avgör ifall rockaden är åt vänster håll
      */
     private void castle(Piece[][] pieces, boolean shouldGoToLeftSide) {
-
         Piece rook = pieces[shouldGoToLeftSide ? 0 : 7][this.position.y];
         Piece king = this;
 
@@ -99,7 +90,7 @@ public final class King extends PieceKnownIfMoved {
     }
 
     @Override
-    public ArrayList<Point> validMoves(Piece[][] pieces, boolean isSelected) {
+    public ArrayList<Point> validMoves(Piece[][] pieces, boolean allowedToRecurse) {
         ArrayList<Point> movable = new ArrayList<>();
 
         for (int loopX = -1; loopX < 2; loopX++) {
@@ -107,11 +98,13 @@ public final class King extends PieceKnownIfMoved {
                 if (loopY == 0 && loopX == 0) {
                     continue;
                 }
-                addMovesIfCan(new Point(this.position.x + loopX, this.position.y + loopY), movable, pieces, isSelected);
+                addMovesIfCan(new Point(this.position.x + loopX, this.position.y + loopY), movable, pieces, allowedToRecurse);
             }
 
         }
-        movable.addAll(getCastlingIfPossible(pieces));
+        if (allowedToRecurse && !isInSchack(pieces)) {
+            movable.addAll(getCastlingIfPossible(pieces));
+        }
         return movable;
     }
 

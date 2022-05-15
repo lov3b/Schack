@@ -14,8 +14,8 @@ public class Pawn extends PieceKnownIfMoved {
      * Ger tillbaks alla ställen pjäsen kan attackera
      *
      * @param pieces
-     * @param shouldNotCareIfAttackSpaceIsEmptyOrNot Ifall man ska kolla ifall det är något i möjliga attackrutor
-     * ifall
+     * @param shouldNotCareIfAttackSpaceIsEmptyOrNot Ifall man ska kolla ifall
+     * det är något i möjliga attackrutor ifall
      * @return Alla lämpliga attackMoves
      */
     @Override
@@ -40,7 +40,7 @@ public class Pawn extends PieceKnownIfMoved {
     }
 
     @Override
-    public ArrayList<Point> validMoves(Piece[][] pieces, boolean isSelected) {
+    public ArrayList<Point> validMoves(Piece[][] pieces, boolean allowedToRecurse) {
         ArrayList<Point> movable = new ArrayList<>();
 
         // Om bonden har gått en gång, får gå 1 steg, annars 2
@@ -49,7 +49,7 @@ public class Pawn extends PieceKnownIfMoved {
         // Kolla om man kan gå rakt frak
         for (int pawnDY = 1; pawnDY <= upTo; pawnDY++) {
             Point pos = new Point(this.position.x, this.position.y + (this.isWhite() ? -pawnDY : pawnDY));
-            boolean shouldBreak = addMovesIfCan(pos, movable, pieces, isSelected);
+            boolean shouldBreak = addMovesIfCan(pos, movable, pieces, allowedToRecurse);
             if (shouldBreak) {
                 break;
             }
@@ -91,7 +91,7 @@ public class Pawn extends PieceKnownIfMoved {
     }
 
     @Override
-    protected boolean addMovesIfCan(Point pos, ArrayList movable, Piece[][] pieces, boolean isSelected) {
+    protected boolean addMovesIfCan(Point pos, ArrayList movable, Piece[][] pieces, boolean allowedToRecurse) {
         if (pos.x < 0 || pos.x > 7 || pos.y < 0 || pos.y > 7) {
             return false;
         }

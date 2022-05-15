@@ -12,12 +12,13 @@ public abstract class LongWalkers extends PieceKnownIfMoved {
 
     /**
      * Generell metod för att generera möjliga drag för LongWalkers
+     *
      * @param directions
      * @param pieces
-     * @param isSelected
-     * @return 
+     * @param allowedToRecurse
+     * @return
      */
-    ArrayList<Point> getMoves(int[][] directions, Piece[][] pieces, boolean isSelected) {
+    ArrayList<Point> getMoves(int[][] directions, Piece[][] pieces, boolean allowedToRecurse) {
         ArrayList<Point> movable = new ArrayList<>();
 
         for (int[] xy : directions) {
@@ -25,7 +26,7 @@ public abstract class LongWalkers extends PieceKnownIfMoved {
             while (loopX + xy[0] >= 0 && loopX + xy[0] <= 7 && loopY + xy[1] >= 0 && loopY + xy[1] <= 7) {
                 loopX += xy[0];
                 loopY += xy[1];
-                boolean shouldBreak = addMovesIfCan(new Point(loopX, loopY), movable, pieces, isSelected);
+                boolean shouldBreak = addMovesIfCan(new Point(loopX, loopY), movable, pieces, allowedToRecurse);
                 if (shouldBreak) {
                     break;
                 }

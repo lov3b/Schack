@@ -27,13 +27,13 @@ public abstract class Piece {
      * Bild av pjäsen som ritas ut på bärdet
      */
     protected BufferedImage icon;
-
+    
     public Piece(boolean white, Point startingPosition) throws IOException {
         this.isWhite = white;
         this.position = startingPosition;
         setPieceIcon();
     }
-
+    
     public Piece(boolean white) {
         this.isWhite = white;
     }
@@ -56,10 +56,10 @@ public abstract class Piece {
      * Ger tillbaks alla ställen pjäsen kan gå till
      *
      * @param pieces
-     * @param isSelected
+     * @param allowedToRecurse
      * @return
      */
-    public abstract ArrayList<Point> validMoves(Piece[][] pieces, boolean isSelected);
+    public abstract ArrayList<Point> validMoves(Piece[][] pieces, boolean allowedToRecurse);
 
     /**
      * Ger tillbaks alla ställen pjäsen kan attackera
@@ -98,7 +98,7 @@ public abstract class Piece {
         if (toMove.x >= pieces.length || toMove.y < 0 || position.x >= pieces[0].length || position.y < 0) {
             return;
         }
-
+        
         pieces[toMove.x][toMove.y] = this;
         pieces[position.x][position.y] = null;
         this.position = new Point(toMove);
@@ -110,20 +110,20 @@ public abstract class Piece {
      * @param pos drag att lägga till ifall det går
      * @param movable lägger till drag i denna ArrayList
      * @param pieces Piece[][] över brädet
-     * @param isSelected
+     * @param allowedToRecurse
      * @return true ifall man inte kan gå längre i denna riktning
      */
-    protected boolean addMovesIfCan(Point pos, ArrayList<Point> movable, Piece[][] pieces, boolean isSelected) {
+    protected boolean addMovesIfCan(Point pos, ArrayList<Point> movable, Piece[][] pieces, boolean allowedToRecurse) {
         // Ifall vi är utanför brädet ge tillbaka false
         if (pos.x > 7 || pos.x < 0 || pos.y > 7 || pos.y < 0) {
             return false;
         }
-
+        
         Piece pieceToCheck = pieces[pos.x][pos.y];
 
         // Detta är en tom plats
         if (pieceToCheck == null) {
-            if (!isSelected || !isInSchack(pieces, pos)) {
+            if (!allowedToRecurse || !isInSchack(pieces, pos)) {
                 movable.add(pos);
             }
             return false;
@@ -135,11 +135,11 @@ public abstract class Piece {
          * lägga till den
          */
         if ((pieceToCheck.isWhite() != this.isWhite())
-                && ((isSelected && !isInSchack(pieces, pos)) || !isSelected)) {
+                && ((allowedToRecurse && !isInSchack(pieces, pos)) || !allowedToRecurse)) {
             movable.add(pos);
         }
         return true;
-
+        
     }
 
     /**
@@ -149,7 +149,7 @@ public abstract class Piece {
      * @param pos Kollar ifall det är schack om denna Piece flyttar hit
      * @return true ifall det är schack
      */
-   protected boolean isInSchack(Piece[][] pieces, Point pos) {
+    protected boolean isInSchack(Piece[][] pieces, Point pos) {
         // Kom ihåg vart vi var
         Point previousPosition = new Point(this.position);
 
@@ -160,14 +160,14 @@ public abstract class Piece {
         pieces[pos.x][pos.y] = this;
         pieces[previousPosition.x][previousPosition.y] = null;
         this.position = pos;
-
+        
         boolean inSchack = isInSchack(pieces);
 
         // Flytta tillbaka
         pieces[previousPosition.x][previousPosition.y] = this;
         pieces[pos.x][pos.y] = guyThatsAlreadyHere;
         this.position = previousPosition;
-
+        
         return inSchack;
     }
 
@@ -177,7 +177,7 @@ public abstract class Piece {
      * @param pieces Piece[][] över hela brädet
      * @return true ifall det är schack
      */
-    private boolean isInSchack(Piece[][] pieces) {
+    protected boolean isInSchack(Piece[][] pieces) {
         ArrayList<Point> enemyAttacks = new ArrayList<>();
 
         // Fråga alla pjäser vart de kan gå/ta
@@ -199,7 +199,7 @@ public abstract class Piece {
         }
         return false;
     }
-
+    
     @Override
     public String toString() {
         return this.getClass().getSimpleName() + "{" + "position=" + position + ", isWhite=" + isWhite + '}';
@@ -222,5 +222,5 @@ public abstract class Piece {
     public boolean isMoved() {
         return false;
     }
-
+    
 }

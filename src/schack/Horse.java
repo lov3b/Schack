@@ -11,7 +11,7 @@ public class Horse extends Piece {
     }
 
     @Override
-    public ArrayList<Point> validMoves(Piece[][] pieces, boolean isSelected) {
+    public ArrayList<Point> validMoves(Piece[][] pieces, boolean allowedToRecurse) {
         ArrayList<Point> movable = new ArrayList<>();
 
         for (int dx : new int[]{-2, -1, 1, 2}) {
@@ -19,7 +19,7 @@ public class Horse extends Piece {
                 int stepLength = (3 - Math.abs(dx));
                 int dy = direction * stepLength;
                 Point potentialMove = new Point(this.position.x + dx, this.position.y + dy);
-                addMovesIfCan(potentialMove, movable, pieces, isSelected);
+                addMovesIfCan(potentialMove, movable, pieces, allowedToRecurse);
             }
         }
         return movable;

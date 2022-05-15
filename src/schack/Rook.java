@@ -11,11 +11,11 @@ public class Rook extends LongWalkers {
     }
 
     @Override
-    public ArrayList<Point> validMoves(Piece[][] pieces, boolean isSelected) {
+    public ArrayList<Point> validMoves(Piece[][] pieces, boolean allowedToRecurse) {
         return getMoves(
-                new int[][]{{1, 0}, {-1, 0}, {0, 1}, {0, -1}}, 
-                pieces, 
-                isSelected
+                new int[][]{{1, 0}, {-1, 0}, {0, 1}, {0, -1}},
+                pieces,
+                allowedToRecurse
         );
 
     }
