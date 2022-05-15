@@ -149,7 +149,7 @@ public abstract class Piece {
      * @param pos Kollar ifall det är schack om denna Piece flyttar hit
      * @return true ifall det är schack
      */
-    boolean isInSchack(Piece[][] pieces, Point pos) {
+   protected boolean isInSchack(Piece[][] pieces, Point pos) {
         // Kom ihåg vart vi var
         Point previousPosition = new Point(this.position);
 

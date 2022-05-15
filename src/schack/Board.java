@@ -26,10 +26,8 @@ public class Board extends JPanel implements MouseListener {
     private boolean whitesTurn = true;
 
     public Board() throws IOException {
-
         this.pieces = getPieces();
         setPreferredSize(new Dimension(800, 800));
-
     }
 
     /**
@@ -44,7 +42,6 @@ public class Board extends JPanel implements MouseListener {
     }
 
     private Piece[][] getPieces() throws IOException {
-
         Piece[][] piecesRet = {
             {new Rook(false, new Point(0, 0)), null, null, null, null, null, null, new Rook(true, new Point(0, 7))},
             {new Horse(false, true, new Point(1, 0)), null, null, null, null, null, null, new Horse(true, true, new Point(1, 7))},
@@ -85,11 +82,9 @@ public class Board extends JPanel implements MouseListener {
         Arrays.stream(pieces).forEach(pieceArr -> Arrays.stream(pieceArr)
                 .filter(piece -> piece != null)
                 .forEach(piece -> piece.draw(g2)));
-
     }
 
     private void drawSquares(Graphics2D g2) {
-
         g2.setBackground(Color.WHITE);
         g2.setColor(Color.DARK_GRAY);
 
@@ -104,10 +99,6 @@ public class Board extends JPanel implements MouseListener {
                 g2.fillRect(i * SIZE_OF_TILE, j * SIZE_OF_TILE, 1 * SIZE_OF_TILE, 1 * SIZE_OF_TILE);
             }
         }
-    }
-
-    @Override
-    public void mouseClicked(MouseEvent mouseEvent) {
     }
 
     @Override
@@ -210,6 +201,10 @@ public class Board extends JPanel implements MouseListener {
         return attacks;
     }
 
+    public boolean isWhitesTurn() {
+        return whitesTurn;
+    }
+
     @Override
     public void mouseReleased(MouseEvent e) {
     }
@@ -222,7 +217,7 @@ public class Board extends JPanel implements MouseListener {
     public void mouseExited(MouseEvent e) {
     }
 
-    public boolean isWhitesTurn() {
-        return whitesTurn;
+    @Override
+    public void mouseClicked(MouseEvent mouseEvent) {
     }
 }

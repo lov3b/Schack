@@ -12,7 +12,7 @@ public final class King extends PieceKnownIfMoved {
     }
 
     /**
-     * Få en ArrayList<Point> med möjliga rockadMoves
+     * Få en ArrayList med möjliga rockader
      *
      * @param pieces
      * @return
