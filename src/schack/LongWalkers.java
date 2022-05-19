@@ -4,7 +4,7 @@ import java.awt.Point;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public abstract class LongWalkers extends PieceKnownIfMoved {
+public abstract class LongWalkers extends Piece {
 
     public LongWalkers(boolean isWhite, Point startingPosition) throws IOException {
         super(isWhite, startingPosition);

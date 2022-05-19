@@ -4,7 +4,7 @@ import java.awt.Point;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class Pawn extends PieceKnownIfMoved {
+public class Pawn extends Piece {
 
     public Pawn(boolean isWhite, Point startingPosition) throws IOException {
         super(isWhite, startingPosition);

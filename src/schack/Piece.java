@@ -28,6 +28,11 @@ public abstract class Piece {
      */
     protected BufferedImage icon;
 
+    /**
+     * Nödvändigt för rockad
+     */
+    protected boolean moved = false;
+
     public Piece(boolean white, Point startingPosition) throws IOException {
         this.isWhite = white;
         this.position = startingPosition;
@@ -102,6 +107,7 @@ public abstract class Piece {
         pieces[toMove.x][toMove.y] = this;
         pieces[position.x][position.y] = null;
         this.position = new Point(toMove);
+        this.moved = true;
     }
 
     /**
@@ -221,7 +227,7 @@ public abstract class Piece {
      * @return false
      */
     public boolean isMoved() {
-        return false;
+        return moved;
     }
 
 }

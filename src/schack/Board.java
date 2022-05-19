@@ -4,14 +4,11 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.HeadlessException;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -158,6 +155,10 @@ public class Board extends JPanel implements MouseListener {
         getParent().repaint();
     }
 
+    /**
+     * Få status över brädet
+     * @return SCHACK, SCHACKMATT, PATT, NORMAL
+     */
     private SchackState getSchackState() {
         final ArrayList<Point> allValidMoves = getMoves(whitesTurn);
         final ArrayList<Point> opposingAttacks = getAttacks(!whitesTurn);

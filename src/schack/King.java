@@ -4,7 +4,7 @@ import java.awt.Point;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public final class King extends PieceKnownIfMoved {
+public final class King extends Piece {
 
     public King(boolean isWhite, Point startingPosition) throws IOException {
         super(isWhite, startingPosition);
