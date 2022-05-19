@@ -2,8 +2,6 @@ package schack;
 
 import java.awt.event.ActionEvent;
 import java.io.IOException;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -22,15 +20,8 @@ public class Schack {
     public Schack() throws IOException {
         // Set theme
         try {
-//            FlatSolarizedLightIJTheme.setup();
-//            FlatLightLaf.setup();
-            //embedMenuBarIfSupported();
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception cantThemeWithFlatLaf) {
-            try {
-                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            } catch (Exception cantThemeWithSystemLAF) {
-            }
+        } catch (Exception cantGetSystemTheme) {
         }
 
         frame = new JFrame();
@@ -46,24 +37,9 @@ public class Schack {
         // Create menu        
         final JMenuBar menuBar = new JMenuBar();
         final JMenu gameMenu = new JMenu("Game");
-        final JMenu connectMenu = new JMenu("Connect");
-        final JMenuItem connectToOpponent = new JMenuItem("Connect to opponent");
-        final JMenuItem showLocalIP = new JMenuItem("Show IP");
         final JMenuItem askForRemi = new JMenuItem("Ask for remi");
         final JMenuItem surrender = new JMenuItem("Surrender");
 
-        // Actions
-        connectToOpponent.addActionListener((ActionEvent ae) -> {
-            System.out.println("Connecting (TODO)");
-        });
-        showLocalIP.addActionListener((ActionEvent ae) -> {
-            try {
-                String localIp = InetAddress.getLocalHost().toString();
-                JOptionPane.showMessageDialog(frame, "Local IP: " + localIp);
-            } catch (UnknownHostException ex) {
-                JOptionPane.showMessageDialog(frame, "Could not get local IP");
-            }
-        });
         askForRemi.addActionListener((ActionEvent ae) -> {
             String whosWantingRemi = board.isWhitesTurn() ? "Vit" : "Svart";
             int choice = JOptionPane.showConfirmDialog(board, whosWantingRemi + " erbjuder remi\nAccepterar du?");
@@ -91,9 +67,6 @@ public class Schack {
         // Add the menu stuff
         frame.setJMenuBar(menuBar);
         menuBar.add(gameMenu);
-        menuBar.add(connectMenu);
-        connectMenu.add(connectToOpponent);
-        connectMenu.add(showLocalIP);
         gameMenu.add(askForRemi);
         gameMenu.add(surrender);
         frame.pack();
@@ -105,21 +78,4 @@ public class Schack {
     public static void main(String[] args) throws IOException {
         new Schack();
     }
-
-    private void embedMenuBarIfSupported() {
-        // Currently only supported in Windows 10+
-        String os = System.getProperty("os.name");
-        if (os.contains("Windows")) {
-            String versionNumberStr = os.split(" ")[1];
-            try {
-                int versionNumber = Integer.parseInt(versionNumberStr);
-                if (versionNumber >= 10) {
-                    System.setProperty("flatlaf.menuBarEmbedded", "true");
-                }
-            } catch (Exception e) {
-            }
-
-        }
-    }
-
 }

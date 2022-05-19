@@ -3,6 +3,8 @@ package schack;
 import java.awt.Point;
 import java.io.IOException;
 import java.util.ArrayList;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
 
 public class Pawn extends Piece {
 
@@ -74,7 +76,7 @@ public class Pawn extends Piece {
      * @param pieces
      */
     private ArrayList<Point> addAttackMovesIfCan(Point pos, Piece[][] pieces) {
-        ArrayList movable = new ArrayList<Point>();
+        ArrayList<Point> movable = new ArrayList();
         // Se till att vi inte är utanför brädet
         if (pos.x >= pieces.length || pos.x < 0 || pos.y >= pieces[0].length || pos.y < 0) {
             return movable;
