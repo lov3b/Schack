@@ -6,5 +6,4 @@ package schack;
  */
 public enum SchackState {
     SCHACK, SCHACKMATT, PATT, NORMAL, REMI
-
 }

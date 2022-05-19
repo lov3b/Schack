@@ -55,7 +55,7 @@ public class Schack {
         });
         surrender.addActionListener((ActionEvent ae) -> {
             String whosGivingUp = board.isWhitesTurn() ? "Vit" : "Svart";
-            final int choice = JOptionPane.showConfirmDialog(board, whosGivingUp + " har gett upp\nStarta om?");
+            int choice = JOptionPane.showConfirmDialog(board, whosGivingUp + " har gett upp\nStarta om?");
             if (choice == JOptionPane.YES_OPTION) {
                 try {
                     board.restartGame();

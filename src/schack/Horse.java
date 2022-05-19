@@ -12,13 +12,13 @@ public class Horse extends Piece {
 
     @Override
     public ArrayList<Point> validMoves(Piece[][] pieces, boolean allowedToRecurse) {
-        final ArrayList<Point> movable = new ArrayList<>();
+        ArrayList<Point> movable = new ArrayList<>();
 
         for (int dx : new int[]{-2, -1, 1, 2}) {
             for (int direction : new int[]{-1, 1}) {
-                final int stepLength = (3 - Math.abs(dx)),
+                int stepLength = (3 - Math.abs(dx)),
                         dy = direction * stepLength;
-                final Point potentialMove = new Point(this.position.x + dx, this.position.y + dy);
+                Point potentialMove = new Point(this.position.x + dx, this.position.y + dy);
                 addMovesIfCan(potentialMove, movable, pieces, allowedToRecurse);
             }
         }

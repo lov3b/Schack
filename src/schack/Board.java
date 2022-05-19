@@ -157,6 +157,7 @@ public class Board extends JPanel implements MouseListener {
 
     /**
      * Få status över brädet
+     *
      * @return SCHACK, SCHACKMATT, PATT, NORMAL
      */
     private SchackState getSchackState() {

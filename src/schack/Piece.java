@@ -50,9 +50,9 @@ public abstract class Piece {
      * @throws IOException ifall det inte finns någon bild på pjäsen
      */
     private void setPieceIcon() throws IOException {
-        final String className = this.getClass().getSimpleName();
-        final String colorName = this.isWhite() ? "White" : "Black";
-        final String fileName = colorName + className + ".png";
+        String className = this.getClass().getSimpleName();
+        String colorName = this.isWhite() ? "White" : "Black";
+        String fileName = colorName + className + ".png";
         InputStream is = getClass().getResourceAsStream("/img/" + fileName);
         icon = ImageIO.read(is);
     }
@@ -127,7 +127,7 @@ public abstract class Piece {
             return false;
         }
 
-        final Piece pieceToCheck = pieces[pos.x][pos.y];
+        Piece pieceToCheck = pieces[pos.x][pos.y];
 
         // Detta är en tom plats
         if (pieceToCheck == null) {
@@ -159,17 +159,17 @@ public abstract class Piece {
      */
     protected boolean isInSchack(Piece[][] pieces, Point pos) {
         // Kom ihåg vart vi var
-        final Point previousPosition = new Point(this.position);
+        Point previousPosition = new Point(this.position);
 
         // Kom ihåg motståndarpjäs
-        final Piece guyThatsAlreadyHere = pieces[pos.x][pos.y];
+        Piece guyThatsAlreadyHere = pieces[pos.x][pos.y];
 
         // Testa att flytta
         pieces[pos.x][pos.y] = this;
         pieces[previousPosition.x][previousPosition.y] = null;
         this.position = pos;
 
-        final boolean inSchack = isInSchack(pieces);
+        boolean inSchack = isInSchack(pieces);
 
         // Flytta tillbaka
         pieces[previousPosition.x][previousPosition.y] = this;
@@ -200,7 +200,7 @@ public abstract class Piece {
 
         // Kollar ifall kungen står i schack just nu
         for (Point enemyAttack : enemyAttacks) {
-            final Piece attackedPiece = pieces[enemyAttack.x][enemyAttack.y];
+            Piece attackedPiece = pieces[enemyAttack.x][enemyAttack.y];
             if (attackedPiece != null && attackedPiece.supremeRuler) {
                 return true;
             }

@@ -53,8 +53,8 @@ public final class King extends Piece {
      * @param shouldGoToLeftSide avgör ifall rockaden är åt vänster håll
      */
     private void castle(Piece[][] pieces, boolean shouldGoToLeftSide) {
-        final Piece rook = pieces[shouldGoToLeftSide ? 0 : 7][this.position.y];
-        final Piece king = this;
+        Piece rook = pieces[shouldGoToLeftSide ? 0 : 7][this.position.y];
+        Piece king = this;
 
         // Null där de stod
         pieces[king.position.x][king.position.y] = null;
@@ -70,7 +70,7 @@ public final class King extends Piece {
     @Override
     public void move(Piece[][] pieces, Point toMove) {
         if (Math.abs(position.x - toMove.x) == 2) {
-            final boolean goToLeftSide = toMove.x < 5;
+            boolean goToLeftSide = toMove.x < 5;
             castle(pieces, goToLeftSide);
         } else {
             super.move(pieces, toMove);
