@@ -24,22 +24,22 @@ public final class King extends Piece {
         }
 
         boolean[] somethingBetweenOrSchackOnTheWay = new boolean[2]; // Vänster, höger
-        int left_modifier = -1, right_modifier = 1;
-        for (int modifier : new int[]{left_modifier, right_modifier}) {
+        int leftModifier = -1, rightModifier = 1;
+        for (int modifier : new int[]{leftModifier, rightModifier}) {
             for (int loopX = this.position.x + modifier; loopX > 0 && loopX < 7; loopX += modifier) {
                 if (pieces[loopX][this.position.y] != null || isInSchack(pieces, new Point(loopX, this.position.y))) {
-                    somethingBetweenOrSchackOnTheWay[(modifier == left_modifier) ? 0 : 1] = true;
+                    somethingBetweenOrSchackOnTheWay[(modifier == leftModifier) ? 0 : 1] = true;
                     break;
                 }
             }
         }
-        left_modifier = 0;
-        right_modifier = 1;
-        for (int direction : new int[]{left_modifier, right_modifier}) {
+        leftModifier = 0;
+        rightModifier = 1;
+        for (int direction : new int[]{leftModifier, rightModifier}) {
             if (!somethingBetweenOrSchackOnTheWay[direction]) {
-                Piece possibleRook = pieces[direction == left_modifier ? 0 : 7][this.position.y];
+                Piece possibleRook = pieces[direction == leftModifier ? 0 : 7][this.position.y];
                 if (possibleRook != null && !possibleRook.isMoved()) {
-                    possibleCastling.add(new Point(direction == left_modifier ? 2 : 6, this.position.y));
+                    possibleCastling.add(new Point(direction == leftModifier ? 2 : 6, this.position.y));
                 }
             }
         }
@@ -75,7 +75,6 @@ public final class King extends Piece {
         } else {
             super.move(pieces, toMove);
         }
-
     }
 
     @Override

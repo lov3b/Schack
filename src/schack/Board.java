@@ -104,7 +104,7 @@ public class Board extends JPanel implements MouseListener {
 
         // Ifall vi har tryckt på en pjäs och sedan ska gå dit
         if (validMovesToDraw.contains(clickedCoordinate)) {
-            final Piece selectedPiece = pieces[previouslyClickedPoint.x][previouslyClickedPoint.y];
+            Piece selectedPiece = pieces[previouslyClickedPoint.x][previouslyClickedPoint.y];
             if (selectedPiece == null) {
                 validMovesToDraw.clear();
                 return;
@@ -141,7 +141,7 @@ public class Board extends JPanel implements MouseListener {
 
         // Om vi inte redan har valt en pjäs klickar vi på en pjäs
         if (!validMovesToDraw.contains(clickedCoordinate)) {
-            final Piece selectedPiece = pieces[mouseCoordinateX][mouseCoordinateY];
+            Piece selectedPiece = pieces[clickedCoordinate.x][clickedCoordinate.y];
 
             if (selectedPiece != null && selectedPiece.isWhite() == whitesTurn) {
                 validMovesToDraw.addAll(selectedPiece.validMoves(pieces, true));
@@ -161,9 +161,9 @@ public class Board extends JPanel implements MouseListener {
      * @return SCHACK, SCHACKMATT, PATT, NORMAL
      */
     private SchackState getSchackState() {
-        final ArrayList<Point> allValidMoves = getMoves(whitesTurn);
-        final ArrayList<Point> opposingAttacks = getAttacks(!whitesTurn);
-        final boolean weCanMove = !allValidMoves.isEmpty();
+        ArrayList<Point> allValidMoves = getMoves(whitesTurn);
+        ArrayList<Point> opposingAttacks = getAttacks(!whitesTurn);
+        boolean weCanMove = !allValidMoves.isEmpty();
 
         boolean inSchack = false;
         for (Point attack : opposingAttacks) {
@@ -189,7 +189,7 @@ public class Board extends JPanel implements MouseListener {
     }
 
     private ArrayList<Point> getMoves(boolean whiteMovesAreWanted) {
-        final ArrayList<Point> allValidMoves = new ArrayList<>();
+        ArrayList<Point> allValidMoves = new ArrayList<>();
         for (Piece[] pieceArr : pieces) {
             for (Piece piece : pieceArr) {
                 if (piece == null || whiteMovesAreWanted != piece.isWhite()) {
@@ -202,7 +202,7 @@ public class Board extends JPanel implements MouseListener {
     }
 
     public ArrayList<Point> getAttacks(boolean whiteAttacksAreWanted) {
-        final ArrayList attacks = new ArrayList();
+        ArrayList attacks = new ArrayList();
         for (Piece[] pieceArr : pieces) {
             for (Piece piece : pieceArr) {
                 if (piece == null || whiteAttacksAreWanted != piece.isWhite()) {

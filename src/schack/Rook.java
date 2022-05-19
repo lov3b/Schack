@@ -17,7 +17,6 @@ public class Rook extends LongWalkers {
                 pieces,
                 allowedToRecurse
         );
-
     }
 
 }

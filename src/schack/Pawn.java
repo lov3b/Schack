@@ -3,8 +3,6 @@ package schack;
 import java.awt.Point;
 import java.io.IOException;
 import java.util.ArrayList;
-import javax.swing.JMenuItem;
-import javax.swing.JPopupMenu;
 
 public class Pawn extends Piece {
 
