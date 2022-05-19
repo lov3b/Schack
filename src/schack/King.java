@@ -18,61 +18,31 @@ public final class King extends Piece {
      * @return
      */
     private ArrayList<Point> getCastlingIfPossible(Piece[][] pieces) {
-        final ArrayList<Point> possibleCastling = new ArrayList<>();
+        ArrayList<Point> possibleCastling = new ArrayList<>();
         if (this.isMoved()) {
             return possibleCastling;
         }
 
         boolean[] somethingBetweenOrSchackOnTheWay = new boolean[2]; // Vänster, höger
-        final int LEFT_MODIFIER = -1, RIGHT_MODIFIER = 1;
-        for (final int modifier : new int[]{LEFT_MODIFIER, RIGHT_MODIFIER}) {
+        int left_modifier = -1, right_modifier = 1;
+        for (int modifier : new int[]{left_modifier, right_modifier}) {
             for (int loopX = this.position.x + modifier; loopX > 0 && loopX < 7; loopX += modifier) {
                 if (pieces[loopX][this.position.y] != null || isInSchack(pieces, new Point(loopX, this.position.y))) {
-                    somethingBetweenOrSchackOnTheWay[(modifier == LEFT_MODIFIER) ? 0 : 1] = true;
+                    somethingBetweenOrSchackOnTheWay[(modifier == left_modifier) ? 0 : 1] = true;
                     break;
                 }
             }
         }
-        final int LEFT_DIRECTION = 0, RIGHT_DIRECTION = 1;
-        for (final int direction : new int[]{LEFT_DIRECTION, RIGHT_DIRECTION}) {
+        left_modifier = 0;
+        right_modifier = 1;
+        for (int direction : new int[]{left_modifier, right_modifier}) {
             if (!somethingBetweenOrSchackOnTheWay[direction]) {
-                final Piece possibleRook = pieces[direction == LEFT_DIRECTION ? 0 : 7][this.position.y];
+                Piece possibleRook = pieces[direction == left_modifier ? 0 : 7][this.position.y];
                 if (possibleRook != null && !possibleRook.isMoved()) {
-                    possibleCastling.add(new Point(direction == LEFT_DIRECTION ? 2 : 6, this.position.y));
+                    possibleCastling.add(new Point(direction == left_modifier ? 2 : 6, this.position.y));
                 }
             }
         }
-        /*
-        // Vänster
-        boolean nothingInBetweenAndNotSchackOnTheWay = true;
-        for (int loopX = this.position.x - 1; loopX > 0; loopX--) {
-            if (pieces[loopX][this.position.y] != null || isInSchack(pieces, new Point(loopX, this.position.y))) {
-                nothingInBetweenAndNotSchackOnTheWay = false;
-                break;
-            }
-        }
-        if (nothingInBetweenAndNotSchackOnTheWay) {
-            Piece possibleRook = pieces[0][this.position.y];
-            if (possibleRook != null && !possibleRook.isMoved()) {
-                possibleCastling.add(new Point(2, this.position.y));
-            }
-        }
-
-        // Höger
-        nothingInBetweenAndNotSchackOnTheWay = true;
-        for (int loopX = this.position.x + 1; loopX < 7; loopX++) {
-            if (pieces[loopX][this.position.y] != null || isInSchack(pieces, new Point(loopX, this.position.y))) {
-                nothingInBetweenAndNotSchackOnTheWay = false;
-                break;
-            }
-        }
-        if (nothingInBetweenAndNotSchackOnTheWay) {
-            Piece possibleRook = pieces[7][this.position.y];
-            if (possibleRook != null && !possibleRook.isMoved()) {
-                possibleCastling.add(new Point(6, this.position.y));
-            }
-        }
-         */
         return possibleCastling;
     }
 
