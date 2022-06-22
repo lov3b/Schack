@@ -2,6 +2,8 @@ package schack;
 
 import java.awt.event.ActionEvent;
 import java.io.IOException;
+import java.net.Inet4Address;
+import java.net.NetworkInterface;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -37,8 +39,11 @@ public class Schack {
         // Create menu        
         final JMenuBar menuBar = new JMenuBar();
         final JMenu gameMenu = new JMenu("Game");
+        final JMenu connectMenu = new JMenu("Connect");
         final JMenuItem askForRemi = new JMenuItem("Ask for remi");
         final JMenuItem surrender = new JMenuItem("Surrender");
+        final JMenuItem showIP = new JMenuItem("Show IP");
+        final JMenuItem connectToOpponent = new JMenuItem("Connect to opponent");
 
         askForRemi.addActionListener((ActionEvent ae) -> {
             String whosWantingRemi = board.isWhitesTurn() ? "Vit" : "Svart";
@@ -63,16 +68,33 @@ public class Schack {
                 }
             }
         });
+        showIP.addActionListener((ActionEvent ae) -> {
+            try {
+
+                String ip = Inet4Address.getLocalHost().toString();
+                JOptionPane.showMessageDialog(null, "IP: " + ip);
+
+            } catch (Exception e) {
+            }
+        });
+        connectToOpponent.addActionListener((ActionEvent ae) -> {
+            String opponentIP = JOptionPane.showInputDialog(null, "What's your opponents IP?");
+            System.out.println("opponents ip: "+opponentIP);
+            
+            
+        });
 
         // Add the menu stuff
         frame.setJMenuBar(menuBar);
         menuBar.add(gameMenu);
+        menuBar.add(connectMenu);
         gameMenu.add(askForRemi);
         gameMenu.add(surrender);
+        connectMenu.add(showIP);
+        connectMenu.add(connectToOpponent);
         frame.pack();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
-
     }
 
     public static void main(String[] args) throws IOException {
