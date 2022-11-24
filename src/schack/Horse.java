@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class Horse extends Piece {
 
-    public Horse(boolean isWhite, boolean isLeft, Point startingPosition) throws IOException {
+    public Horse(boolean isWhite, Point startingPosition) throws IOException {
         super(isWhite, startingPosition);
     }
 

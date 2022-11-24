@@ -1,8 +1,10 @@
 package schack;
 
+import java.awt.HeadlessException;
 import java.awt.Point;
 import java.io.IOException;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 public class Pawn extends Piece {
 
@@ -13,7 +15,7 @@ public class Pawn extends Piece {
     /**
      * Ger tillbaks alla ställen pjäsen kan attackera
      *
-     * @param pieces 
+     * @param pieces
      * @param shouldNotCareIfAttackSpaceIsEmptyOrNot Ifall man ska kolla ifall
      * det är något i möjliga attackrutor ifall
      * @return Alla lämpliga attackMoves
@@ -104,5 +106,47 @@ public class Pawn extends Piece {
         }
         return true;
 
+    }
+
+    @Override
+    public void move(Piece[][] pieces, Point toMove) {
+        super.move(pieces, toMove);
+
+        // Check if the pawn has moved to the end and should be transformed
+        if (this.position.y == 0 && this.isWhite()
+                || this.position.y == 7 && !this.isWhite()) {
+            transform(pieces);
+        }
+    }
+
+    private void transform(Piece[][] pieces) throws HeadlessException {
+        String[] transformations = {"Queen", "Rook", "Bishop", "Horse"};
+        int choosenTransformations = JOptionPane.showOptionDialog(null,
+                "What do you want to transform into?",
+                "Click a button",
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.INFORMATION_MESSAGE,
+                null,
+                transformations,
+                transformations[0]
+        );
+        try {
+            switch (choosenTransformations) {
+                case 0:
+                    pieces[position.x][position.y] = new Queen(this.isWhite(), this.position);
+                    break;
+                case 1:
+                    pieces[position.x][position.y] = new Rook(this.isWhite(), this.position);
+                    break;
+                case 2:
+                    pieces[position.x][position.y] = new Bishop(this.isWhite(), this.position);
+                    break;
+                default:
+                    pieces[position.x][position.y] = new Horse(this.isWhite(), this.position);
+                    break;
+            }
+        } catch (IOException ioe) {
+            System.out.println(ioe);
+        }
     }
 }
