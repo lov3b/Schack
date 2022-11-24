@@ -137,7 +137,7 @@ public class Board extends JPanel implements MouseListener {
 
         } else {
             previouslyClickedPoint = new Point(clickedCoordinate);
-            validMovesToDraw.clear();
+            validMovesToDraw = new ArrayList<>(); // Snabbare än .clear
         }
 
         // Om vi inte redan har valt en pjäs klickar vi på en pjäs
@@ -147,10 +147,10 @@ public class Board extends JPanel implements MouseListener {
             if (selectedPiece != null && selectedPiece.isWhite() == whitesTurn) {
                 validMovesToDraw.addAll(selectedPiece.validMoves(pieces, true));
             } else {
-                validMovesToDraw.clear();
+                validMovesToDraw = new ArrayList<>(); // Snabbare än .clear
             }
         } else {
-            validMovesToDraw.clear();
+            validMovesToDraw = new ArrayList<>(); // Snabbare än .clear
         }
 
         getParent().repaint();
@@ -174,7 +174,7 @@ public class Board extends JPanel implements MouseListener {
             }
             if (attacked.supremeRuler) {
                 inSchack = true;
-                validMovesToDraw.clear();
+                validMovesToDraw = new ArrayList<>(); // Snabbare än .clear
                 getParent().repaint();
                 if (weCanMove) {
                     return SchackState.SCHACK;
