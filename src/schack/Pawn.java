@@ -123,8 +123,8 @@ public class Pawn extends Piece {
     private void transform(Piece[][] pieces) throws HeadlessException {
         String[] transformations = {"Queen", "Rook", "Bishop", "Horse"};
         int choosenTransformations = JOptionPane.showOptionDialog(null,
-                "What do you want to transform into?",
-                "Click a button",
+                "What do you want to the pawn to transform into?",
+                "Pawn about to transform",
                 JOptionPane.DEFAULT_OPTION,
                 JOptionPane.INFORMATION_MESSAGE,
                 null,
