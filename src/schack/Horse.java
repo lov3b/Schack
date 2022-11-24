@@ -3,6 +3,7 @@ package schack;
 import java.awt.Point;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Horse extends Piece {
 
@@ -11,8 +12,8 @@ public class Horse extends Piece {
     }
 
     @Override
-    public ArrayList<Point> validMoves(Piece[][] pieces, boolean allowedToRecurse) {
-        ArrayList<Point> movable = new ArrayList<>();
+    public List<Point> validMoves(Piece[][] pieces, boolean allowedToRecurse) {
+        List<Point> movable = new ArrayList<>();
 
         for (int dx : new int[]{-2, -1, 1, 2}) {
             for (int direction : new int[]{-1, 1}) {

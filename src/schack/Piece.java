@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 import javax.imageio.ImageIO;
 
 public abstract class Piece {
@@ -18,7 +19,7 @@ public abstract class Piece {
     /**
      * Sant ifall pjäsens färg är vit, falskt ifall den är svart
      */
-    private boolean isWhite;
+    private final boolean isWhite;
     /**
      * SPECIAL RULÖES APPLY TO THE KING, (ITS GOOD TO BE THE KING:)
      */
@@ -64,7 +65,7 @@ public abstract class Piece {
      * @param allowedToRecurse
      * @return
      */
-    public abstract ArrayList<Point> validMoves(Piece[][] pieces, boolean allowedToRecurse);
+    public abstract List<Point> validMoves(Piece[][] pieces, boolean allowedToRecurse);
 
     /**
      * Ger tillbaks alla ställen pjäsen kan attackera
@@ -74,7 +75,7 @@ public abstract class Piece {
      * kolla ifall det är något i möjliga attackrutor ifall
      * @return Alla lämpliga attackMoves
      */
-    public ArrayList<Point> validAttacks(Piece[][] pieces, boolean shouldNotCareIfAttackSpaceIsEmptyOrNot) {
+    public List<Point> validAttacks(Piece[][] pieces, boolean shouldNotCareIfAttackSpaceIsEmptyOrNot) {
         return validMoves(pieces, false);
     }
 
@@ -121,7 +122,7 @@ public abstract class Piece {
      *
      * @return true ifall man inte kan gå längre i denna riktning
      */
-    protected boolean addMovesIfCan(Point pos, ArrayList<Point> movable, Piece[][] pieces, boolean allowedToRecurse) {
+    protected boolean addMovesIfCan(Point pos, List<Point> movable, Piece[][] pieces, boolean allowedToRecurse) {
         // Ifall vi är utanför brädet ge tillbaka false
         if (pos.x > 7 || pos.x < 0 || pos.y > 7 || pos.y < 0) {
             return false;
@@ -186,7 +187,7 @@ public abstract class Piece {
      * @return true ifall det är schack
      */
     protected boolean isInSchack(Piece[][] pieces) {
-        ArrayList<Point> enemyAttacks = new ArrayList<>();
+        List<Point> enemyAttacks = new ArrayList<>();
 
         // Fråga alla pjäser vart de kan gå/ta
         for (Piece[] pieceArr : pieces) {

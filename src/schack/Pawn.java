@@ -4,6 +4,7 @@ import java.awt.HeadlessException;
 import java.awt.Point;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 public class Pawn extends Piece {
@@ -21,8 +22,8 @@ public class Pawn extends Piece {
      * @return Alla lämpliga attackMoves
      */
     @Override
-    public ArrayList<Point> validAttacks(Piece[][] pieces, boolean shouldNotCareIfAttackSpaceIsEmptyOrNot) {
-        ArrayList<Point> movable = new ArrayList<>();
+    public List<Point> validAttacks(Piece[][] pieces, boolean shouldNotCareIfAttackSpaceIsEmptyOrNot) {
+        List<Point> movable = new ArrayList<>();
 
         // Kolla ifall vi kan ta någon
         for (int pawnX : new int[]{-1, 1}) {
@@ -42,8 +43,8 @@ public class Pawn extends Piece {
     }
 
     @Override
-    public ArrayList<Point> validMoves(Piece[][] pieces, boolean allowedToRecurse) {
-        ArrayList<Point> movable = new ArrayList<>();
+    public List<Point> validMoves(Piece[][] pieces, boolean allowedToRecurse) {
+        List<Point> movable = new ArrayList<>();
 
         // Om bonden har gått en gång, får gå 1 steg, annars 2
         final int upTo = this.isMoved() ? 1 : 2;
@@ -75,8 +76,8 @@ public class Pawn extends Piece {
      * @param movable
      * @param pieces
      */
-    private ArrayList<Point> addAttackMovesIfCan(Point pos, Piece[][] pieces) {
-        ArrayList<Point> movable = new ArrayList();
+    private List<Point> addAttackMovesIfCan(Point pos, Piece[][] pieces) {
+        List<Point> movable = new ArrayList();
         // Se till att vi inte är utanför brädet
         if (pos.x >= pieces.length || pos.x < 0 || pos.y >= pieces[0].length || pos.y < 0) {
             return movable;
@@ -92,7 +93,7 @@ public class Pawn extends Piece {
     }
 
     @Override
-    protected boolean addMovesIfCan(Point pos, ArrayList movable, Piece[][] pieces, boolean allowedToRecurse) {
+    protected boolean addMovesIfCan(Point pos, List movable, Piece[][] pieces, boolean allowedToRecurse) {
         if (pos.x < 0 || pos.x > 7 || pos.y < 0 || pos.y > 7) {
             return false;
         }

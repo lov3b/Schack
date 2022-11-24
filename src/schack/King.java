@@ -3,6 +3,7 @@ package schack;
 import java.awt.Point;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public final class King extends Piece {
 
@@ -17,8 +18,8 @@ public final class King extends Piece {
      * @param pieces
      * @return
      */
-    private ArrayList<Point> getCastlingIfPossible(Piece[][] pieces) {
-        ArrayList<Point> possibleCastling = new ArrayList<>();
+    private List<Point> getCastlingIfPossible(Piece[][] pieces) {
+        List<Point> possibleCastling = new ArrayList<>();
         if (this.isMoved()) {
             return possibleCastling;
         }
@@ -78,8 +79,8 @@ public final class King extends Piece {
     }
 
     @Override
-    public ArrayList<Point> validMoves(Piece[][] pieces, boolean allowedToRecurse) {
-        ArrayList<Point> movable = new ArrayList<>();
+    public List<Point> validMoves(Piece[][] pieces, boolean allowedToRecurse) {
+        List<Point> movable = new ArrayList<>();
 
         for (int loopX = -1; loopX < 2; loopX++) {
             for (int loopY = -1; loopY < 2; loopY++) {

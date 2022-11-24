@@ -1,9 +1,11 @@
 package schack;
 
+import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.net.Inet4Address;
 import java.net.NetworkInterface;
+import java.net.UnknownHostException;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -74,7 +76,7 @@ public class Schack {
                 String ip = Inet4Address.getLocalHost().toString();
                 JOptionPane.showMessageDialog(null, "IP: " + ip);
 
-            } catch (Exception e) {
+            } catch (HeadlessException | UnknownHostException e) {
             }
         });
         connectToOpponent.addActionListener((ActionEvent ae) -> {

@@ -2,7 +2,7 @@ package schack;
 
 import java.awt.Point;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.List;
 
 public class Bishop extends LongWalkers {
 
@@ -11,7 +11,7 @@ public class Bishop extends LongWalkers {
     }
 
     @Override
-    public ArrayList<Point> validMoves(Piece[][] pieces, boolean allowedToRecurse) {
+    public List<Point> validMoves(Piece[][] pieces, boolean allowedToRecurse) {
         return getMoves(
                 new int[][]{{-1, -1}, {1, 1}, {-1, 1}, {1, -1}},
                 pieces,

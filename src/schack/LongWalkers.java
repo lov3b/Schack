@@ -3,6 +3,7 @@ package schack;
 import java.awt.Point;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public abstract class LongWalkers extends Piece {
 
@@ -21,8 +22,8 @@ public abstract class LongWalkers extends Piece {
      * @param allowedToRecurse
      * @return
      */
-    ArrayList<Point> getMoves(int[][] directions, Piece[][] pieces, boolean allowedToRecurse) {
-        ArrayList<Point> movable = new ArrayList<>();
+    List<Point> getMoves(int[][] directions, Piece[][] pieces, boolean allowedToRecurse) {
+        List<Point> movable = new ArrayList<>();
 
         for (int[] xy : directions) {
             int loopX = this.position.x, loopY = this.position.y;

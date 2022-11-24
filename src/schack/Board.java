@@ -9,6 +9,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -16,7 +17,7 @@ public class Board extends JPanel implements MouseListener {
 
     public static final int SIZE_OF_TILE = 100;
     private Piece[][] pieces = new Piece[8][8];
-    private ArrayList<Point> validMovesToDraw = new ArrayList<>();
+    private List<Point> validMovesToDraw = new ArrayList<>();
     private Point previouslyClickedPoint = new Point();
     private final Color moveableColor = new Color(255, 191, 0);
     short turnCount = 0;
@@ -161,8 +162,8 @@ public class Board extends JPanel implements MouseListener {
      * @return SCHACK, SCHACKMATT, PATT, NORMAL
      */
     private SchackState getSchackState() {
-        ArrayList<Point> allValidMoves = getMoves(whitesTurn);
-        ArrayList<Point> opposingAttacks = getAttacks(!whitesTurn);
+        List<Point> allValidMoves = getMoves(whitesTurn);
+        List<Point> opposingAttacks = getAttacks(!whitesTurn);
         boolean weCanMove = !allValidMoves.isEmpty();
 
         boolean inSchack = false;
@@ -188,8 +189,8 @@ public class Board extends JPanel implements MouseListener {
         return SchackState.NORMAL;
     }
 
-    private ArrayList<Point> getMoves(boolean whiteMovesAreWanted) {
-        ArrayList<Point> allValidMoves = new ArrayList<>();
+    private List<Point> getMoves(boolean whiteMovesAreWanted) {
+        List<Point> allValidMoves = new ArrayList<>();
         for (Piece[] pieceArr : pieces) {
             for (Piece piece : pieceArr) {
                 if (piece == null || whiteMovesAreWanted != piece.isWhite()) {
@@ -201,8 +202,8 @@ public class Board extends JPanel implements MouseListener {
         return allValidMoves;
     }
 
-    public ArrayList<Point> getAttacks(boolean whiteAttacksAreWanted) {
-        ArrayList attacks = new ArrayList();
+    public List<Point> getAttacks(boolean whiteAttacksAreWanted) {
+        List attacks = new ArrayList();
         for (Piece[] pieceArr : pieces) {
             for (Piece piece : pieceArr) {
                 if (piece == null || whiteAttacksAreWanted != piece.isWhite()) {

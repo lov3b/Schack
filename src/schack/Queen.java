@@ -2,7 +2,7 @@ package schack;
 
 import java.awt.Point;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.List;
 
 public class Queen extends LongWalkers {
 
@@ -11,7 +11,7 @@ public class Queen extends LongWalkers {
     }
 
     @Override
-    public ArrayList<Point> validMoves(Piece[][] pieces, boolean allowedToRecurse) {
+    public List<Point> validMoves(Piece[][] pieces, boolean allowedToRecurse) {
         return getMoves(
                 new int[][]{{1, 0}, {-1, 0}, {0, 1}, {-1, -1}, {0, -1}, {1, 1}, {-1, 1}, {1, -1}},
                 pieces,
