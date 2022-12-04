@@ -33,7 +33,7 @@ public abstract class Board extends JPanel implements MouseListener {
     private final Color moveableColor = new Color(255, 191, 0);
     short turnCount = 0;
     protected boolean whitesTurn = true;
-    private DefaultListModel<Move> moveList;
+    protected DefaultListModel<Move> moveList;
 
     public Board(DefaultListModel<Move> listModel) throws IOException {
         this.pieces = getPieces();
@@ -133,7 +133,6 @@ public abstract class Board extends JPanel implements MouseListener {
             }
 
             Move move = new Move(selectedPiece, selectedPiece.position, clickedCoordinate);
-            moveList.addElement(move);
             makeMove(move);
         } else {
             previouslyClickedPoint = new Point(clickedCoordinate);

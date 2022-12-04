@@ -17,7 +17,8 @@ public final class SameBoard extends Board {
     }
 
     @Override
-    protected void makeMove(Move move)  {
+    protected void makeMove(Move move) {
+        moveList.addElement(move);
         move.movedPiece.move(pieces, move.to);
         turnCount++;
         whitesTurn = !whitesTurn;

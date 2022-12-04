@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.imageio.ImageIO;
 
+import com.billenius.schack.Schack;
 import com.billenius.schack.boards.Board;
 
 public abstract class Piece implements Serializable {
@@ -27,10 +28,6 @@ public abstract class Piece implements Serializable {
      * SPECIAL RULÖES APPLY TO THE KING, (ITS GOOD TO BE THE KING:)
      */
     public boolean supremeRuler = false;
-    /**
-     * Bild av pjäsen som ritas ut på bärdet
-     */
-    protected BufferedImage icon;
 
     /**
      * Nödvändigt för rockad
@@ -40,25 +37,10 @@ public abstract class Piece implements Serializable {
     public Piece(boolean white, Point startingPosition) throws IOException {
         this.isWhite = white;
         this.position = startingPosition;
-        setPieceIcon();
     }
 
     public Piece(boolean white) {
         this.isWhite = white;
-    }
-
-    /**
-     * Ladda in pjäsbild från paketet img
-     *
-     * @param className
-     * @throws IOException ifall det inte finns någon bild på pjäsen
-     */
-    private void setPieceIcon() throws IOException {
-        String className = this.getClass().getSimpleName();
-        String colorName = this.isWhite() ? "White" : "Black";
-        String fileName = colorName + className + ".png";
-        InputStream is = getClass().getResourceAsStream("/com/billenius/img/" + fileName);
-        icon = ImageIO.read(is);
     }
 
     /**
@@ -89,8 +71,9 @@ public abstract class Piece implements Serializable {
      * @param g2
      */
     public void draw(Graphics2D g2) {
+
         g2.drawImage(
-                icon,
+                getIcon(),
                 position.x * Board.SIZE_OF_TILE,
                 position.y * Board.SIZE_OF_TILE,
                 null);
@@ -212,6 +195,13 @@ public abstract class Piece implements Serializable {
         return this.getClass().getSimpleName() + "{" + "position=" + position + ", isWhite=" + isWhite + '}';
     }
 
+    public boolean equals(Piece otherPiece) {
+        return getClass().getName().equals(otherPiece.getClass().getName())
+                && isWhite() == otherPiece.isWhite()
+                && supremeRuler == otherPiece.supremeRuler && moved == otherPiece.moved
+                && position.equals(otherPiece.position);
+    }
+
     /**
      *
      * @return true ifall pjäsen är vit
@@ -230,7 +220,9 @@ public abstract class Piece implements Serializable {
     }
 
     public BufferedImage getIcon() {
-        return this.icon;
+        String className = this.getClass().getSimpleName();
+        String colorName = this.isWhite() ? "White" : "Black";
+        return Schack.pieceIcons.get(colorName + className);
     }
 
 }

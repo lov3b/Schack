@@ -74,7 +74,7 @@ public final class NetworkBoard extends Board {
                     "What's the IP of your opponent?",
                     "Schack: Networking",
                     JOptionPane.QUESTION_MESSAGE);
-            this.socket = new Socket(ip, 1339);
+            this.socket = new Socket("localhost", 1339);
             myColor = false;
 
             // Get input/output stream
@@ -88,7 +88,10 @@ public final class NetworkBoard extends Board {
     @Override
     protected void makeMove(Move move) {
         try {
+            moveList.addElement(move);
+
             move.movedPiece.move(pieces, move.to);
+            getParent().repaint();
             outputStream.writeObject(move);
 
             SchackState state = getSchackState();
@@ -113,11 +116,29 @@ public final class NetworkBoard extends Board {
             }
 
             move = (Move) inputStream.readObject();
-            move.movedPiece.move(pieces, move.to);
+            moveList.addElement(move);
+
+            System.out.println(move);
+            pieces[move.from.x][move.from.y].move(pieces, move.to);
+            getParent().repaint();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
+    }
+
+    // Hitta våran lokala pjäs på brädet
+    protected Piece getLocalFromRemote(Piece remotePiece) {
+        for (Piece[] row : pieces)
+            for (Piece localPiece : row) {
+                if (localPiece == null)
+                    continue;
+
+                if (localPiece.equals(remotePiece))
+                    return remotePiece;
+
+            }
+        return null;
     }
 
     @Override
