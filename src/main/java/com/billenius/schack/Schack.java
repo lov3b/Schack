@@ -1,6 +1,7 @@
 package com.billenius.schack;
 
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
@@ -9,14 +10,17 @@ import java.net.UnknownHostException;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.UIManager;
+import java.awt.BorderLayout;
 
 import com.billenius.schack.MoveLogging.Move;
 import com.billenius.schack.MoveLogging.PieceRenderer;
@@ -51,16 +55,26 @@ public class Schack {
         // Might throw an IOException if the icon of the Pieces isn't embedded correctly
         final Board board = new Board(listModel);
 
+        // Logger
         final JList<Move> jlist = new JList<>(listModel);
         jlist.setVisible(true);
         jlist.setCellRenderer(new PieceRenderer());
+        JScrollPane scrollPane = new JScrollPane(jlist);
+        // scrollPane.setPreferredSize(new Dimension(120, 700));
+        JPanel logPanel = new JPanel(new BorderLayout());
+        logPanel.setPreferredSize(new Dimension(120, 800));
+
+        JLabel infoText = new JLabel("Moves");
+        infoText.setFont(new Font("Cantarell", Font.PLAIN, 18));
+
+        infoText.setHorizontalAlignment(JLabel.CENTER);
+        logPanel.add(infoText, BorderLayout.NORTH);
+        logPanel.add(scrollPane, BorderLayout.CENTER);
 
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
         splitPane.setDividerLocation(800);
-        board.setMinimumSize(new Dimension(800, 800));
-        jlist.setMinimumSize(new Dimension(200, 800));
         splitPane.setLeftComponent(board);
-        splitPane.setRightComponent(new JScrollPane(jlist));
+        splitPane.setRightComponent(logPanel);
 
         frame.setContentPane(splitPane);
         frame.getContentPane().addMouseListener(board);
