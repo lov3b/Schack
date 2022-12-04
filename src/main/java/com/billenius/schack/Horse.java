@@ -1,4 +1,4 @@
-package schack;
+package com.billenius.schack;
 
 import java.awt.Point;
 import java.io.IOException;
@@ -15,8 +15,8 @@ public class Horse extends Piece {
     public List<Point> validMoves(Piece[][] pieces, boolean allowedToRecurse) {
         List<Point> movable = new ArrayList<>();
 
-        for (int dx : new int[]{-2, -1, 1, 2}) {
-            for (int direction : new int[]{-1, 1}) {
+        for (int dx : new int[] { -2, -1, 1, 2 }) {
+            for (int direction : new int[] { -1, 1 }) {
                 int stepLength = (3 - Math.abs(dx)),
                         dy = direction * stepLength;
                 Point potentialMove = new Point(this.position.x + dx, this.position.y + dy);

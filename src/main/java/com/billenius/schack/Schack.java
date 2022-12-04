@@ -1,4 +1,4 @@
-package schack;
+package com.billenius.schack;
 
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
@@ -33,12 +33,12 @@ public class Schack {
         frame.setAlwaysOnTop(false);
         frame.setResizable(false);
 
-        //  Might throw an IOException if the icon of the Pieces isn't embedded correctly
+        // Might throw an IOException if the icon of the Pieces isn't embedded correctly
         final Board board = new Board();
         frame.setContentPane(board);
         frame.getContentPane().addMouseListener(board);
 
-        // Create menu        
+        // Create menu
         final JMenuBar menuBar = new JMenuBar();
         final JMenu gameMenu = new JMenu("Game");
         final JMenu connectMenu = new JMenu("Connect");
@@ -81,9 +81,8 @@ public class Schack {
         });
         connectToOpponent.addActionListener((ActionEvent ae) -> {
             String opponentIP = JOptionPane.showInputDialog(null, "What's your opponents IP?");
-            System.out.println("opponents ip: "+opponentIP);
-            
-            
+            System.out.println("opponents ip: " + opponentIP);
+
         });
 
         // Add the menu stuff

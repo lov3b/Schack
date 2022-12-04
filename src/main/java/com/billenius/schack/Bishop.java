@@ -1,4 +1,4 @@
-package schack;
+package com.billenius.schack;
 
 import java.awt.Point;
 import java.io.IOException;
@@ -13,10 +13,9 @@ public class Bishop extends LongWalkers {
     @Override
     public List<Point> validMoves(Piece[][] pieces, boolean allowedToRecurse) {
         return getMoves(
-                new int[][]{{-1, -1}, {1, 1}, {-1, 1}, {1, -1}},
+                new int[][] { { -1, -1 }, { 1, 1 }, { -1, 1 }, { 1, -1 } },
                 pieces,
-                allowedToRecurse
-        );
+                allowedToRecurse);
     }
 
 }

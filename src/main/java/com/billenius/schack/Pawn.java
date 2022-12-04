@@ -1,4 +1,4 @@
-package schack;
+package com.billenius.schack;
 
 import java.awt.HeadlessException;
 import java.awt.Point;
@@ -18,7 +18,8 @@ public class Pawn extends Piece {
      *
      * @param pieces
      * @param shouldNotCareIfAttackSpaceIsEmptyOrNot Ifall man ska kolla ifall
-     * det är något i möjliga attackrutor ifall
+     *                                               det är något i möjliga
+     *                                               attackrutor ifall
      * @return Alla lämpliga attackMoves
      */
     @Override
@@ -26,7 +27,7 @@ public class Pawn extends Piece {
         List<Point> movable = new ArrayList<>();
 
         // Kolla ifall vi kan ta någon
-        for (int pawnX : new int[]{-1, 1}) {
+        for (int pawnX : new int[] { -1, 1 }) {
             // Position vi kollar just nu, snett upp åt höger & vänster
             Point pos = new Point(this.position.x + pawnX, this.position.y + (this.isWhite() ? -1 : 1));
             if (pos.x < 0 || pos.x > 7 || pos.y < 0 || pos.y > 7) {
@@ -59,7 +60,7 @@ public class Pawn extends Piece {
         }
 
         // Kolla ifall vi kan ta någon
-        for (int pawnX : new int[]{-1, 1}) {
+        for (int pawnX : new int[] { -1, 1 }) {
             // Position vi kollar just nu, snett upp åt höger & vänster
             final Point pos = new Point(this.position.x + pawnX, this.position.y + (this.isWhite() ? -1 : 1));
             movable.addAll(addAttackMovesIfCan(pos, pieces));
@@ -121,7 +122,7 @@ public class Pawn extends Piece {
     }
 
     private void transform(Piece[][] pieces) throws HeadlessException {
-        String[] transformations = {"Queen", "Rook", "Bishop", "Horse"};
+        String[] transformations = { "Queen", "Rook", "Bishop", "Horse" };
         int choosenTransformations = JOptionPane.showOptionDialog(null,
                 "What do you want to the pawn to transform into?",
                 "Pawn about to transform",
@@ -129,8 +130,7 @@ public class Pawn extends Piece {
                 JOptionPane.INFORMATION_MESSAGE,
                 null,
                 transformations,
-                transformations[0]
-        );
+                transformations[0]);
         try {
             switch (choosenTransformations) {
                 case 0:

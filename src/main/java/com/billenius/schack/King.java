@@ -1,4 +1,4 @@
-package schack;
+package com.billenius.schack;
 
 import java.awt.Point;
 import java.io.IOException;
@@ -26,7 +26,7 @@ public final class King extends Piece {
 
         boolean[] somethingBetweenOrSchackOnTheWay = new boolean[2]; // Vänster, höger
         int leftModifier = -1, rightModifier = 1;
-        for (int modifier : new int[]{leftModifier, rightModifier}) {
+        for (int modifier : new int[] { leftModifier, rightModifier }) {
             for (int loopX = this.position.x + modifier; loopX > 0 && loopX < 7; loopX += modifier) {
                 if (pieces[loopX][this.position.y] != null || isInSchack(pieces, new Point(loopX, this.position.y))) {
                     somethingBetweenOrSchackOnTheWay[(modifier == leftModifier) ? 0 : 1] = true;
@@ -36,7 +36,7 @@ public final class King extends Piece {
         }
         leftModifier = 0;
         rightModifier = 1;
-        for (int direction : new int[]{leftModifier, rightModifier}) {
+        for (int direction : new int[] { leftModifier, rightModifier }) {
             if (!somethingBetweenOrSchackOnTheWay[direction]) {
                 Piece possibleRook = pieces[direction == leftModifier ? 0 : 7][this.position.y];
                 if (possibleRook != null && !possibleRook.isMoved()) {
@@ -87,7 +87,8 @@ public final class King extends Piece {
                 if (loopY == 0 && loopX == 0) {
                     continue;
                 }
-                addMovesIfCan(new Point(this.position.x + loopX, this.position.y + loopY), movable, pieces, allowedToRecurse);
+                addMovesIfCan(new Point(this.position.x + loopX, this.position.y + loopY), movable, pieces,
+                        allowedToRecurse);
             }
 
         }

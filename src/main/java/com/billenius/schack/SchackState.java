@@ -1,4 +1,4 @@
-package schack;
+package com.billenius.schack;
 
 /**
  *

@@ -1,4 +1,4 @@
-package schack;
+package com.billenius.schack;
 
 import java.awt.Point;
 import java.io.IOException;
@@ -14,9 +14,15 @@ public abstract class LongWalkers extends Piece {
     /**
      * Generell metod för att generera möjliga drag för LongWalkers
      *
-     * @param directions vilka håll. Exempel: <pre>
-     * {@code new int[][]{{1, 0}, {-1, 0}, {0, 1}, {0, -1}}}</pre> för att gå
-     * som ett torn
+     * @param directions       vilka håll. Exempel:
+     * 
+     *                         <pre>
+     * {@code
+     * new int[][] { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 } }
+     * }</pre>
+     * 
+     *                         för att gå
+     *                         som ett torn
      *
      * @param pieces
      * @param allowedToRecurse

@@ -1,4 +1,4 @@
-package schack;
+package com.billenius.schack;
 
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -54,7 +54,7 @@ public abstract class Piece {
         String className = this.getClass().getSimpleName();
         String colorName = this.isWhite() ? "White" : "Black";
         String fileName = colorName + className + ".png";
-        InputStream is = getClass().getResourceAsStream("/img/" + fileName);
+        InputStream is = getClass().getResourceAsStream("/com/billenius/img/" + fileName);
         icon = ImageIO.read(is);
     }
 
@@ -72,7 +72,8 @@ public abstract class Piece {
      *
      * @param pieces
      * @param shouldNotCareIfAttackSpaceIsEmptyOrNot För bönder ifall den ska
-     * kolla ifall det är något i möjliga attackrutor ifall
+     *                                               kolla ifall det är något i
+     *                                               möjliga attackrutor ifall
      * @return Alla lämpliga attackMoves
      */
     public List<Point> validAttacks(Piece[][] pieces, boolean shouldNotCareIfAttackSpaceIsEmptyOrNot) {
@@ -89,8 +90,7 @@ public abstract class Piece {
                 icon,
                 position.x * Board.SIZE_OF_TILE,
                 position.y * Board.SIZE_OF_TILE,
-                null
-        );
+                null);
     }
 
     /**
@@ -114,11 +114,12 @@ public abstract class Piece {
     /**
      * Lägg till move ifall det går, alltså inte är schack där
      *
-     * @param pos Drag att lägga till ifall det går
-     * @param movable Lägger till drag i denna ArrayList
-     * @param pieces Piece[][] över brädet
+     * @param pos              Drag att lägga till ifall det går
+     * @param movable          Lägger till drag i denna ArrayList
+     * @param pieces           Piece[][] över brädet
      * @param allowedToRecurse Behövs för att inte gå in i en evig loop där
-     * <pre>{@code addMovesIfCan -> isInSchack -> validMoves -> getCastlingIfPossible(King) -> isInSchack}</pre>
+     * 
+     *                         <pre>{@code addMovesIfCan -> isInSchack -> validMoves -> getCastlingIfPossible(King) -> isInSchack}</pre>
      *
      * @return true ifall man inte kan gå längre i denna riktning
      */
@@ -155,7 +156,7 @@ public abstract class Piece {
      * Kolla ifall det är schack vid den här positionen
      *
      * @param pieces Piece[][] över hela brädet
-     * @param pos Kollar ifall det är schack om denna Piece flyttar hit
+     * @param pos    Kollar ifall det är schack om denna Piece flyttar hit
      * @return true ifall det är schack
      */
     protected boolean isInSchack(Piece[][] pieces, Point pos) {
