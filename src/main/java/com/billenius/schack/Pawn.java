@@ -30,14 +30,13 @@ public class Pawn extends Piece {
         for (int pawnX : new int[] { -1, 1 }) {
             // Position vi kollar just nu, snett upp åt höger & vänster
             Point pos = new Point(this.position.x + pawnX, this.position.y + (this.isWhite() ? -1 : 1));
-            if (pos.x < 0 || pos.x > 7 || pos.y < 0 || pos.y > 7) {
+            if (pos.x < 0 || pos.x > 7 || pos.y < 0 || pos.y > 7) 
                 continue;
-            }
+            
             Piece piece = pieces[pos.x][pos.y];
             if (piece == null || piece.isWhite() != this.isWhite()
-                    || (shouldNotCareIfAttackSpaceIsEmptyOrNot && piece.isWhite() != this.isWhite())) {
+                    || (shouldNotCareIfAttackSpaceIsEmptyOrNot && piece.isWhite() != this.isWhite())) 
                 movable.add(pos);
-            }
         }
 
         return movable;
@@ -54,9 +53,8 @@ public class Pawn extends Piece {
         for (int pawnDY = 1; pawnDY <= upTo; pawnDY++) {
             final Point pos = new Point(this.position.x, this.position.y + (this.isWhite() ? -pawnDY : pawnDY));
             boolean shouldBreak = addMovesIfCan(pos, movable, pieces, allowedToRecurse);
-            if (shouldBreak) {
+            if (shouldBreak) 
                 break;
-            }
         }
 
         // Kolla ifall vi kan ta någon
@@ -78,7 +76,7 @@ public class Pawn extends Piece {
      * @param pieces
      */
     private List<Point> addAttackMovesIfCan(Point pos, Piece[][] pieces) {
-        List<Point> movable = new ArrayList();
+        List<Point> movable = new ArrayList<>();
         // Se till att vi inte är utanför brädet
         if (pos.x >= pieces.length || pos.x < 0 || pos.y >= pieces[0].length || pos.y < 0) {
             return movable;
@@ -94,16 +92,16 @@ public class Pawn extends Piece {
     }
 
     @Override
-    protected boolean addMovesIfCan(Point pos, List movable, Piece[][] pieces, boolean allowedToRecurse) {
+    protected boolean addMovesIfCan(Point pos, List<Point> movable, Piece[][] pieces, boolean allowedToRecurse) {
         if (pos.x < 0 || pos.x > 7 || pos.y < 0 || pos.y > 7) {
             return false;
         }
 
         Piece pieceToCheck = pieces[pos.x][pos.y];
         if (pieceToCheck == null) {
-            if (!isInSchack(pieces, pos)) {
+            if (!isInSchack(pieces, pos))
                 movable.add(pos);
-            }
+
             return false;
         }
         return true;

@@ -125,17 +125,15 @@ public abstract class Piece {
      */
     protected boolean addMovesIfCan(Point pos, List<Point> movable, Piece[][] pieces, boolean allowedToRecurse) {
         // Ifall vi är utanför brädet ge tillbaka false
-        if (pos.x > 7 || pos.x < 0 || pos.y > 7 || pos.y < 0) {
+        if (pos.x > 7 || pos.x < 0 || pos.y > 7 || pos.y < 0)
             return false;
-        }
 
         Piece pieceToCheck = pieces[pos.x][pos.y];
 
         // Detta är en tom plats
         if (pieceToCheck == null) {
-            if (!allowedToRecurse || !isInSchack(pieces, pos)) {
+            if (!allowedToRecurse || !isInSchack(pieces, pos))
                 movable.add(pos);
-            }
             return false;
         }
 
@@ -145,9 +143,8 @@ public abstract class Piece {
          * lägga till den
          */
         if ((pieceToCheck.isWhite() != this.isWhite())
-                && ((allowedToRecurse && !isInSchack(pieces, pos)) || !allowedToRecurse)) {
+                && ((allowedToRecurse && !isInSchack(pieces, pos)) || !allowedToRecurse))
             movable.add(pos);
-        }
         return true;
 
     }
@@ -191,21 +188,18 @@ public abstract class Piece {
         List<Point> enemyAttacks = new ArrayList<>();
 
         // Fråga alla pjäser vart de kan gå/ta
-        for (Piece[] pieceArr : pieces) {
-            for (Piece piece : pieceArr) {
-                if (piece != null && piece.isWhite != this.isWhite()) {
+        for (Piece[] pieceArr : pieces)
+            for (Piece piece : pieceArr)
+                if (piece != null && piece.isWhite != this.isWhite())
                     // Lägg till alla attacker för mostståndaren
                     enemyAttacks.addAll(piece.validAttacks(pieces, false));
-                }
-            }
-        }
 
         // Kollar ifall kungen står i schack just nu
         for (Point enemyAttack : enemyAttacks) {
             Piece attackedPiece = pieces[enemyAttack.x][enemyAttack.y];
-            if (attackedPiece != null && attackedPiece.supremeRuler) {
+            if (attackedPiece != null && attackedPiece.supremeRuler) 
                 return true;
-            }
+            
         }
         return false;
     }
