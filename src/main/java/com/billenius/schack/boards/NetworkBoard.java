@@ -1,11 +1,13 @@
 package com.billenius.schack.boards;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Inet4Address;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 import java.util.Random;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -21,12 +23,12 @@ import com.billenius.schack.Move;
 import com.billenius.schack.SchackState;
 import com.billenius.schack.pieces.Piece;
 
-public final class NetworkBoard extends Board {
+public final class NetworkBoard extends Board implements Runnable {
     private final Socket socket;
     private ServerSocket serverSocket = null;
     private final ObjectInputStream inputStream;
     private final ObjectOutputStream outputStream;
-
+    private final Thread inputListener;
     private Boolean myColor = null;
 
     public NetworkBoard(DefaultListModel<Move> listModel) throws IOException {
@@ -86,6 +88,8 @@ public final class NetworkBoard extends Board {
             System.out.println("Getting inputstream");
             inputStream = new ObjectInputStream(socket.getInputStream());
         }
+        inputListener = new Thread(this);
+        inputListener.start();
     }
 
     @Override
@@ -94,8 +98,11 @@ public final class NetworkBoard extends Board {
             turnCount++;
             moveList.addElement(move);
             move.movedPiece.move(pieces, move.to);
+            System.out.println("repainting");
             getParent().repaint();
+            System.out.println("Sending move to opponent");
             outputStream.writeObject(move);
+            System.out.println("Move sent");
 
             SchackState state = getSchackState();
             switch (state) {
@@ -117,14 +124,6 @@ public final class NetworkBoard extends Board {
                     break;
                 default:
             }
-
-            move = (Move) inputStream.readObject();
-            moveList.addElement(move);
-            turnCount++;
-
-            System.out.println(move);
-            pieces[move.from.x][move.from.y].move(pieces, move.to);
-            getParent().repaint();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -149,6 +148,29 @@ public final class NetworkBoard extends Board {
     protected void toDoIfNoPreviousPieceSelected(Piece selectedPiece) {
         if (selectedPiece != null && selectedPiece.isWhite() == myColor)
             validMovesToDraw.addAll(selectedPiece.validMoves(pieces, true));
+    }
+
+    @Override
+    public void run() {
+        try {
+            while (true) {
+                Move move = (Move) inputStream.readObject();
+                System.out.println("Got move");
+                moveList.addElement(move);
+                turnCount++;
+
+                System.out.println("Moving piece");
+                pieces[move.from.x][move.from.y].move(pieces, move.to);
+                System.out.println("Repainting");
+                getParent().repaint();
+            }
+        } catch (EOFException eof) {
+            JOptionPane.showMessageDialog(this, "Lost connection to opponent");
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, e);
+        }
+
     }
 
 }
