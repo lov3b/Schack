@@ -95,6 +95,10 @@ public abstract class Board extends JPanel implements MouseListener {
             g2.fillOval(validMove.x * SIZE_OF_TILE, validMove.y * SIZE_OF_TILE, SIZE_OF_TILE, SIZE_OF_TILE);
         }
 
+        if (turnCount > 0) {
+            boolean b = true;
+        }
+
         // Måla alla pjäser
         for (Piece[] pieceArr : pieces)
             for (Piece piece : pieceArr) {
@@ -143,11 +147,6 @@ public abstract class Board extends JPanel implements MouseListener {
         if (!validMovesToDraw.contains(clickedCoordinate)) {
             Piece selectedPiece = pieces[clickedCoordinate.x][clickedCoordinate.y];
             toDoIfNoPreviousPieceSelected(selectedPiece);
-            if (selectedPiece != null && selectedPiece.isWhite() == whitesTurn)
-                validMovesToDraw.addAll(selectedPiece.validMoves(pieces, true));
-            else
-                validMovesToDraw = new ArrayList<>(); // Snabbare än .clear
-
         } else
             validMovesToDraw = new ArrayList<>(); // Snabbare än .clear
 

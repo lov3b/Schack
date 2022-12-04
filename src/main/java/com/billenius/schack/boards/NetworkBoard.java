@@ -41,16 +41,17 @@ public final class NetworkBoard extends Board {
                 options,
                 options[0]);
 
+        // Nu ska vi bli en Server
         if (choosenOption == 0) {
-            String ip = Inet4Address.getLocalHost().toString();
+            String ip = Inet4Address.getLocalHost().getHostAddress();
 
             final JFrame frame = new JFrame("Schack: Networking");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             JPanel panel = new JPanel(new BorderLayout());
-            panel.setPreferredSize(new Dimension(200, 200));
+            panel.setPreferredSize(new Dimension(600, 200));
 
             JLabel loading = new JLabel(
-                    "Waiting for opponent to connect...\nYour ip is " + ip + " Listening on port 1339");
+                    "<html>Waiting for opponent to connect...<br/>Listening on <i>" + ip + ":1339</i></html>");
             loading.setFont(new Font("Cantarell", Font.PLAIN, 24));
             loading.setHorizontalAlignment(JLabel.CENTER);
 
@@ -61,7 +62,7 @@ public final class NetworkBoard extends Board {
             serverSocket = new ServerSocket(1339);
             this.socket = serverSocket.accept();
             // myColor = new Random().nextBoolean();
-            myColor = true;
+            myColor = true; // VIT
             frame.setVisible(false);
 
             // Get input/output stream
@@ -69,13 +70,15 @@ public final class NetworkBoard extends Board {
             inputStream = new ObjectInputStream(socket.getInputStream());
             System.out.println("Getting outputstream");
             outputStream = new ObjectOutputStream(socket.getOutputStream());
-        } else {
+        }
+        // Nu ska vi bli en klient
+        else {
             String ip = JOptionPane.showInputDialog(null,
                     "What's the IP of your opponent?",
                     "Schack: Networking",
                     JOptionPane.QUESTION_MESSAGE);
             this.socket = new Socket("localhost", 1339);
-            myColor = false;
+            myColor = false; // SVART
 
             // Get input/output stream
             System.out.println("Getting outputstream");
@@ -88,8 +91,8 @@ public final class NetworkBoard extends Board {
     @Override
     protected void makeMove(Move move) {
         try {
+            turnCount++;
             moveList.addElement(move);
-
             move.movedPiece.move(pieces, move.to);
             getParent().repaint();
             outputStream.writeObject(move);
@@ -117,6 +120,7 @@ public final class NetworkBoard extends Board {
 
             move = (Move) inputStream.readObject();
             moveList.addElement(move);
+            turnCount++;
 
             System.out.println(move);
             pieces[move.from.x][move.from.y].move(pieces, move.to);
