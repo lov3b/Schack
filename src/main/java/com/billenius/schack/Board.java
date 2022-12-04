@@ -15,7 +15,13 @@ import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import com.billenius.schack.MoveLogging.Move;
+import com.billenius.schack.pieces.Bishop;
+import com.billenius.schack.pieces.Horse;
+import com.billenius.schack.pieces.King;
+import com.billenius.schack.pieces.Pawn;
+import com.billenius.schack.pieces.Piece;
+import com.billenius.schack.pieces.Queen;
+import com.billenius.schack.pieces.Rook;
 
 public class Board extends JPanel implements MouseListener {
 

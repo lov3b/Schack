@@ -1,4 +1,4 @@
-package com.billenius.schack;
+package com.billenius.schack.pieces;
 
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -8,6 +8,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import javax.imageio.ImageIO;
+
+import com.billenius.schack.Board;
 
 public abstract class Piece {
 

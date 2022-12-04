@@ -1,8 +1,8 @@
-package com.billenius.schack.MoveLogging;
+package com.billenius.schack;
 
 import java.awt.Point;
 
-import com.billenius.schack.Piece;
+import com.billenius.schack.pieces.Piece;
 
 public class Move {
     public Piece movedPiece;

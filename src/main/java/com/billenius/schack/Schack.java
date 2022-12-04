@@ -22,8 +22,8 @@ import javax.swing.JSplitPane;
 import javax.swing.UIManager;
 import java.awt.BorderLayout;
 
-import com.billenius.schack.MoveLogging.Move;
-import com.billenius.schack.MoveLogging.PieceRenderer;
+import com.billenius.schack.Move;
+import com.billenius.schack.PieceRenderer;
 import com.formdev.flatlaf.FlatLightLaf;
 
 /**

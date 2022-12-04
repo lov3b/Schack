@@ -1,4 +1,4 @@
-package com.billenius.schack.MoveLogging;
+package com.billenius.schack;
 
 import java.awt.Component;
 import java.awt.image.BufferedImage;

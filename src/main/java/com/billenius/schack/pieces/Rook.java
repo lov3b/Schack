@@ -1,4 +1,4 @@
-package com.billenius.schack;
+package com.billenius.schack.pieces;
 
 import java.awt.Point;
 import java.io.IOException;
