@@ -13,6 +13,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
+import com.formdev.flatlaf.FlatLightLaf;
+
 /**
  *
  * @author Love Billenius & Simon Hansson
@@ -24,7 +26,11 @@ public class Schack {
     public Schack() throws IOException {
         // Set theme
         try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            if (UIManager.getSystemLookAndFeelClassName()
+                    .equals("javax.swing.plaf.metal.MetalLookAndFeel"))
+                UIManager.setLookAndFeel(new FlatLightLaf());
+            else
+                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception cantGetSystemTheme) {
         }
 
