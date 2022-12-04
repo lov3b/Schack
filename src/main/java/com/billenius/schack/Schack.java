@@ -1,5 +1,6 @@
 package com.billenius.schack;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.HeadlessException;
@@ -20,10 +21,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.UIManager;
-import java.awt.BorderLayout;
 
-import com.billenius.schack.Move;
-import com.billenius.schack.PieceRenderer;
+import com.billenius.schack.boards.Board;
+import com.billenius.schack.boards.NetworkBoard;
+import com.billenius.schack.boards.SameBoard;
 import com.formdev.flatlaf.FlatLightLaf;
 
 /**
@@ -45,15 +46,30 @@ public class Schack {
         } catch (Exception cantGetSystemTheme) {
         }
 
+        String[] options = { "On the same screen", "Over the internet" };
+        int choosenTransformations = JOptionPane.showOptionDialog(null,
+                "How do you want to connect with your opponent",
+                "Schack: Selection",
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.INFORMATION_MESSAGE,
+                null,
+                options,
+                options[0]);
+
+        DefaultListModel<Move> listModel = new DefaultListModel<>();
+        final Board board;
+        if (choosenTransformations == 0)
+            board = new SameBoard(listModel);
+        else
+            board = new NetworkBoard(listModel);
+
         frame = new JFrame();
         frame.setTitle("Schack");
         frame.setAlwaysOnTop(false);
         frame.setResizable(true);
 
-        DefaultListModel<Move> listModel = new DefaultListModel<>();
-
         // Might throw an IOException if the icon of the Pieces isn't embedded correctly
-        final Board board = new Board(listModel);
+        // final Board board = new BlistModeloard(listModel);
 
         // Logger
         final JList<Move> jlist = new JList<>(listModel);

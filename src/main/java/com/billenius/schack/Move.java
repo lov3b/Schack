@@ -1,10 +1,11 @@
 package com.billenius.schack;
 
 import java.awt.Point;
+import java.io.Serializable;
 
 import com.billenius.schack.pieces.Piece;
 
-public class Move {
+public class Move implements Serializable {
     public Piece movedPiece;
     public Point from;
     public Point to;

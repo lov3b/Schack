@@ -1,4 +1,4 @@
-package com.billenius.schack;
+package com.billenius.schack.boards;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -12,9 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import com.billenius.schack.Move;
+import com.billenius.schack.SchackState;
 import com.billenius.schack.pieces.Bishop;
 import com.billenius.schack.pieces.Horse;
 import com.billenius.schack.pieces.King;
@@ -23,15 +24,15 @@ import com.billenius.schack.pieces.Piece;
 import com.billenius.schack.pieces.Queen;
 import com.billenius.schack.pieces.Rook;
 
-public class Board extends JPanel implements MouseListener {
+public abstract class Board extends JPanel implements MouseListener {
 
     public static final int SIZE_OF_TILE = 100;
-    private Piece[][] pieces = new Piece[8][8];
-    private List<Point> validMovesToDraw = new ArrayList<>();
+    protected Piece[][] pieces = new Piece[8][8];
+    protected List<Point> validMovesToDraw = new ArrayList<>();
     private Point previouslyClickedPoint = new Point();
     private final Color moveableColor = new Color(255, 191, 0);
     short turnCount = 0;
-    private boolean whitesTurn = true;
+    protected boolean whitesTurn = true;
     private DefaultListModel<Move> moveList;
 
     public Board(DefaultListModel<Move> listModel) throws IOException {
@@ -115,33 +116,7 @@ public class Board extends JPanel implements MouseListener {
             }
     }
 
-    private void makeMove(Move move) {
-        move.movedPiece.move(pieces, move.to);
-        turnCount++;
-        whitesTurn = !whitesTurn;
-
-        SchackState state = getSchackState();
-        switch (state) {
-            case SCHACK:
-                JOptionPane.showMessageDialog(this, "Du står i schack");
-                break;
-            case SCHACKMATT:
-            case PATT:
-                String stateStr = state.toString();
-                String msg = stateStr.charAt(0) + stateStr.substring(1, stateStr.length()).toLowerCase();
-                int choice = JOptionPane.showConfirmDialog(this, msg + "\nVill du starta om?");
-
-                if (choice == JOptionPane.YES_OPTION)
-                    try {
-                        restartGame();
-                    } catch (IOException ex) {
-                    }
-
-                break;
-            default:
-        }
-
-    }
+    protected abstract void makeMove(Move move);
 
     @Override
     public void mousePressed(MouseEvent mouseEvent) {
@@ -168,7 +143,7 @@ public class Board extends JPanel implements MouseListener {
         // Om vi inte redan har valt en pjäs klickar vi på en pjäs
         if (!validMovesToDraw.contains(clickedCoordinate)) {
             Piece selectedPiece = pieces[clickedCoordinate.x][clickedCoordinate.y];
-
+            toDoIfNoPreviousPieceSelected(selectedPiece);
             if (selectedPiece != null && selectedPiece.isWhite() == whitesTurn)
                 validMovesToDraw.addAll(selectedPiece.validMoves(pieces, true));
             else
@@ -180,12 +155,14 @@ public class Board extends JPanel implements MouseListener {
         getParent().repaint();
     }
 
+    protected abstract void toDoIfNoPreviousPieceSelected(Piece selectedPiece);
+
     /**
      * Få status över brädet
      *
      * @return SCHACK, SCHACKMATT, PATT, NORMAL
      */
-    private SchackState getSchackState() {
+    protected SchackState getSchackState() {
         List<Point> allValidMoves = getMoves(whitesTurn);
         List<Point> opposingAttacks = getAttacks(!whitesTurn);
         boolean weCanMove = !allValidMoves.isEmpty();

@@ -5,13 +5,14 @@ import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.imageio.ImageIO;
 
-import com.billenius.schack.Board;
+import com.billenius.schack.boards.Board;
 
-public abstract class Piece {
+public abstract class Piece implements Serializable {
 
     /**
      * Variabel som alltid bör vara samma värde som pjäsen är i brädes av
