@@ -9,7 +9,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
@@ -27,13 +26,12 @@ public class Board extends JPanel implements MouseListener {
     private final Color moveableColor = new Color(255, 191, 0);
     short turnCount = 0;
     private boolean whitesTurn = true;
-    private List<Move> moveLog = new LinkedList<>();
-    private DefaultListModel<Move> listModel;
+    private DefaultListModel<Move> moveList;
 
     public Board(DefaultListModel<Move> listModel) throws IOException {
         this.pieces = getPieces();
         setPreferredSize(new Dimension(800, 800));
-        this.listModel = listModel;
+        this.moveList = listModel;
     }
 
     /**
@@ -111,6 +109,34 @@ public class Board extends JPanel implements MouseListener {
             }
     }
 
+    private void makeMove(Move move) {
+        move.movedPiece.move(pieces, move.to);
+        turnCount++;
+        whitesTurn = !whitesTurn;
+
+        SchackState state = getSchackState();
+        switch (state) {
+            case SCHACK:
+                JOptionPane.showMessageDialog(this, "Du står i schack");
+                break;
+            case SCHACKMATT:
+            case PATT:
+                String stateStr = state.toString();
+                String msg = stateStr.charAt(0) + stateStr.substring(1, stateStr.length()).toLowerCase();
+                int choice = JOptionPane.showConfirmDialog(this, msg + "\nVill du starta om?");
+
+                if (choice == JOptionPane.YES_OPTION)
+                    try {
+                        restartGame();
+                    } catch (IOException ex) {
+                    }
+
+                break;
+            default:
+        }
+
+    }
+
     @Override
     public void mousePressed(MouseEvent mouseEvent) {
         final int mouseCoordinateX = (int) (mouseEvent.getX() / SIZE_OF_TILE);
@@ -125,34 +151,9 @@ public class Board extends JPanel implements MouseListener {
                 return;
             }
 
-            Move m = new Move(selectedPiece, selectedPiece.position, clickedCoordinate);
-            moveLog.add(m);
-            listModel.addElement(m);
-            selectedPiece.move(pieces, clickedCoordinate);
-            turnCount++;
-            whitesTurn = !whitesTurn;
-
-            SchackState state = getSchackState();
-            switch (state) {
-                case SCHACK:
-                    JOptionPane.showMessageDialog(this, "Du står i schack");
-                    break;
-                case SCHACKMATT:
-                case PATT:
-                    String stateStr = state.toString();
-                    String msg = stateStr.charAt(0) + stateStr.substring(1, stateStr.length()).toLowerCase();
-                    int choice = JOptionPane.showConfirmDialog(this, msg + "\nVill du starta om?");
-
-                    if (choice == JOptionPane.YES_OPTION)
-                        try {
-                            restartGame();
-                        } catch (IOException ex) {
-                        }
-
-                    break;
-                default:
-            }
-
+            Move move = new Move(selectedPiece, selectedPiece.position, clickedCoordinate);
+            moveList.addElement(move);
+            makeMove(move);
         } else {
             previouslyClickedPoint = new Point(clickedCoordinate);
             validMovesToDraw = new ArrayList<>(); // Snabbare än .clear

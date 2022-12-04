@@ -5,14 +5,10 @@ import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.net.Inet4Address;
-import java.net.NetworkInterface;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -20,15 +16,11 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
-import javax.swing.ListModel;
-import javax.swing.SpinnerDateModel;
 import javax.swing.UIManager;
 
 import com.billenius.schack.MoveLogging.Move;
 import com.billenius.schack.MoveLogging.PieceRenderer;
 import com.formdev.flatlaf.FlatLightLaf;
-
-import com.billenius.schack.MoveLogging.PieceType;
 
 /**
  *
