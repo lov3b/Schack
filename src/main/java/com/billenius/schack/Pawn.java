@@ -78,9 +78,9 @@ public class Pawn extends Piece {
     private List<Point> addAttackMovesIfCan(Point pos, Piece[][] pieces) {
         List<Point> movable = new ArrayList<>();
         // Se till att vi inte är utanför brädet
-        if (pos.x >= pieces.length || pos.x < 0 || pos.y >= pieces[0].length || pos.y < 0) {
+        if (pos.x >= pieces.length || pos.x < 0 || pos.y >= pieces[0].length || pos.y < 0) 
             return movable;
-        }
+        
         final Piece potentialEnemy = pieces[pos.x][pos.y];
         // Ifall det är tomt här, gör ingenting
         if (potentialEnemy != null && potentialEnemy.isWhite() != this.isWhite()) {
@@ -93,9 +93,8 @@ public class Pawn extends Piece {
 
     @Override
     protected boolean addMovesIfCan(Point pos, List<Point> movable, Piece[][] pieces, boolean allowedToRecurse) {
-        if (pos.x < 0 || pos.x > 7 || pos.y < 0 || pos.y > 7) {
+        if (pos.x < 0 || pos.x > 7 || pos.y < 0 || pos.y > 7) 
             return false;
-        }
 
         Piece pieceToCheck = pieces[pos.x][pos.y];
         if (pieceToCheck == null) {
@@ -114,9 +113,8 @@ public class Pawn extends Piece {
 
         // Check if the pawn has moved to the end and should be transformed
         if (this.position.y == 0 && this.isWhite()
-                || this.position.y == 7 && !this.isWhite()) {
+                || this.position.y == 7 && !this.isWhite()) 
             transform(pieces);
-        }
     }
 
     private void transform(Piece[][] pieces) throws HeadlessException {

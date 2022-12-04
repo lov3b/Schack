@@ -9,9 +9,14 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+
+import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
+import com.billenius.schack.MoveLogging.Move;
 
 public class Board extends JPanel implements MouseListener {
 
@@ -22,10 +27,13 @@ public class Board extends JPanel implements MouseListener {
     private final Color moveableColor = new Color(255, 191, 0);
     short turnCount = 0;
     private boolean whitesTurn = true;
+    private List<Move> moveLog = new LinkedList<>();
+    private DefaultListModel<Move> listModel;
 
-    public Board() throws IOException {
+    public Board(DefaultListModel<Move> listModel) throws IOException {
         this.pieces = getPieces();
         setPreferredSize(new Dimension(800, 800));
+        this.listModel = listModel;
     }
 
     /**
@@ -83,7 +91,7 @@ public class Board extends JPanel implements MouseListener {
         }
 
         // Måla alla pjäser
-        for (Piece[] pieceArr : pieces) 
+        for (Piece[] pieceArr : pieces)
             for (Piece piece : pieceArr) {
                 if (piece == null) {
                     continue;
@@ -116,6 +124,10 @@ public class Board extends JPanel implements MouseListener {
                 validMovesToDraw.clear();
                 return;
             }
+
+            Move m = new Move(selectedPiece, selectedPiece.position, clickedCoordinate);
+            moveLog.add(m);
+            listModel.addElement(m);
             selectedPiece.move(pieces, clickedCoordinate);
             turnCount++;
             whitesTurn = !whitesTurn;

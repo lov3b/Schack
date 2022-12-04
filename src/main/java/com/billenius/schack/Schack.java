@@ -1,19 +1,34 @@
 package com.billenius.schack;
 
+import java.awt.Dimension;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.net.Inet4Address;
 import java.net.NetworkInterface;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
+import javax.swing.ListModel;
+import javax.swing.SpinnerDateModel;
 import javax.swing.UIManager;
 
+import com.billenius.schack.MoveLogging.Move;
+import com.billenius.schack.MoveLogging.PieceRenderer;
 import com.formdev.flatlaf.FlatLightLaf;
+
+import com.billenius.schack.MoveLogging.PieceType;
 
 /**
  *
@@ -37,11 +52,25 @@ public class Schack {
         frame = new JFrame();
         frame.setTitle("Schack");
         frame.setAlwaysOnTop(false);
-        frame.setResizable(false);
+        frame.setResizable(true);
+
+        DefaultListModel<Move> listModel = new DefaultListModel<>();
 
         // Might throw an IOException if the icon of the Pieces isn't embedded correctly
-        final Board board = new Board();
-        frame.setContentPane(board);
+        final Board board = new Board(listModel);
+
+        final JList<Move> jlist = new JList<>(listModel);
+        jlist.setVisible(true);
+        jlist.setCellRenderer(new PieceRenderer());
+
+        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+        splitPane.setDividerLocation(800);
+        board.setMinimumSize(new Dimension(800, 800));
+        jlist.setMinimumSize(new Dimension(200, 800));
+        splitPane.setLeftComponent(board);
+        splitPane.setRightComponent(new JScrollPane(jlist));
+
+        frame.setContentPane(splitPane);
         frame.getContentPane().addMouseListener(board);
 
         // Create menu
@@ -88,7 +117,6 @@ public class Schack {
         connectToOpponent.addActionListener((ActionEvent ae) -> {
             String opponentIP = JOptionPane.showInputDialog(null, "What's your opponents IP?");
             System.out.println("opponents ip: " + opponentIP);
-
         });
 
         // Add the menu stuff
