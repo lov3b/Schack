@@ -1,5 +1,8 @@
 package com.billenius.schack.boards;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -8,11 +11,6 @@ import java.net.Inet4Address;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
-import java.net.SocketTimeoutException;
-import java.util.Random;
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.Font;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
@@ -26,6 +24,7 @@ import com.billenius.schack.SchackState;
 import com.billenius.schack.pieces.Piece;
 
 public final class NetworkBoard extends Board implements Runnable {
+    public final static int PORT = 1339;
     private final Socket socket;
     private ServerSocket serverSocket = null;
     private final ObjectInputStream inputStream;
@@ -55,7 +54,7 @@ public final class NetworkBoard extends Board implements Runnable {
             panel.setPreferredSize(new Dimension(600, 200));
 
             JLabel loading = new JLabel(
-                    "<html>Waiting for opponent to connect...<br/>Listening on <i>" + ip + ":1339</i></html>");
+                    "<html>Waiting for opponent to connect...<br/>Listening on <i>" + ip + ":" + PORT + "</i></html>");
             loading.setFont(new Font("Cantarell", Font.PLAIN, 24));
             loading.setHorizontalAlignment(JLabel.CENTER);
 
@@ -63,7 +62,7 @@ public final class NetworkBoard extends Board implements Runnable {
             frame.add(panel);
             frame.pack();
             frame.setVisible(true);
-            serverSocket = new ServerSocket(1339);
+            serverSocket = new ServerSocket(PORT);
             this.socket = serverSocket.accept();
             // myColor = new Random().nextBoolean();
             myColor = true; // VIT

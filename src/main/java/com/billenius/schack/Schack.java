@@ -7,13 +7,11 @@ import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.Inet4Address;
 import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.imageio.ImageIO;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
