@@ -108,26 +108,6 @@ public final class NetworkBoard extends Board implements Runnable {
             outputStream.writeObject(new BasicMove(move));
             System.out.println("Move sent");
 
-            SchackState state = getSchackState();
-            switch (state) {
-                case SCHACK:
-                    JOptionPane.showMessageDialog(this, "Du står i schack");
-                    break;
-                case SCHACKMATT:
-                case PATT:
-                    String stateStr = state.toString();
-                    String msg = stateStr.charAt(0) + stateStr.substring(1, stateStr.length()).toLowerCase();
-                    int choice = JOptionPane.showConfirmDialog(this, msg + "\nVill du starta om?");
-
-                    if (choice == JOptionPane.YES_OPTION)
-                        try {
-                            restartGame();
-                        } catch (IOException ex) {
-                        }
-
-                    break;
-                default:
-            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -154,6 +134,28 @@ public final class NetworkBoard extends Board implements Runnable {
                 move.movedPiece.move(pieces, move.to);
                 System.out.println("Repainting");
                 getParent().repaint();
+
+                SchackState state = getSchackState();
+                switch (state) {
+                    case SCHACK:
+                        JOptionPane.showMessageDialog(this, "Du står i schack");
+                        break;
+                    case SCHACKMATT:
+                    case PATT:
+                        String stateStr = state.toString();
+                        String msg = stateStr.charAt(0) + stateStr.substring(1, stateStr.length()).toLowerCase();
+                        int choice = JOptionPane.showConfirmDialog(this, msg + "\nVill du starta om?");
+
+                        if (choice == JOptionPane.YES_OPTION)
+                            try {
+                                restartGame();
+                            } catch (IOException ex) {
+                            }
+
+                        break;
+                    default:
+                }
+
             }
         } catch (EOFException | SocketException e) {
             JOptionPane.showMessageDialog(this, "Lost connection to opponent");
