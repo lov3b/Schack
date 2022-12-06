@@ -7,6 +7,7 @@ import java.io.ObjectOutputStream;
 import java.net.Inet4Address;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.util.Random;
 import java.awt.BorderLayout;
@@ -19,6 +20,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import com.billenius.schack.BasicMove;
 import com.billenius.schack.Move;
 import com.billenius.schack.SchackState;
 import com.billenius.schack.pieces.Piece;
@@ -79,7 +81,9 @@ public final class NetworkBoard extends Board implements Runnable {
                     "What's the IP of your opponent?",
                     "Schack: Networking",
                     JOptionPane.QUESTION_MESSAGE);
-            this.socket = new Socket("localhost", 1339);
+            if (ip.equals(""))
+                ip = "localhost";
+            this.socket = new Socket(ip, 1339);
             myColor = false; // SVART
 
             // Get input/output stream
@@ -101,7 +105,7 @@ public final class NetworkBoard extends Board implements Runnable {
             System.out.println("repainting");
             getParent().repaint();
             System.out.println("Sending move to opponent");
-            outputStream.writeObject(move);
+            outputStream.writeObject(new BasicMove(move));
             System.out.println("Move sent");
 
             SchackState state = getSchackState();
@@ -130,20 +134,6 @@ public final class NetworkBoard extends Board implements Runnable {
 
     }
 
-    // Hitta våran lokala pjäs på brädet
-    protected Piece getLocalFromRemote(Piece remotePiece) {
-        for (Piece[] row : pieces)
-            for (Piece localPiece : row) {
-                if (localPiece == null)
-                    continue;
-
-                if (localPiece.equals(remotePiece))
-                    return remotePiece;
-
-            }
-        return null;
-    }
-
     @Override
     protected void toDoIfNoPreviousPieceSelected(Piece selectedPiece) {
         if (selectedPiece != null && selectedPiece.isWhite() == myColor)
@@ -154,17 +144,18 @@ public final class NetworkBoard extends Board implements Runnable {
     public void run() {
         try {
             while (true) {
-                Move move = (Move) inputStream.readObject();
+                BasicMove basicMove = (BasicMove) inputStream.readObject();
+                Move move = new Move(pieces[basicMove.from.x][basicMove.from.y], basicMove);
                 System.out.println("Got move");
                 moveList.addElement(move);
                 turnCount++;
 
                 System.out.println("Moving piece");
-                pieces[move.from.x][move.from.y].move(pieces, move.to);
+                move.movedPiece.move(pieces, move.to);
                 System.out.println("Repainting");
                 getParent().repaint();
             }
-        } catch (EOFException eof) {
+        } catch (EOFException | SocketException e) {
             JOptionPane.showMessageDialog(this, "Lost connection to opponent");
         } catch (Exception e) {
             e.printStackTrace();

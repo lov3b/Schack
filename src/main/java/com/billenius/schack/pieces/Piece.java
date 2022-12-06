@@ -5,15 +5,13 @@ import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.imageio.ImageIO;
 
-import com.billenius.schack.Schack;
 import com.billenius.schack.boards.Board;
 
-public abstract class Piece implements Serializable {
+public abstract class Piece {
 
     /**
      * Variabel som alltid bör vara samma värde som pjäsen är i brädes av
@@ -33,10 +31,12 @@ public abstract class Piece implements Serializable {
      * Nödvändigt för rockad
      */
     protected boolean moved = false;
+    protected BufferedImage pieceIcon;
 
     public Piece(boolean white, Point startingPosition) throws IOException {
         this.isWhite = white;
         this.position = startingPosition;
+        this.pieceIcon = getPieceIcon();
     }
 
     public Piece(boolean white) {
@@ -63,6 +63,13 @@ public abstract class Piece implements Serializable {
      */
     public List<Point> validAttacks(Piece[][] pieces, boolean shouldNotCareIfAttackSpaceIsEmptyOrNot) {
         return validMoves(pieces, false);
+    }
+
+    private BufferedImage getPieceIcon() throws IOException {
+        String colorName = isWhite() ? "White" : "Black";
+        String path = "/com/billenius/img/" + colorName + getClass().getSimpleName() + ".png";
+        InputStream inputStream = getClass().getResourceAsStream(path);
+        return ImageIO.read(inputStream);
     }
 
     /**
@@ -220,9 +227,7 @@ public abstract class Piece implements Serializable {
     }
 
     public BufferedImage getIcon() {
-        String className = this.getClass().getSimpleName();
-        String colorName = this.isWhite() ? "White" : "Black";
-        return Schack.pieceIcons.get(colorName + className);
+        return this.pieceIcon;
     }
 
 }

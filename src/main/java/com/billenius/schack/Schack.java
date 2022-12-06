@@ -42,21 +42,9 @@ public class Schack {
     // Förlåt mig fader för jag kommer synda
     public final static Map<String, BufferedImage> pieceIcons = new HashMap<>();
 
-    /**
-     * Ladda in samtliga pjäsbilder från paketet img
-     *
-     * @throws IOException ifall det inte finns någon bild på pjäsen
-     */
-    public void loadAllPieceIcons() throws IOException {
-        for (String color : new String[] { "Black", "White" })
-            for (String piece : new String[] { "Bishop", "Horse", "King", "Pawn", "Queen", "Rook" }) {
-                InputStream is = getClass().getResourceAsStream("/com/billenius/img/" + color + piece + ".png");
-                pieceIcons.put(color + piece, ImageIO.read(is));
-            }
-    }
+    
 
     public Schack() throws IOException {
-        loadAllPieceIcons();
         // Set theme
         try {
             if (UIManager.getSystemLookAndFeelClassName()
