@@ -95,10 +95,6 @@ public abstract class Board extends JPanel implements MouseListener {
             g2.fillOval(validMove.x * SIZE_OF_TILE, validMove.y * SIZE_OF_TILE, SIZE_OF_TILE, SIZE_OF_TILE);
         }
 
-        if (turnCount > 0) {
-            boolean b = true;
-        }
-
         // Måla alla pjäser
         for (Piece[] pieceArr : pieces)
             for (Piece piece : pieceArr) {
