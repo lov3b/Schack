@@ -1,4 +1,4 @@
-package com.billenius.schack;
+package com.billenius.schack.pieces;
 
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -8,6 +8,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import javax.imageio.ImageIO;
+
+import com.billenius.schack.Board;
 
 public abstract class Piece {
 
@@ -197,9 +199,9 @@ public abstract class Piece {
         // Kollar ifall kungen står i schack just nu
         for (Point enemyAttack : enemyAttacks) {
             Piece attackedPiece = pieces[enemyAttack.x][enemyAttack.y];
-            if (attackedPiece != null && attackedPiece.supremeRuler) 
+            if (attackedPiece != null && attackedPiece.supremeRuler)
                 return true;
-            
+
         }
         return false;
     }
@@ -224,6 +226,10 @@ public abstract class Piece {
      */
     public boolean isMoved() {
         return moved;
+    }
+
+    public BufferedImage getIcon() {
+        return this.icon;
     }
 
 }
