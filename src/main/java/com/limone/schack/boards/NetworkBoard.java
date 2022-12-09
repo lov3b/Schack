@@ -1,4 +1,4 @@
-package com.billenius.schack.boards;
+package com.limone.schack.boards;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -18,10 +18,10 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import com.billenius.schack.BasicMove;
-import com.billenius.schack.Move;
-import com.billenius.schack.SchackState;
-import com.billenius.schack.pieces.Piece;
+import com.limone.schack.BasicMove;
+import com.limone.schack.Move;
+import com.limone.schack.SchackState;
+import com.limone.schack.pieces.Piece;
 
 public final class NetworkBoard extends Board implements Runnable {
     public final static int PORT = 1339;

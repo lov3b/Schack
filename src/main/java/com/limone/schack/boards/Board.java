@@ -1,4 +1,4 @@
-package com.billenius.schack.boards;
+package com.limone.schack.boards;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -14,15 +14,15 @@ import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JPanel;
 
-import com.billenius.schack.Move;
-import com.billenius.schack.SchackState;
-import com.billenius.schack.pieces.Bishop;
-import com.billenius.schack.pieces.Horse;
-import com.billenius.schack.pieces.King;
-import com.billenius.schack.pieces.Pawn;
-import com.billenius.schack.pieces.Piece;
-import com.billenius.schack.pieces.Queen;
-import com.billenius.schack.pieces.Rook;
+import com.limone.schack.Move;
+import com.limone.schack.SchackState;
+import com.limone.schack.pieces.Bishop;
+import com.limone.schack.pieces.Horse;
+import com.limone.schack.pieces.King;
+import com.limone.schack.pieces.Pawn;
+import com.limone.schack.pieces.Piece;
+import com.limone.schack.pieces.Queen;
+import com.limone.schack.pieces.Rook;
 
 public abstract class Board extends JPanel implements MouseListener {
 

@@ -1,4 +1,4 @@
-package com.billenius.schack.boards;
+package com.limone.schack.boards;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
-import com.billenius.schack.Move;
-import com.billenius.schack.SchackState;
-import com.billenius.schack.pieces.Piece;
+import com.limone.schack.Move;
+import com.limone.schack.SchackState;
+import com.limone.schack.pieces.Piece;
 
 public final class SameBoard extends Board {
 

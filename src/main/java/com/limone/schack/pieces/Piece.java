@@ -1,4 +1,4 @@
-package com.billenius.schack.pieces;
+package com.limone.schack.pieces;
 
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.imageio.ImageIO;
 
-import com.billenius.schack.boards.Board;
+import com.limone.schack.boards.Board;
 
 public abstract class Piece {
 
@@ -67,7 +67,7 @@ public abstract class Piece {
 
     private BufferedImage getPieceIcon() throws IOException {
         String colorName = isWhite() ? "White" : "Black";
-        String path = "/com/billenius/img/" + colorName + getClass().getSimpleName() + ".png";
+        String path = "/com/limone/img/" + colorName + getClass().getSimpleName() + ".png";
         InputStream inputStream = getClass().getResourceAsStream(path);
         return ImageIO.read(inputStream);
     }

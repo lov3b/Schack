@@ -1,4 +1,4 @@
-package com.billenius.schack.pieces;
+package com.limone.schack.pieces;
 
 import java.awt.HeadlessException;
 import java.awt.Point;

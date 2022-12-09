@@ -1,4 +1,4 @@
-package com.billenius.schack;
+package com.limone.schack;
 
 /**
  *

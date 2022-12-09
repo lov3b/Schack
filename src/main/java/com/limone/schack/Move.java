@@ -1,8 +1,8 @@
-package com.billenius.schack;
+package com.limone.schack;
 
 import java.awt.Point;
 
-import com.billenius.schack.pieces.Piece;
+import com.limone.schack.pieces.Piece;
 
 public class Move extends BasicMove {
     public Piece movedPiece;

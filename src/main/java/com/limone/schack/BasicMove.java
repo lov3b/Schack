@@ -1,4 +1,4 @@
-package com.billenius.schack;
+package com.limone.schack;
 
 import java.awt.Point;
 import java.io.Serializable;
