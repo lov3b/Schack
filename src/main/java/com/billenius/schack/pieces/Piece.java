@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.imageio.ImageIO;
 
-import com.billenius.schack.Board;
+import com.billenius.schack.boards.Board;
 
 public abstract class Piece {
 
@@ -26,38 +26,21 @@ public abstract class Piece {
      * SPECIAL RULÖES APPLY TO THE KING, (ITS GOOD TO BE THE KING:)
      */
     public boolean supremeRuler = false;
-    /**
-     * Bild av pjäsen som ritas ut på bärdet
-     */
-    protected BufferedImage icon;
 
     /**
      * Nödvändigt för rockad
      */
     protected boolean moved = false;
+    protected BufferedImage pieceIcon;
 
     public Piece(boolean white, Point startingPosition) throws IOException {
         this.isWhite = white;
         this.position = startingPosition;
-        setPieceIcon();
+        this.pieceIcon = getPieceIcon();
     }
 
     public Piece(boolean white) {
         this.isWhite = white;
-    }
-
-    /**
-     * Ladda in pjäsbild från paketet img
-     *
-     * @param className
-     * @throws IOException ifall det inte finns någon bild på pjäsen
-     */
-    private void setPieceIcon() throws IOException {
-        String className = this.getClass().getSimpleName();
-        String colorName = this.isWhite() ? "White" : "Black";
-        String fileName = colorName + className + ".png";
-        InputStream is = getClass().getResourceAsStream("/com/billenius/img/" + fileName);
-        icon = ImageIO.read(is);
     }
 
     /**
@@ -82,14 +65,22 @@ public abstract class Piece {
         return validMoves(pieces, false);
     }
 
+    private BufferedImage getPieceIcon() throws IOException {
+        String colorName = isWhite() ? "White" : "Black";
+        String path = "/com/billenius/img/" + colorName + getClass().getSimpleName() + ".png";
+        InputStream inputStream = getClass().getResourceAsStream(path);
+        return ImageIO.read(inputStream);
+    }
+
     /**
      * Ritar ut pjäsen baserat på den ihågkommna positionen
      *
      * @param g2
      */
     public void draw(Graphics2D g2) {
+
         g2.drawImage(
-                icon,
+                getIcon(),
                 position.x * Board.SIZE_OF_TILE,
                 position.y * Board.SIZE_OF_TILE,
                 null);
@@ -211,6 +202,13 @@ public abstract class Piece {
         return this.getClass().getSimpleName() + "{" + "position=" + position + ", isWhite=" + isWhite + '}';
     }
 
+    public boolean equals(Piece otherPiece) {
+        return getClass().getName().equals(otherPiece.getClass().getName())
+                && isWhite() == otherPiece.isWhite()
+                && supremeRuler == otherPiece.supremeRuler && moved == otherPiece.moved
+                && position.equals(otherPiece.position);
+    }
+
     /**
      *
      * @return true ifall pjäsen är vit
@@ -229,7 +227,7 @@ public abstract class Piece {
     }
 
     public BufferedImage getIcon() {
-        return this.icon;
+        return this.pieceIcon;
     }
 
 }
